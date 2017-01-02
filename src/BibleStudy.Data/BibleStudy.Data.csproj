@@ -127,12 +127,15 @@
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\Testament.cs" />
     <Compile Include="Entities\Verse.cs" />
+    <Compile Include="Maps\BaseMap.cs" />
     <Compile Include="Maps\MappingConfiguration.cs" />
+    <Compile Include="Maps\BookMap.cs" />
     <Compile Include="Maps\VerseMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <Compile Include="Maps\TestamentMap.cs" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />

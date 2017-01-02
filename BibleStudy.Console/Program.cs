@@ -2,7 +2,9 @@
 {
     using System;
     using System.Configuration;
+    using System.Linq;
     using Castle.MicroKernel.Registration;
+    using Castle.MicroKernel.Resolvers.SpecializedResolvers;
     using Castle.Windsor;
     using Castle.Windsor.Installer;
     using Data;
@@ -10,6 +12,8 @@
     using Highway.Data;
     using Highway.Data.Repositories;
     using Improving.MediatR;
+    using Infrastructure;
+    using ICommand = Infrastructure.ICommand;
 
     class Program
     {
@@ -18,6 +22,7 @@
             var connectionString = ConfigurationManager.ConnectionStrings["BibleStudy"].ConnectionString;
 
             var container = new WindsorContainer();
+            container.Kernel.Resolver.AddSubResolver(new CollectionResolver(container.Kernel, true));
             container.Install(
                 FromAssembly.This(), 
                 new MediatRInstaller(Classes.FromAssemblyContaining<BibleStudyDataContext>())
@@ -27,12 +32,30 @@
                 Component.For<IMappingConfiguration>().ImplementedBy<MappingConfiguration>(),
                 Component.For<IDomainContext<BibleStudyDomain>>().ImplementedBy<BibleStudyDomainContext>().DependsOn(new {connectionString}),
                 Component.For<BibleStudyDomain>(),
-                Component.For<IDomainRepository<BibleStudyDomain>>().ImplementedBy<DomainRepository<BibleStudyDomain>>()
+                Component.For<IDomainRepository<BibleStudyDomain>>().ImplementedBy<DomainRepository<BibleStudyDomain>>(),
+                Component.For<Lifecyle>(),
+                Classes.FromThisAssembly().BasedOn<ICommand>().WithServiceBase()
             );
 
-            var repo = container.Resolve<IDomainRepository<BibleStudyDomain>>();
+            var commands = container.ResolveAll<ICommand>();
+            var lifecycle = container.Resolve<Lifecyle>();
 
-            Console.ReadKey();
+            do
+            {
+                var line = Console.ReadLine();
+                var handlers = commands.Where(x => x.CanProcess(line)).ToArray();
+                if (handlers.Any())
+                {
+                    foreach (var handler in handlers)
+                    {
+                        handler.Process(line);
+                    }
+                }
+                else
+                {
+                    Console.WriteLine($"Command not recognized: {line}");
+                }
+            } while (!lifecycle.Exit);
         }
     }
 }

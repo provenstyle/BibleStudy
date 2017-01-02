@@ -2,7 +2,7 @@
 {
     using Entities;
 
-    public class VerseMap : BaseMap<Verse>
+    public class TestamentMap : BaseMap<Testament>
     {
     }
 }

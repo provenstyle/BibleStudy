@@ -3,15 +3,24 @@
     using System;
     using System.Threading.Tasks;
     using Entities;
+    using Highway.Data.Repositories;
     using MediatR;
 
     public class VerseAggregateHandler : IAsyncRequestHandler<CreateVerse, VerseData>
     {
+        private readonly IDomainRepository<BibleStudyDomain> _repository;
+
+        public VerseAggregateHandler(IDomainRepository<BibleStudyDomain> repository)
+        {
+            _repository = repository;
+        }
+
         public async Task<VerseData> Handle(CreateVerse message)
         {
             var verse = Map(new Verse(), message.Resource);
 
-            //save it here
+            _repository.Context.Add(verse);
+            await _repository.Context.CommitAsync();
 
             return new VerseData
             {

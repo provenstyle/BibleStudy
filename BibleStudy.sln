@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BibleStudy.Data.Api", "src\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BibleStudy.Console", "BibleStudy.Console\BibleStudy.Console.csproj", "{275494C1-5A5E-4D6A-B58E-E3557B96F270}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BibleStudy.Data.Migrations", "src\BibleStudy.Data.Migrations\BibleStudy.Data.Migrations.csproj", "{4C87152B-2D8F-4355-BA0A-6B9734F3DDF0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{275494C1-5A5E-4D6A-B58E-E3557B96F270}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{275494C1-5A5E-4D6A-B58E-E3557B96F270}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{275494C1-5A5E-4D6A-B58E-E3557B96F270}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C87152B-2D8F-4355-BA0A-6B9734F3DDF0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C87152B-2D8F-4355-BA0A-6B9734F3DDF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C87152B-2D8F-4355-BA0A-6B9734F3DDF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C87152B-2D8F-4355-BA0A-6B9734F3DDF0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,11 @@
+﻿USE BibleStudy;
+GO
+
+IF OBJECT_ID(N'dbo.Prayer') IS NULL
+BEGIN
+	CREATE TABLE Prayer (
+		Id   INT          IDENTITY(1,1),
+		Text NVARCHAR(4000) NOT NULL,
+		CONSTRAINT [PK_Prayer] PRIMARY KEY CLUSTERED (ID ASC)
+	);
+END;

@@ -1,0 +1,11 @@
+﻿USE BibleStudy;
+GO
+
+IF OBJECT_ID(N'dbo.Topic') IS NULL
+BEGIN
+	CREATE TABLE Topic (
+		Id   INT          IDENTITY(1,1),
+		Text NVARCHAR(50) NOT NULL,
+		CONSTRAINT [PK_Topic] PRIMARY KEY CLUSTERED (ID ASC)
+	);
+END;

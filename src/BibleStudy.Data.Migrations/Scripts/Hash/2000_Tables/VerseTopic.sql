@@ -4,7 +4,7 @@ GO
 IF OBJECT_ID(N'dbo.TopicVerse') IS NULL
 BEGIN
 	CREATE TABLE TopicVerse (
-		Id          INT           IDENTITY(1,1),
+		Id          INT           NOT NULL IDENTITY(1,1),
 		TopicId     INT           NOT NULL,
 		VerseId     INT           NOT NULL,
 

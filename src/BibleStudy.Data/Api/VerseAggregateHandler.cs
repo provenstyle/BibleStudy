@@ -14,6 +14,7 @@
         public VerseAggregateHandler(IDomainRepository<BibleStudyDomain> repository)
         {
             _repository = repository;
+            _now        = DateTime.Now;
         }
 
         public async Task<VerseData> Handle(CreateVerse message)

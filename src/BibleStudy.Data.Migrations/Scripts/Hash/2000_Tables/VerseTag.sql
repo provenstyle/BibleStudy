@@ -4,7 +4,7 @@ GO
 IF OBJECT_ID(N'dbo.VerseTag') IS NULL
 BEGIN
 	CREATE TABLE VerseTag (
-		Id          INT           IDENTITY(1,1),
+		Id          INT           NOT NULL IDENTITY(1,1),
 		VerseId     INT           NOT NULL,
 		TagId       INT           NOT NULL,
 

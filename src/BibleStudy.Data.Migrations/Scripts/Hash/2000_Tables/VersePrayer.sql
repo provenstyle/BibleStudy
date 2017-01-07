@@ -4,7 +4,7 @@ GO
 IF OBJECT_ID(N'dbo.VersePrayer') IS NULL
 BEGIN
 	CREATE TABLE VersePrayer (
-		Id          INT           IDENTITY(1,1),
+		Id          INT           NOT NULL IDENTITY(1,1),
 		VerseId     INT           NOT NULL,
 		PrayerId    INT           NOT NULL,
 

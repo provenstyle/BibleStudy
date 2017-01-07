@@ -8,8 +8,10 @@
     {
         public BookMap()
         {
+            ToTable(nameof(Book));
             HasKey(x => x.Id);
             Property(x => x.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            Property(x => x.Name).HasMaxLength(30);
         }
     }
 }

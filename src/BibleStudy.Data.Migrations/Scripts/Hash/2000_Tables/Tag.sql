@@ -4,7 +4,7 @@ GO
 IF OBJECT_ID(N'dbo.Tag') IS NULL
 BEGIN
 	CREATE TABLE Tag (
-		Id          INT            IDENTITY(1,1),
+		Id          INT            NOT NULL IDENTITY(1,1),
 		Name        NVARCHAR(30)   NOT NULL,
 		Description NVARCHAR(2000) NULL,
 

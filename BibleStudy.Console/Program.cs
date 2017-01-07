@@ -24,8 +24,8 @@
             var container = new WindsorContainer();
             container.Kernel.Resolver.AddSubResolver(new CollectionResolver(container.Kernel, true));
             container.Install(
-                FromAssembly.This(), 
-                new MediatRInstaller(Classes.FromAssemblyContaining<BibleStudyDataContext>())
+                FromAssembly.This(),
+                new MediatRInstaller(Classes.FromAssemblyContaining<BibleStudyDomainContext>())
             );
 
             container.Register(

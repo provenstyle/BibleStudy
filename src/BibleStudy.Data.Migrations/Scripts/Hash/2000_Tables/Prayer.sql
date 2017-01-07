@@ -4,7 +4,7 @@ GO
 IF OBJECT_ID(N'dbo.Prayer') IS NULL
 BEGIN
 	CREATE TABLE Prayer (
-		Id          INT            IDENTITY(1,1),
+		Id          INT            NOT NULL IDENTITY(1,1),
 		Text        NVARCHAR(4000) NOT NULL,
 
 		Created     DATETIME2      NOT NULL,

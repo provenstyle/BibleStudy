@@ -4,7 +4,7 @@ GO
 IF OBJECT_ID(N'dbo.VerseObservation') IS NULL
 BEGIN
 	CREATE TABLE VerseObservation (
-		Id            INT         IDENTITY(1,1),
+		Id            INT         NOT NULL IDENTITY(1,1),
 		VerseId       INT         NOT NULL,
 		ObservationId INT         NOT NULL,
 

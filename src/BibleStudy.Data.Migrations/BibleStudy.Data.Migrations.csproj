@@ -117,6 +117,7 @@
     <EmbeddedResource Include="Scripts\Hash\5000_Keys\VerseTag.sql" />
     <EmbeddedResource Include="Scripts\Hash\5000_Keys\VerseTopic.sql" />
     <Content Include="Scripts\Hash\9000_PostScripts\readme.txt" />
+    <EmbeddedResource Include="Scripts\Hash\9000_PostScripts\Seed.sql" />
     <Content Include="Scripts\Hash\readme.txt" />
     <None Include="Scripts\Migration\readme.txt" />
     <None Include="Scripts\readme.txt" />

@@ -120,7 +120,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Api\VerseAggregateHandler.cs" />
-    <Compile Include="BibleStudyDataContext.cs" />
     <Compile Include="Commands\CreateVerse.cs" />
     <Compile Include="Domain.cs" />
     <Compile Include="Entities\Book.cs" />
@@ -131,6 +130,7 @@
     <Compile Include="Maps\MappingConfiguration.cs" />
     <Compile Include="Maps\BookMap.cs" />
     <Compile Include="Maps\VerseMap.cs" />
+    <Compile Include="MigrationContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -138,7 +138,6 @@
     <Compile Include="Maps\TestamentMap.cs" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\BibleStudy.Data.Api\BibleStudy.Data.Api.csproj">
       <Project>{3a4782c6-efe9-4e76-88ad-e5cd29d698a7}</Project>

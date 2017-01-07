@@ -4,7 +4,7 @@ GO
 IF OBJECT_ID(N'dbo.Summary') IS NULL
 BEGIN
 	CREATE TABLE Summary (
-		Id          INT           IDENTITY(1,1),
+		Id          INT           NOT NULL IDENTITY(1,1),
 		Text        NVARCHAR(200) NOT NULL,
 
 		Created     DATETIME2     NOT NULL,

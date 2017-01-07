@@ -37,6 +37,17 @@
       <HintPath>..\..\packages\dbup.3.3.5\lib\net35\DbUp.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Improving.DbUp, Version=1.0.3.5, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Improving.DbUp.1.0.3.5\lib\net45\Improving.DbUp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Improving.DbUp.QuickStart, Version=1.0.3.5, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Improving.DbUp.QuickStart.1.0.3.5\lib\net45\Improving.DbUp.QuickStart.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Improving.MediatR">
+      <HintPath>..\..\packages\Improving.MediatR.3.0.1.0\lib\net452\Improving.MediatR.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -54,6 +65,7 @@
   <ItemGroup>
     <None Include="App.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </None>
     <None Include="Deploy.ps1">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -61,8 +73,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Improving.DbUp.QuickStart.readme.txt" />
-    <Content Include="Improving.DbUp.readme.txt" />
     <EmbeddedResource Include="Scripts\Hash\2000_Tables\Topic.sql" />
     <EmbeddedResource Include="Scripts\Hash\2000_Tables\VerseTopic.sql" />
     <EmbeddedResource Include="Scripts\Hash\2000_Tables\VersePrayer.sql" />
@@ -76,11 +86,15 @@
     <EmbeddedResource Include="Scripts\Hash\2000_Tables\Book.sql" />
     <EmbeddedResource Include="Scripts\Hash\2000_Tables\Testament.sql" />
     <EmbeddedResource Include="Scripts\Hash\2000_Tables\Verse.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Improving.DbUp.QuickStart.readme.txt" />
     <EmbeddedResource Include="Scripts\BeforeMigration\0000_UseDb.sql" />
     <EmbeddedResource Include="Scripts\FirstRun\0000_CreateDatabase.sql" />
     <EmbeddedResource Include="Scripts\Test\0001_tSQLt.class.sql" />
     <EmbeddedResource Include="Scripts\Test\0002_tSQLt.SetClrEnabled.sql" />
     <EmbeddedResource Include="Scripts\Test\0003_testSchemas.sql" />
+    <None Include="Improving.DbUp.readme.txt" />
     <None Include="Scripts\AlwaysRun\readme.txt" />
     <None Include="Scripts\BeforeMigration\readme.txt" />
     <None Include="Scripts\FirstRun\readme.txt" />
@@ -94,7 +108,14 @@
     <Content Include="Scripts\Hash\3500_StoredProcedures\readme.txt" />
     <Content Include="Scripts\Hash\4000_Views\readme.txt" />
     <Content Include="Scripts\Hash\4500_Jobs\readme.txt" />
+    <EmbeddedResource Include="Scripts\Hash\5000_Keys\Book.sql" />
     <Content Include="Scripts\Hash\5000_Keys\readme.txt" />
+    <EmbeddedResource Include="Scripts\Hash\5000_Keys\Verse.sql" />
+    <EmbeddedResource Include="Scripts\Hash\5000_Keys\VerseObservation.sql" />
+    <EmbeddedResource Include="Scripts\Hash\5000_Keys\VersePrayer.sql" />
+    <EmbeddedResource Include="Scripts\Hash\5000_Keys\VerseSummary.sql" />
+    <EmbeddedResource Include="Scripts\Hash\5000_Keys\VerseTag.sql" />
+    <EmbeddedResource Include="Scripts\Hash\5000_Keys\VerseTopic.sql" />
     <Content Include="Scripts\Hash\9000_PostScripts\readme.txt" />
     <Content Include="Scripts\Hash\readme.txt" />
     <None Include="Scripts\Migration\readme.txt" />

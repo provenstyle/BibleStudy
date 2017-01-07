@@ -1,18 +1,19 @@
-﻿USE BibleStudy;
+﻿USE $DbName$;
 GO
 
 IF OBJECT_ID(N'dbo.VerseTag') IS NULL
 BEGIN
 	CREATE TABLE VerseTag (
-		Id      INT NOT NULL,
-		VerseId INT NOT NULL,
-		TagId   INT NOT NULL,
+		Id          INT           IDENTITY(1,1),
+		VerseId     INT           NOT NULL,
+		TagId       INT           NOT NULL,
+
+		Created     DATETIME2     NOT NULL,
+		CreatedBy   NVARCHAR(200) NOT NULL,
+		Modified    DATETIME2     NOT NULL,
+		ModifiedBy  NVARCHAR(200) NOT NULL,
+		RowVersion  ROWVERSION,
+
 		CONSTRAINT PK_VerseTag PRIMARY KEY CLUSTERED (Id ASC)
 	);
-
-	ALTER TABLE VerseTag WITH CHECK ADD CONSTRAINT FK_VerseTag_Verse FOREIGN KEY(VerseId)
-	REFERENCES dbo.Verse (Id);
-
-	ALTER TABLE VerseTag WITH CHECK ADD CONSTRAINT FK_VerseTag_Tag FOREIGN KEY(TagId)
-	REFERENCES dbo.Tag (Id);
 END;

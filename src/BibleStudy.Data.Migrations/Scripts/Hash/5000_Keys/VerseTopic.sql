@@ -1,0 +1,14 @@
+﻿USE $DbName$;
+GO
+
+IF OBJECT_ID(N'FK_TopicVerse_Topic') IS NULL
+BEGIN
+	ALTER TABLE dbo.TopicVerse WITH CHECK ADD CONSTRAINT FK_TopicVerse_Topic FOREIGN KEY(TopicId)
+	REFERENCES dbo.Topic (Id);
+END;
+
+IF OBJECT_ID(N'FK_TopicVerse_Verse') IS NULL
+BEGIN
+	ALTER TABLE dbo.TopicVerse WITH CHECK ADD CONSTRAINT FK_TopicVerse_Verse FOREIGN KEY(VerseId)
+	REFERENCES dbo.Verse (Id);
+END;

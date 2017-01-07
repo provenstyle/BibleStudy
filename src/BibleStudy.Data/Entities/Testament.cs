@@ -2,8 +2,9 @@
 {
     using Improving.MediatR;
 
-    public class Testament : Entity, IKeyProperties<int>
+    public class Testament : IKeyProperties<int>
     {
+        public int    Id   { get; set; }
         public string Name { get; set; }
     }
 }

@@ -1,18 +1,19 @@
-﻿USE BibleStudy;
+﻿USE $DbName$;
 GO
 
 IF OBJECT_ID(N'dbo.TopicVerse') IS NULL
 BEGIN
 	CREATE TABLE TopicVerse (
-		Id      INT IDENTITY(1,1),
-		TopicId INT NOT NULL,
-		VerseId INT NOT NULL,
+		Id          INT           IDENTITY(1,1),
+		TopicId     INT           NOT NULL,
+		VerseId     INT           NOT NULL,
+
+		Created     DATETIME2     NOT NULL,
+		CreatedBy   NVARCHAR(200) NOT NULL,
+		Modified    DATETIME2     NOT NULL,
+		ModifiedBy  NVARCHAR(200) NOT NULL,
+		RowVersion  ROWVERSION,
+
 		CONSTRAINT [PK_TopicVerse] PRIMARY KEY CLUSTERED (ID ASC)
 	);
-
-	ALTER TABLE dbo.TopicVerse WITH CHECK ADD CONSTRAINT FK_TopicVerse_Topic FOREIGN KEY(TopicId)
-	REFERENCES dbo.Topic (Id);
-
-	ALTER TABLE dbo.TopicVerse WITH CHECK ADD CONSTRAINT FK_TopicVerse_Verse FOREIGN KEY(VerseId)
-	REFERENCES dbo.Verse (Id);
 END;

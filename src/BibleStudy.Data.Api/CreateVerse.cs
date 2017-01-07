@@ -26,4 +26,5 @@
     {
         public VerseData[] Verses { get; set; }
     }
+
 }

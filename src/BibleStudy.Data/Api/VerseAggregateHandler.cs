@@ -9,6 +9,7 @@
     public class VerseAggregateHandler : IAsyncRequestHandler<CreateVerse, VerseData>
     {
         private readonly IDomainRepository<BibleStudyDomain> _repository;
+        private readonly DateTime                            _now;
 
         public VerseAggregateHandler(IDomainRepository<BibleStudyDomain> repository)
         {
@@ -18,6 +19,7 @@
         public async Task<VerseData> Handle(CreateVerse message)
         {
             var verse = Map(new Verse(), message.Resource);
+            verse.Created = _now;
 
             _repository.Context.Add(verse);
             await _repository.Context.CommitAsync();
@@ -43,7 +45,13 @@
             if (data.Text != null)
                 verse.Text = data.Text;
 
-            verse.Modified = DateTime.Now;
+            if (data.CreatedBy != null)
+                verse.CreatedBy = data.CreatedBy;
+
+            if (data.ModifiedBy != null)
+                verse.ModifiedBy = data.ModifiedBy;
+
+            verse.Modified = _now;
 
             return verse;
         }

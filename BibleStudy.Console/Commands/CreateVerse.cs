@@ -20,14 +20,17 @@
                    args[1] == "verse";
         }
 
-        public async override void InternalProcess(string[] args)
+        public override async void InternalProcess(string[] args)
         {
             await _mediator.SendAsync(new CreateVerse(new VerseData
             {
-                BookId =  1,
-                Chapter = 3,
-                Number = 16,
-                Text = "For God so loved the world that he gave his only begotten son..."
+                BookId     = 1,
+                Chapter    = 3,
+                Number     = 16,
+                Text       = "For God so loved the world that he gave his only begotten son...",
+                CreatedBy  = "Michael Dudley",
+                ModifiedBy = "Michael Dudley"
+
             }));
         }
     }

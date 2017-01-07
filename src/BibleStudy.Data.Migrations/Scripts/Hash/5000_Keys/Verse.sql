@@ -6,3 +6,8 @@ BEGIN
 	ALTER TABLE Verse WITH CHECK ADD CONSTRAINT FK_Verse_Book FOREIGN KEY(BookId)
 	REFERENCES dbo.Book (Id);
 END;
+
+IF OBJECT_ID(N'UC_Verse_BookId_Chapter_Number') IS NULL
+BEGIN
+	ALTER TABLE Verse WITH CHECK ADD CONSTRAINT UC_Verse_BookId_Chapter_Number UNIQUE (BookId, Chapter, Number)
+END;

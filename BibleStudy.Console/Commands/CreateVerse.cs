@@ -1,4 +1,6 @@
-﻿namespace BibleStudy.Console.Commands
+﻿using System.Threading.Tasks;
+
+namespace BibleStudy.Console.Commands
 {
     using Data.Api;
     using Infrastructure;
@@ -20,7 +22,7 @@
                    args[1] == "verse";
         }
 
-        public override async void InternalProcess(string[] args)
+        public override async Task InternalProcess(string[] args)
         {
             await _mediator.SendAsync(new CreateVerse(new VerseData
             {
@@ -30,8 +32,9 @@
                 Text       = "For God so loved the world that he gave his only begotten son...",
                 CreatedBy  = "Michael Dudley",
                 ModifiedBy = "Michael Dudley"
-
             }));
+
+            System.Console.WriteLine("Created Verse");
         }
     }
 }

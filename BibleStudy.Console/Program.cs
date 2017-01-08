@@ -48,7 +48,14 @@
                 {
                     foreach (var handler in handlers)
                     {
-                        handler.Process(line);
+                        try
+                        {
+                            handler.Process(line).Wait();
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e);
+                        }
                     }
                 }
                 else

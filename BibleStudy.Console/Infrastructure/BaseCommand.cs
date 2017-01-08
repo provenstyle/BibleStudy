@@ -1,4 +1,6 @@
-﻿namespace BibleStudy.Console.Infrastructure
+﻿using System.Threading.Tasks;
+
+namespace BibleStudy.Console.Infrastructure
 {
     using System;
     using System.Linq;
@@ -11,20 +13,21 @@
             return args.Any() && InternalCanProcess(args);
         }
 
-        public void Process(string command)
+        public async Task Process(string command)
         {
-            InternalProcess(SplitArgs(command));
+            await InternalProcess(SplitArgs(command));
+            Console.WriteLine(Environment.NewLine);
         }
 
         private static string[] SplitArgs(string command)
         {
-            return command.IsNullOrEmpty() 
-                ? new string[0] 
+            return command.IsNullOrEmpty()
+                ? new string[0]
                 : command.ToLower().Split(' ')
                     .Select(x => x.Trim()).ToArray();
         }
 
         public abstract bool InternalCanProcess(string[] args);
-        public abstract void InternalProcess(string[] args);
+        public abstract Task InternalProcess(string[] args);
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace BibleStudy.Console.Commands
+﻿using System.Threading.Tasks;
+
+namespace BibleStudy.Console.Commands
 {
     using System.Linq;
     using Infrastructure;
@@ -13,9 +15,10 @@
             return Commands.Contains(args[0]);
         }
 
-        public override void InternalProcess(string[] args)
+        public override Task InternalProcess(string[] args)
         {
             Lifecyle.Exit = true;
+            return Task.FromResult(true);
         }
     }
 }

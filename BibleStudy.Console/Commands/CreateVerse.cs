@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using BibleStudy.Data.Api.Verses;
 
 namespace BibleStudy.Console.Commands
 {

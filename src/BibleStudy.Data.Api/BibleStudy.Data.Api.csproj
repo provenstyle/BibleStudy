@@ -81,13 +81,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CreateVerse.cs" />
+    <Compile Include="Verses\CreateVerse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Verses\VerseData.cs" />
+    <Compile Include="Verses\VerseResult.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

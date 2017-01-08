@@ -120,7 +120,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Api\VerseAggregateHandler.cs" />
-    <Compile Include="Commands\CreateVerse.cs" />
     <Compile Include="Domain.cs" />
     <Compile Include="Entities\Book.cs" />
     <Compile Include="Entities\Entity.cs" />
@@ -143,6 +142,9 @@
       <Project>{3a4782c6-efe9-4e76-88ad-e5cd29d698a7}</Project>
       <Name>BibleStudy.Data.Api</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Commands\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

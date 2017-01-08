@@ -1,4 +1,6 @@
-﻿namespace BibleStudy.Data.Api
+﻿using BibleStudy.Data.Api.Verses;
+
+namespace BibleStudy.Data.Api
 {
     using System;
     using System.Threading.Tasks;

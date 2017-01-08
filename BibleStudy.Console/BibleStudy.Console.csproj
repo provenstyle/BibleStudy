@@ -122,6 +122,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\GetVerse.cs" />
     <Compile Include="Commands\CreateVerse.cs" />
     <Compile Include="Infrastructure\BaseCommand.cs" />
     <Compile Include="Infrastructure\ICommand.cs" />

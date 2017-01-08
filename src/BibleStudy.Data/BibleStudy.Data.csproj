@@ -120,6 +120,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Api\VerseAggregateHandler.cs" />
+    <Compile Include="Commands\GetVersesById.cs" />
     <Compile Include="Domain.cs" />
     <Compile Include="Entities\Book.cs" />
     <Compile Include="Entities\Entity.cs" />
@@ -143,9 +144,7 @@
       <Name>BibleStudy.Data.Api</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Commands\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

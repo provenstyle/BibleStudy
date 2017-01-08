@@ -81,6 +81,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Verses\GetVerses.cs" />
     <Compile Include="Verses\CreateVerse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Verses\VerseData.cs" />

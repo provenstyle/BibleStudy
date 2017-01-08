@@ -3,12 +3,16 @@
 namespace BibleStudy.Data.Api
 {
     using System;
+    using System.Linq;
     using System.Threading.Tasks;
+    using Commands;
     using Entities;
     using Highway.Data.Repositories;
     using MediatR;
 
-    public class VerseAggregateHandler : IAsyncRequestHandler<CreateVerse, VerseData>
+    public class VerseAggregateHandler :
+        IAsyncRequestHandler<CreateVerse, VerseData>,
+        IAsyncRequestHandler<GetVerses, VerseResult>
     {
         private readonly IDomainRepository<BibleStudyDomain> _repository;
         private readonly DateTime                            _now;
@@ -31,6 +35,16 @@ namespace BibleStudy.Data.Api
             {
                 Id = verse.Id,
                 RowVersion = verse.RowVersion
+            };
+        }
+
+        public async Task<VerseResult> Handle(GetVerses message)
+        {
+            var verses = await _repository.FindAsync(new GetVersesById(message.VerseIds));
+
+            return new VerseResult
+            {
+                Verses = verses.ToArray()
             };
         }
 

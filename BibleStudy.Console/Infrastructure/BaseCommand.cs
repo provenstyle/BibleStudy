@@ -16,7 +16,7 @@ namespace BibleStudy.Console.Infrastructure
         public async Task Process(string command)
         {
             await InternalProcess(SplitArgs(command));
-            Console.WriteLine(Environment.NewLine);
+            Console.WriteLine();
         }
 
         private static string[] SplitArgs(string command)

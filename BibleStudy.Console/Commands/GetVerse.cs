@@ -14,14 +14,14 @@
         {
         }
 
-        protected override bool InternalCanProcess(string[] args)
+        protected override bool InternalCanHandle(string[] args)
         {
             return args.Length >= 2 &&
                    args[0] == "get" &&
                    args[1] == "verses";
         }
 
-        protected override async Task InternalProcess(string[] args)
+        protected override async Task InternalHandle(string[] args)
         {
             Header("Verses");
             var verses = (await Mediator.SendAsync(new GetVerses())).Verses;

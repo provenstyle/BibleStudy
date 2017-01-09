@@ -4,7 +4,7 @@
 
     public interface ICommand
     {
-        bool CanProcess(string command);
-        Task Process(string command);
+        bool CanHandle(string command);
+        Task Handle(string command);
     }
 }

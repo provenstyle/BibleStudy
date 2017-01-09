@@ -51,20 +51,20 @@
             );
 
             container.Resolve<Welcome>()
-                .Process(string.Empty).Wait();
+                .Handle(string.Empty).Wait();
 
             var commands = container.ResolveAll<ICommand>();
             do
             {
                 var line = Console.ReadLine();
-                var handlers = commands.Where(x => x.CanProcess(line)).ToArray();
+                var handlers = commands.Where(x => x.CanHandle(line)).ToArray();
                 if (handlers.Any())
                 {
                     foreach (var handler in handlers)
                     {
                         try
                         {
-                            handler.Process(line).Wait();
+                            handler.Handle(line).Wait();
                         }
                         catch (Exception e)
                         {

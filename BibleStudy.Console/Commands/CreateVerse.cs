@@ -16,14 +16,14 @@
             _config   = config;
         }
 
-        protected override bool InternalCanProcess(string[] args)
+        protected override bool InternalCanHandle(string[] args)
         {
             return args.Length >= 2 &&
                    args[0] == "create" &&
                    args[1] == "verse";
         }
 
-        protected override async Task InternalProcess(string[] args)
+        protected override async Task InternalHandle(string[] args)
         {
             do
             {

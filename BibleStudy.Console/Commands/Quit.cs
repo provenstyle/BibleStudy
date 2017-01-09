@@ -14,12 +14,12 @@
         {
         }
 
-        protected override bool InternalCanProcess(string[] args)
+        protected override bool InternalCanHandle(string[] args)
         {
             return Commands.Contains(args[0]);
         }
 
-        protected override Task InternalProcess(string[] args)
+        protected override Task InternalHandle(string[] args)
         {
             Header("Quiting");
             Quit = true;

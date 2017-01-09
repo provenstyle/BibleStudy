@@ -19,16 +19,16 @@
             Mediator = mediator;
         }
 
-        public bool CanProcess(string command)
+        public bool CanHandle(string command)
         {
             var args = SplitArgs(command);
-            return args.Any() && InternalCanProcess(args);
+            return args.Any() && InternalCanHandle(args);
         }
 
-        public async Task Process(string command)
+        public async Task Handle(string command)
         {
             Console.WriteLine();
-            await InternalProcess(SplitArgs(command));
+            await InternalHandle(SplitArgs(command));
 
             if (!Quit)
             {
@@ -45,8 +45,8 @@
                     .Select(x => x.Trim()).ToArray();
         }
 
-        protected abstract bool InternalCanProcess(string[] args);
-        protected abstract Task InternalProcess(string[] args);
+        protected abstract bool InternalCanHandle(string[] args);
+        protected abstract Task InternalHandle(string[] args);
 
         protected BaseCommand Header(string title)
         {

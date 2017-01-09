@@ -17,12 +17,12 @@
             _helps = helps;
         }
 
-        protected override bool InternalCanProcess(string[] args)
+        protected override bool InternalCanHandle(string[] args)
         {
             return args[0] == "help";
         }
 
-        protected override Task InternalProcess(string[] args)
+        protected override Task InternalHandle(string[] args)
         {
             Header("Help");
 

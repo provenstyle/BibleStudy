@@ -14,12 +14,12 @@
         {
         }
 
-        protected override bool InternalCanProcess(string[] args)
+        protected override bool InternalCanHandle(string[] args)
         {
             return args[0] == "welcome";
         }
 
-        protected override Task InternalProcess(string[] args)
+        protected override Task InternalHandle(string[] args)
         {
             var fileVersion = "unknown";
             var location = Assembly.GetExecutingAssembly().Location;

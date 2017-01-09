@@ -3,6 +3,7 @@
     using System;
     using System.Configuration;
     using System.Linq;
+    using Castle.Components.DictionaryAdapter;
     using Castle.MicroKernel.Registration;
     using Castle.MicroKernel.Resolvers.SpecializedResolvers;
     using Castle.Windsor;
@@ -16,9 +17,9 @@
     using Infrastructure;
     using ICommand = Infrastructure.ICommand;
 
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             var connectionString = ConfigurationManager.ConnectionStrings["BibleStudy"].ConnectionString;
 
@@ -29,20 +30,30 @@
                 new MediatRInstaller(Classes.FromAssemblyContaining<BibleStudyDomainContext>())
             );
 
+            var daf = new DictionaryAdapterFactory();
             container.Register(
                 Component.For<IMappingConfiguration>().ImplementedBy<MappingConfiguration>(),
-                Component.For<IDomainContext<BibleStudyDomain>>().ImplementedBy<BibleStudyDomainContext>().DependsOn(new {connectionString}),
+                Component.For<IDomainContext<BibleStudyDomain>>()
+                    .ImplementedBy<BibleStudyDomainContext>()
+                    .DependsOn(new {connectionString}),
                 Component.For<BibleStudyDomain>(),
-                Component.For<IDomainRepository<BibleStudyDomain>>().ImplementedBy<DomainRepository<BibleStudyDomain>>(),
+                Component.For<IDomainRepository<BibleStudyDomain>>()
+                    .ImplementedBy<DomainRepository<BibleStudyDomain>>(),
                 Classes.FromThisAssembly()
                     .BasedOn<ICommand>()
                     .OrBasedOn(typeof(IHelp))
                     .WithServiceBase()
+                    .WithServiceSelf(),
+                 Types.FromThisAssembly()
+                     .Where(type => type.IsInterface && type.Name.EndsWith("Config"))
+                     .Configure(reg => reg.UsingFactoryMethod(
+                        (k, m, c) => daf.GetAdapter(m.Implementation, ConfigurationManager.AppSettings)))
             );
 
-            var commands = container.ResolveAll<ICommand>();
+            container.Resolve<Welcome>()
+                .Process(string.Empty).Wait();
 
-            new Welcome().Process(string.Empty).Wait();
+            var commands = container.ResolveAll<ICommand>();
             do
             {
                 var line = Console.ReadLine();
@@ -64,6 +75,7 @@
                 else
                 {
                     Console.WriteLine($"Command not recognized: {line}");
+                    Console.WriteLine();
                 }
             } while (!BaseCommand.Quit);
         }

@@ -1,17 +1,19 @@
 ﻿namespace BibleStudy.Console.Commands
 {
+    using System;
     using System.Threading.Tasks;
     using Data.Api.Verses;
     using Infrastructure;
     using MediatR;
 
-    public class CreateVerseCommand : BaseCommand, IHelp
+    public class CreateVerseCommand : BaseCommand
     {
-        private readonly IMediator _mediator;
+        private readonly IConfig   _config;
 
-        public CreateVerseCommand(IMediator mediator)
+        public CreateVerseCommand(IMediator mediator, IConfig config)
+            : base(mediator)
         {
-            _mediator = mediator;
+            _config   = config;
         }
 
         protected override bool InternalCanProcess(string[] args)
@@ -23,17 +25,31 @@
 
         protected override async Task InternalProcess(string[] args)
         {
-            await _mediator.SendAsync(new CreateVerse(new VerseData
+            do
             {
-                BookId     = 1,
-                Chapter    = 3,
-                Number     = 16,
-                Text       = "For God so loved the world that he gave his only begotten son...",
-                CreatedBy  = "Michael Dudley",
-                ModifiedBy = "Michael Dudley"
-            }));
+                Header("Create Verse");
 
-            System.Console.WriteLine("Created Verse");
+                var book    = await PromptForBook();
+                var chapter = PromptForInt("Chapter:");
+                var verse   = PromptForInt("Verse:");
+                var text    = PromptForString("Text:");
+
+                var verseData = new VerseData
+                {
+                    BookId = book.Id,
+                    Chapter = chapter,
+                    Number = verse,
+                    Text = text,
+                    CreatedBy = _config.UserName,
+                    ModifiedBy = _config.UserName
+                };
+
+                await Mediator.SendAsync(new CreateVerse(verseData));
+
+                Console.WriteLine("Created Verse");
+                Console.WriteLine(verseData);
+
+            } while (Another());
         }
 
         public override HelpData HelpData => new HelpData
@@ -41,5 +57,6 @@
             Command     = "create verse",
             Description = "Create a new verse"
         };
+
     }
 }

@@ -5,12 +5,14 @@
     using System.Threading.Tasks;
     using Castle.Core.Internal;
     using Infrastructure;
+    using MediatR;
 
     public class Help : BaseCommand
     {
         private readonly IHelp[] _helps;
 
-        public Help(IHelp[] helps)
+        public Help(IMediator mediator, IHelp[] helps)
+            : base(mediator)
         {
             _helps = helps;
         }
@@ -23,13 +25,18 @@
         protected override Task InternalProcess(string[] args)
         {
             Header("Help");
+            var layout = new ColumnLayout(2);
+
             _helps
                 .Select(x => x.HelpData)
                 .OrderBy(x => x.Command)
                 .ForEach(x =>
                  {
-                     Console.WriteLine($"{x.Command}\t - {x.Description}");
+                     layout.Add(0, x.Command);
+                     layout.Add(1, x.Description);
                  });
+
+            Console.WriteLine(layout);
 
             return Task.FromResult(true);
         }

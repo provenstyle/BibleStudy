@@ -9,11 +9,9 @@
 
     public class GetBooksCommand : BaseCommand
     {
-        private readonly IMediator _mediator;
-
         public GetBooksCommand(IMediator mediator)
+            : base(mediator)
         {
-            _mediator = mediator;
         }
 
         protected override bool InternalCanProcess(string[] args)
@@ -27,7 +25,7 @@
         {
             Header("Books");
 
-            var books = (await _mediator.SendAsync(new GetBooks())).Books;
+            var books = (await Mediator.SendAsync(new GetBooks())).Books;
             var oldTestament = books.Where(x => x.Testament.Id == 1).ToArray();
             var newTestament = books.Where(x => x.Testament.Id == 2).ToArray();
             var layout = new ColumnLayout(2);
@@ -48,7 +46,7 @@
         public override HelpData HelpData => new HelpData
         {
             Command     = "get books",
-            Description = "List of all books"
+            Description = "List all books"
         };
 
     }

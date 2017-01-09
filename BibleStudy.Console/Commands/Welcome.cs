@@ -5,9 +5,15 @@
     using System.Reflection;
     using System.Threading.Tasks;
     using Infrastructure;
+    using MediatR;
 
     public class Welcome : BaseCommand
     {
+        public Welcome(IMediator mediator)
+            : base(mediator)
+        {
+        }
+
         protected override bool InternalCanProcess(string[] args)
         {
             return args[0] == "welcome";
@@ -33,7 +39,7 @@
         public override HelpData HelpData => new HelpData
         {
             Command     = "welcome",
-            Description = "Show welcome"
+            Description = "Show welcome message"
         };
     }
 }

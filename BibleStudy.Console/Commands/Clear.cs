@@ -1,35 +1,32 @@
 ﻿namespace BibleStudy.Console.Commands
 {
-    using System.Linq;
+    using System;
     using System.Threading.Tasks;
     using Infrastructure;
     using MediatR;
 
-    public class Quit : BaseCommand
+    public class Clear : BaseCommand
     {
-        public string[] Commands = {"quit", "quite", "q", "exit"};
-
-        public Quit(IMediator mediator)
+        public Clear(IMediator mediator)
             : base(mediator)
         {
         }
 
         protected override bool InternalCanProcess(string[] args)
         {
-            return Commands.Contains(args[0]);
+            return args[0] == "clear";
         }
 
         protected override Task InternalProcess(string[] args)
         {
-            Header("Quiting");
-            Quit = true;
+            Console.Clear();
             return Task.FromResult(true);
         }
 
         public override HelpData HelpData => new HelpData
         {
-            Command     = "quit or q",
-            Description = "Quit the application"
+            Command     = "clear",
+            Description = "Clear the console"
         };
     }
 }

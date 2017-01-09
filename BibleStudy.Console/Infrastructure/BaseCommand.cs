@@ -3,13 +3,21 @@
     using System;
     using System.Linq;
     using System.Threading.Tasks;
+    using Data.Api.Books;
+    using MediatR;
 
     public abstract class BaseCommand : ICommand, IHelp
     {
-        public const string Seperator = "==================================================";
+        protected readonly IMediator Mediator;
+        public const string Seperator = "--------------------------------------------------";
         public static bool  Quit      = false;
 
         public abstract HelpData HelpData { get; }
+
+        protected BaseCommand(IMediator mediator)
+        {
+            Mediator = mediator;
+        }
 
         public bool CanProcess(string command)
         {
@@ -20,7 +28,6 @@
         public async Task Process(string command)
         {
             Console.WriteLine();
-            Console.WriteLine(Seperator);
             await InternalProcess(SplitArgs(command));
 
             if (!Quit)
@@ -28,7 +35,7 @@
                 Console.WriteLine();
                 Console.WriteLine(Seperator);
                 Console.WriteLine();
-                Console.WriteLine("Next?");
+                Console.WriteLine("?");
             }
         }
 
@@ -45,10 +52,58 @@
 
         protected BaseCommand Header(string title)
         {
+            Console.WriteLine(Seperator);
             Console.WriteLine(title);
             Console.WriteLine(Seperator);
             Console.WriteLine();
             return this;
         }
+
+        protected bool Another()
+        {
+            Console.WriteLine();
+            Console.WriteLine("Another? Press 'Y'");
+            var input = Console.ReadKey().Key == ConsoleKey.Y;
+            Console.WriteLine();
+            Console.WriteLine();
+            return input;
+        }
+
+        protected string PromptForString(string prompt)
+        {
+            Console.WriteLine(prompt);
+            var input = Console.ReadLine()?.Trim();
+            Console.WriteLine();
+            return input;
+        }
+
+        protected int PromptForInt(string prompt)
+        {
+            Console.WriteLine(prompt);
+            int value;
+            while(!int.TryParse(Console.ReadLine(), out value))
+            {
+            }
+            Console.WriteLine();
+            return value;
+        }
+
+        protected async Task<BookData> PromptForBook()
+        {
+            var books = (await Mediator.SendAsync(new GetBooks())).Books;
+            BookData book = null;
+            do
+            {
+                var input = PromptForString("Book:");
+                book      = books.FirstOrDefault(x => string.Equals(x.Name, input, StringComparison.CurrentCultureIgnoreCase));
+                if (book == null)
+                {
+                    Console.WriteLine($"{input} is not a valid book");
+                }
+                Console.WriteLine();
+            } while(book == null);
+            return book;
+        }
+
     }
 }

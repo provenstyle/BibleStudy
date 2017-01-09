@@ -8,11 +8,10 @@
 
     public class GetVerseCommand : BaseCommand
     {
-        private readonly IMediator _mediator;
 
         public GetVerseCommand(IMediator mediator)
+            : base(mediator)
         {
-            _mediator = mediator;
         }
 
         protected override bool InternalCanProcess(string[] args)
@@ -25,7 +24,7 @@
         protected override async Task InternalProcess(string[] args)
         {
             Header("Verses");
-            var verses = (await _mediator.SendAsync(new GetVerses())).Verses;
+            var verses = (await Mediator.SendAsync(new GetVerses())).Verses;
             foreach (var verse in verses)
             {
                 Console.WriteLine($"{verse.BookId} {verse.Chapter}:{verse.Number}");

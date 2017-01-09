@@ -30,6 +30,7 @@
                 Console.WriteLine(verse);
                 Console.WriteLine();
             }
+            Footer();
         }
 
         public override HelpData HelpData => new HelpData

@@ -48,6 +48,8 @@
                 Console.WriteLine(verseData);
 
             } while (Another());
+
+            Footer();
         }
 
         public override HelpData HelpData => new HelpData

@@ -23,7 +23,7 @@
         {
             Header("Quiting");
             Quit = true;
-            return Task.FromResult(true);
+            return Done();
         }
 
         public override HelpData HelpData => new HelpData

@@ -33,8 +33,6 @@
             if (!Quit)
             {
                 Console.WriteLine();
-                Console.WriteLine(Seperator);
-                Console.WriteLine();
                 Console.WriteLine("?");
             }
         }
@@ -59,6 +57,13 @@
             return this;
         }
 
+        protected BaseCommand Footer()
+        {
+            Console.WriteLine();
+            Console.WriteLine(Seperator);
+            return this;
+        }
+
         protected bool Another()
         {
             Console.WriteLine();
@@ -67,6 +72,11 @@
             Console.WriteLine();
             Console.WriteLine();
             return input;
+        }
+
+        protected Task Done()
+        {
+            return Task.FromResult(true);
         }
 
         protected string PromptForString(string prompt)

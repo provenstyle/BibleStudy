@@ -25,6 +25,7 @@
         protected override Task InternalProcess(string[] args)
         {
             Header("Help");
+
             var layout = new ColumnLayout(2);
 
             _helps
@@ -38,7 +39,9 @@
 
             Console.WriteLine(layout);
 
-            return Task.FromResult(true);
+            Footer();
+
+            return Done();
         }
 
         public override HelpData HelpData => new HelpData

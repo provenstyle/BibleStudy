@@ -32,8 +32,9 @@
             Console.WriteLine("But his delight is in the law of the Lord,");
             Console.WriteLine("  And in His law he meditates day and night.");
             Console.WriteLine("Psalm 1:2");
+            Footer();
 
-            return Task.FromResult(true);
+            return Done();
         }
 
         public override HelpData HelpData => new HelpData

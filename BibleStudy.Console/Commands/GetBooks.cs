@@ -41,6 +41,8 @@
             }
 
             Console.WriteLine(layout);
+
+            Footer();
         }
 
         public override HelpData HelpData => new HelpData

@@ -29,24 +29,22 @@
             {
                 Header("Create Verse");
 
-                var book    = await PromptForBook();
-                var chapter = PromptForInt("Chapter:");
-                var verse   = PromptForInt("Verse:");
-                var text    = PromptForString("Text:");
+                var book = (await PromptForBook());
 
                 var verseData = new VerseData
                 {
-                    BookId = book.Id,
-                    Chapter = chapter,
-                    Number = verse,
-                    Text = text,
-                    CreatedBy = _config.UserName,
+                    Book       = book,
+                    BookId     = book.Id,
+                    Chapter    = PromptForInt("Chapter:"),
+                    Number     = PromptForInt("Verse:"),
+                    Text       = PromptForString("Text:"),
+                    CreatedBy  = _config.UserName,
                     ModifiedBy = _config.UserName
                 };
 
                 await Mediator.SendAsync(new CreateVerse(verseData));
 
-                Console.WriteLine("Created Verse");
+                Console.WriteLine("Created Verse:");
                 Console.WriteLine(verseData);
 
             } while (Another());

@@ -1,8 +1,5 @@
-﻿using BibleStudy.Data.Api.Verses;
-
-namespace BibleStudy.Data.Api
+﻿namespace BibleStudy.Data.Api
 {
-    using System;
     using System.Linq;
     using System.Threading.Tasks;
     using Books;
@@ -16,7 +13,7 @@ namespace BibleStudy.Data.Api
     {
         private readonly IDomainRepository<BibleStudyDomain> _repository;
 
-        public BookAggregateHandler(IDomainRepository<BibleStudyDomain> repository)
+        public BookAggregateHandler(IMediator mediator, IDomainRepository<BibleStudyDomain> repository)
         {
             _repository = repository;
         }

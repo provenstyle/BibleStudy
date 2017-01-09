@@ -5,6 +5,8 @@ namespace BibleStudy.Data.Api
     using System;
     using System.Linq;
     using System.Threading.Tasks;
+    using Books;
+    using Castle.Core.Internal;
     using Entities;
     using Highway.Data.Repositories;
     using MediatR;
@@ -16,11 +18,16 @@ namespace BibleStudy.Data.Api
     {
         private readonly IDomainRepository<BibleStudyDomain> _repository;
         private readonly DateTime                            _now;
+        private readonly BookData[]                          _books;
 
-        public VerseAggregateHandler(IDomainRepository<BibleStudyDomain> repository)
+        public VerseAggregateHandler(IMediator mediator, IDomainRepository<BibleStudyDomain> repository)
         {
             _repository = repository;
             _now        = DateTime.Now;
+
+            var task = mediator.SendAsync(new GetBooks());
+            task.Wait();
+            _books = task.Result.Books;
         }
 
         public async Task<VerseData> Handle(CreateVerse message)
@@ -40,11 +47,14 @@ namespace BibleStudy.Data.Api
 
         public async Task<VerseResult> Handle(GetVerses message)
         {
-            var verses = await _repository.FindAsync(new GetVersesById(message.Ids));
+            var verses = (await _repository.FindAsync(new GetVersesById(message.Ids)))
+                .ToArray();
+
+            verses.ForEach(x => x.Book = _books.FirstOrDefault(book => book.Id == x.BookId));
 
             return new VerseResult
             {
-                Verses = verses.ToArray()
+                Verses = verses
             };
         }
 

@@ -27,8 +27,7 @@
             var verses = (await Mediator.SendAsync(new GetVerses())).Verses;
             foreach (var verse in verses)
             {
-                Console.WriteLine($"{verse.BookId} {verse.Chapter}:{verse.Number}");
-                Console.WriteLine(verse.Text);
+                Console.WriteLine(verse);
                 Console.WriteLine();
             }
         }

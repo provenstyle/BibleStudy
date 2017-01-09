@@ -1,9 +1,8 @@
-﻿using System.Threading.Tasks;
-using BibleStudy.Data.Api.Verses;
-
-namespace BibleStudy.Console.Commands
+﻿namespace BibleStudy.Console.Commands
 {
     using System;
+    using System.Threading.Tasks;
+    using Data.Api.Verses;
     using Infrastructure;
     using MediatR;
 
@@ -16,17 +15,17 @@ namespace BibleStudy.Console.Commands
             _mediator = mediator;
         }
 
-        public override bool InternalCanProcess(string[] args)
+        protected override bool InternalCanProcess(string[] args)
         {
             return args.Length >= 2 &&
                    args[0] == "get" &&
-                   args[1] == "verse";
+                   args[1] == "verses";
         }
 
-        public override async Task InternalProcess(string[] args)
+        protected override async Task InternalProcess(string[] args)
         {
+            Header("Verses");
             var verses = (await _mediator.SendAsync(new GetVerses())).Verses;
-            System.Console.WriteLine("Verses");
             foreach (var verse in verses)
             {
                 Console.WriteLine($"{verse.BookId} {verse.Chapter}:{verse.Number}");
@@ -34,5 +33,11 @@ namespace BibleStudy.Console.Commands
                 Console.WriteLine();
             }
         }
+
+        public override HelpData HelpData => new HelpData
+        {
+            Command     = "get verses",
+            Description = "List all verses"
+        };
     }
 }

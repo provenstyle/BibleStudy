@@ -122,11 +122,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Infrastructure\ColumnLayout.cs" />
+    <Compile Include="Commands\GetBooks.cs" />
     <Compile Include="Commands\GetVerse.cs" />
     <Compile Include="Commands\CreateVerse.cs" />
+    <Compile Include="Commands\Welcome.cs" />
+    <Compile Include="Commands\Help.cs" />
     <Compile Include="Infrastructure\BaseCommand.cs" />
     <Compile Include="Infrastructure\ICommand.cs" />
-    <Compile Include="Infrastructure\Lifecyle.cs" />
+    <Compile Include="Infrastructure\IHelp.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Commands\Quit.cs" />

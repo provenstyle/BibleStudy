@@ -1,4 +1,4 @@
-﻿namespace BibleStudy.Data.Commands
+﻿namespace BibleStudy.Data.Queries
 {
     using System.Data.Entity;
     using System.Linq;
@@ -8,19 +8,19 @@
 
     public class GetVersesById : Query<VerseData>
     {
-        public GetVersesById(int[] verseIds)
+        public GetVersesById(int[] ids)
         {
             ContextQuery = c =>
             {
                 var query = Context.AsQueryable<Verse>().AsNoTracking();
 
-                if (verseIds?.Length == 1)
+                if (ids?.Length == 1)
                 {
-                    query = query.Where(x => x.Id == verseIds[0]);
+                    query = query.Where(x => x.Id == ids[0]);
                 }
-                else if (verseIds?.Length > 1)
+                else if (ids?.Length > 1)
                 {
-                    query = query.Where(x => verseIds.Contains(x.Id));
+                    query = query.Where(x => ids.Contains(x.Id));
                 }
 
                 query = query.OrderBy(x => x.BookId)

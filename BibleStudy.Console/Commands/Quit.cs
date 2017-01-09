@@ -1,24 +1,29 @@
-﻿using System.Threading.Tasks;
-
-namespace BibleStudy.Console.Commands
+﻿namespace BibleStudy.Console.Commands
 {
     using System.Linq;
+    using System.Threading.Tasks;
     using Infrastructure;
 
     public class Quit : BaseCommand
     {
         public string[] Commands = {"quit", "quite", "q", "exit"};
-        public Lifecyle Lifecyle { get; set; }
 
-        public override bool InternalCanProcess(string[] args)
+        protected override bool InternalCanProcess(string[] args)
         {
             return Commands.Contains(args[0]);
         }
 
-        public override Task InternalProcess(string[] args)
+        protected override Task InternalProcess(string[] args)
         {
-            Lifecyle.Exit = true;
+            Header("Quiting");
+            Quit = true;
             return Task.FromResult(true);
         }
+
+        public override HelpData HelpData => new HelpData
+        {
+            Command     = "quit or q",
+            Description = "Quit the application"
+        };
     }
 }

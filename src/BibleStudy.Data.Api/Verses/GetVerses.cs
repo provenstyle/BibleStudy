@@ -6,14 +6,14 @@
     {
         public GetVerses()
         {
-            VerseIds = new int[0];
+            Ids = new int[0];
         }
 
-        public GetVerses(params int[] verseIds)
+        public GetVerses(params int[] ids)
         {
-            VerseIds = verseIds;
+            Ids = ids;
         }
 
-        public int[] VerseIds      { get; set;}
+        public int[] Ids { get; set;}
     }
 }

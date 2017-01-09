@@ -1,13 +1,11 @@
-﻿using System.Threading.Tasks;
-using BibleStudy.Data.Api.Verses;
-
-namespace BibleStudy.Console.Commands
+﻿namespace BibleStudy.Console.Commands
 {
-    using Data.Api;
+    using System.Threading.Tasks;
+    using Data.Api.Verses;
     using Infrastructure;
     using MediatR;
 
-    public class CreateVerseCommand : BaseCommand
+    public class CreateVerseCommand : BaseCommand, IHelp
     {
         private readonly IMediator _mediator;
 
@@ -16,14 +14,14 @@ namespace BibleStudy.Console.Commands
             _mediator = mediator;
         }
 
-        public override bool InternalCanProcess(string[] args)
+        protected override bool InternalCanProcess(string[] args)
         {
             return args.Length >= 2 &&
                    args[0] == "create" &&
                    args[1] == "verse";
         }
 
-        public override async Task InternalProcess(string[] args)
+        protected override async Task InternalProcess(string[] args)
         {
             await _mediator.SendAsync(new CreateVerse(new VerseData
             {
@@ -37,5 +35,11 @@ namespace BibleStudy.Console.Commands
 
             System.Console.WriteLine("Created Verse");
         }
+
+        public override HelpData HelpData => new HelpData
+        {
+            Command     = "create verse",
+            Description = "Create a new verse"
+        };
     }
 }

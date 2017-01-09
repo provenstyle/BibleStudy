@@ -7,6 +7,7 @@
     using Castle.MicroKernel.Resolvers.SpecializedResolvers;
     using Castle.Windsor;
     using Castle.Windsor.Installer;
+    using Commands;
     using Data;
     using Data.Maps;
     using Highway.Data;
@@ -33,13 +34,15 @@
                 Component.For<IDomainContext<BibleStudyDomain>>().ImplementedBy<BibleStudyDomainContext>().DependsOn(new {connectionString}),
                 Component.For<BibleStudyDomain>(),
                 Component.For<IDomainRepository<BibleStudyDomain>>().ImplementedBy<DomainRepository<BibleStudyDomain>>(),
-                Component.For<Lifecyle>(),
-                Classes.FromThisAssembly().BasedOn<ICommand>().WithServiceBase()
+                Classes.FromThisAssembly()
+                    .BasedOn<ICommand>()
+                    .OrBasedOn(typeof(IHelp))
+                    .WithServiceBase()
             );
 
             var commands = container.ResolveAll<ICommand>();
-            var lifecycle = container.Resolve<Lifecyle>();
 
+            new Welcome().Process(string.Empty).Wait();
             do
             {
                 var line = Console.ReadLine();
@@ -62,7 +65,7 @@
                 {
                     Console.WriteLine($"Command not recognized: {line}");
                 }
-            } while (!lifecycle.Exit);
+            } while (!BaseCommand.Quit);
         }
     }
 }

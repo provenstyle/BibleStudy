@@ -5,10 +5,10 @@ namespace BibleStudy.Data.Api
     using System;
     using System.Linq;
     using System.Threading.Tasks;
-    using Commands;
     using Entities;
     using Highway.Data.Repositories;
     using MediatR;
+    using Queries;
 
     public class VerseAggregateHandler :
         IAsyncRequestHandler<CreateVerse, VerseData>,
@@ -40,7 +40,7 @@ namespace BibleStudy.Data.Api
 
         public async Task<VerseResult> Handle(GetVerses message)
         {
-            var verses = await _repository.FindAsync(new GetVersesById(message.VerseIds));
+            var verses = await _repository.FindAsync(new GetVersesById(message.Ids));
 
             return new VerseResult
             {

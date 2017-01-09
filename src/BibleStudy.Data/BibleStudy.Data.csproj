@@ -119,8 +119,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\BookAggregateHandler.cs" />
     <Compile Include="Api\VerseAggregateHandler.cs" />
-    <Compile Include="Commands\GetVersesById.cs" />
+    <Compile Include="Queries\GetBooksById.cs" />
+    <Compile Include="Queries\GetVersesById.cs" />
     <Compile Include="Domain.cs" />
     <Compile Include="Entities\Book.cs" />
     <Compile Include="Entities\Entity.cs" />

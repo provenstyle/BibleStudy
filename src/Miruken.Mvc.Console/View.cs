@@ -85,7 +85,7 @@
         protected View Header(string title)
         {
             Seperator();
-            WriteLine($" {title}");
+            WriteLine($"{title}");
             Seperator();
             return this;
         }

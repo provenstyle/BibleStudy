@@ -73,7 +73,12 @@
 
         protected View Seperator(char character = '-')
         {
-            WriteLine(new string(character, Console.WindowWidth));
+            return Seperator(Console.WindowWidth - 1, character);
+        }
+
+        protected View Seperator(int length, char character = '-')
+        {
+            WriteLine(new string(character, length));
             return this;
         }
 
@@ -82,7 +87,6 @@
             Seperator();
             WriteLine($" {title}");
             Seperator();
-            WriteLine();
             return this;
         }
 
@@ -104,7 +108,7 @@
         {
             Console.CursorTop = Console.CursorTop - 3;
             Console.CursorLeft = 0;
-            Console.WriteLine($"{line} is not recognized.".PadRight(Console.WindowWidth));
+            Console.WriteLine($"{line} is not recognized.".PadRight(Pad));
             ListenForLine();
         }
 
@@ -112,7 +116,7 @@
         {
             Console.CursorTop = Console.CursorTop - 3;
             Console.CursorLeft = 0;
-            Console.Write($"{key} is not expected.".PadRight(Console.WindowWidth));
+            Console.Write($"{key} is not expected.".PadRight(Pad));
             ListenForKey();
         }
 
@@ -120,16 +124,31 @@
         {
             var builder = new StringBuilder();
             builder.Append(" ");
-            var length = items.Length;
-            for (var i = 0; i < length; i++)
+            var itemsLength = items.Length;
+            for (var i = 0; i < itemsLength; i++)
             {
                 var item = items[i];
                 builder.Append($"{item.Text}({item.Key})");
-                if (i < length - 1)
+                if (i < itemsLength - 1)
                     builder.Append(" | ");
             }
-            WriteLine(builder.ToString());
+
+            var menu = builder.ToString();
+            var separatorLength = menu.Length + 1;
+            Seperator(separatorLength);
+            WriteLine(menu);
+            Seperator(separatorLength);
         }
+
+        protected View Block(string text )
+        {
+            WriteLine();
+            WriteLine(text);
+            WriteLine();
+            return this;
+        }
+
+        private int Pad => Console.WindowWidth - 1;
     }
 
     public abstract class View<C> : View

@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BibleStudy.Data.Migrations"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Miruken.Mvc.Console", "src\Miruken.Mvc.Console\Miruken.Mvc.Console.csproj", "{657AFCA9-9EB0-48FD-9648-FD9D96D1EF14}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleTestApp", "src\ConsoleTestApp\ConsoleTestApp.csproj", "{F3EC3486-5403-47B4-A5CA-E482AC51072D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{657AFCA9-9EB0-48FD-9648-FD9D96D1EF14}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{657AFCA9-9EB0-48FD-9648-FD9D96D1EF14}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{657AFCA9-9EB0-48FD-9648-FD9D96D1EF14}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3EC3486-5403-47B4-A5CA-E482AC51072D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3EC3486-5403-47B4-A5CA-E482AC51072D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3EC3486-5403-47B4-A5CA-E482AC51072D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3EC3486-5403-47B4-A5CA-E482AC51072D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

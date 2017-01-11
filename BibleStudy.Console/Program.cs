@@ -1,12 +1,8 @@
 ﻿namespace BibleStudy.Console
 {
-    using System;
     using System.Configuration;
-    using System.Linq;
     using Castle.Components.DictionaryAdapter;
     using Castle.MicroKernel.Registration;
-    using Castle.MicroKernel.Resolvers.SpecializedResolvers;
-    using Castle.Windsor;
     using Castle.Windsor.Installer;
     using Commands;
     using Data;
@@ -15,7 +11,12 @@
     using Highway.Data.Repositories;
     using Improving.MediatR;
     using Infrastructure;
+    using Miruken.Castle;
+    using Miruken.Context;
+    using Miruken.Mvc;
+    using Miruken.Mvc.Console;
     using ICommand = Infrastructure.ICommand;
+    using static Miruken.Protocol;
 
     internal class Program
     {
@@ -23,61 +24,78 @@
         {
             var connectionString = ConfigurationManager.ConnectionStrings["BibleStudy"].ConnectionString;
 
-            var container = new WindsorContainer();
-            container.Kernel.Resolver.AddSubResolver(new CollectionResolver(container.Kernel, true));
-            container.Install(
-                FromAssembly.This(),
-                new MediatRInstaller(Classes.FromAssemblyContaining<BibleStudyDomainContext>())
-            );
 
-            var daf = new DictionaryAdapterFactory();
-            container.Register(
-                Component.For<IMappingConfiguration>().ImplementedBy<MappingConfiguration>(),
-                Component.For<IDomainContext<BibleStudyDomain>>()
-                    .ImplementedBy<BibleStudyDomainContext>()
-                    .DependsOn(new {connectionString}),
-                Component.For<BibleStudyDomain>(),
-                Component.For<IDomainRepository<BibleStudyDomain>>()
-                    .ImplementedBy<DomainRepository<BibleStudyDomain>>(),
-                Classes.FromThisAssembly()
-                    .BasedOn<ICommand>()
-                    .OrBasedOn(typeof(IHelp))
-                    .WithServiceBase()
-                    .WithServiceSelf(),
-                 Types.FromThisAssembly()
-                     .Where(type => type.IsInterface && type.Name.EndsWith("Config"))
-                     .Configure(reg => reg.UsingFactoryMethod(
-                        (k, m, c) => daf.GetAdapter(m.Implementation, ConfigurationManager.AppSettings)))
-            );
-
-            container.Resolve<Welcome>()
-                .Handle(string.Empty).Wait();
-
-            var commands = container.ResolveAll<ICommand>();
-            do
+            var windsorHandler = new WindsorHandler(container =>
             {
-                var line = Console.ReadLine();
-                var handlers = commands.Where(x => x.CanHandle(line)).ToArray();
-                if (handlers.Any())
-                {
-                    foreach (var handler in handlers)
-                    {
-                        try
-                        {
-                            handler.Handle(line).Wait();
-                        }
-                        catch (Exception e)
-                        {
-                            Console.WriteLine(e);
-                        }
-                    }
-                }
-                else
-                {
-                    Console.WriteLine($"Command not recognized: {line}");
-                    Console.WriteLine();
-                }
-            } while (!BaseCommand.Quit);
+                container.Install(
+                    FromAssembly.This(),
+                    new MediatRInstaller(Classes.FromAssemblyContaining<BibleStudyDomainContext>()),
+                    new ConfigurationFactoryInstaller(Types.FromThisAssembly()),
+                    new ResolvingInstaller(Classes.FromThisAssembly())
+                );
+
+                var daf = new DictionaryAdapterFactory();
+                container.Register(
+                    Component.For<IMappingConfiguration>().ImplementedBy<MappingConfiguration>(),
+                    Component.For<IDomainContext<BibleStudyDomain>>()
+                        .ImplementedBy<BibleStudyDomainContext>()
+                        .DependsOn(new {connectionString}),
+                    Component.For<BibleStudyDomain>(),
+                    Component.For<IDomainRepository<BibleStudyDomain>>()
+                        .ImplementedBy<DomainRepository<BibleStudyDomain>>(),
+                    Classes.FromThisAssembly()
+                        .BasedOn<ICommand>()
+                        .OrBasedOn(typeof(IHelp))
+                        .WithServiceBase()
+                        .WithServiceSelf(),
+                     Types.FromThisAssembly()
+                         .Where(type => type.IsInterface && type.Name.EndsWith("Config"))
+                         .Configure(reg => reg.UsingFactoryMethod(
+                            (k, m, c) => daf.GetAdapter(m.Implementation, ConfigurationManager.AppSettings)))
+                );
+            });
+
+            var appContext = new Context();
+            appContext.AddHandlers(windsorHandler, new NavigateHandler(new ViewRegion()));
+
+            P<INavigate>(appContext).Next<WelcomeController>(x =>
+               {
+                   x.Test();
+                   return true;
+               });
+
+            while (BaseCommand.Quit != true)
+            {
+            }
+
+            //container.Resolve<Welcome>()
+            //    .Handle(string.Empty).Wait();
+
+            //ICommand[] commands = new ICommand[0];// = container.ResolveAll<ICommand>();
+            //do
+            //{
+            //    var line = Console.ReadLine();
+            //    var handlers = commands.Where(x => x.CanHandle(line)).ToArray();
+            //    if (handlers.Any())
+            //    {
+            //        foreach (var handler in handlers)
+            //        {
+            //            try
+            //            {
+            //                handler.Handle(line).Wait();
+            //            }
+            //            catch (Exception e)
+            //            {
+            //                Console.WriteLine(e);
+            //            }
+            //        }
+            //    }
+            //    else
+            //    {
+            //        Console.WriteLine($"Command not recognized: {line}");
+            //        Console.WriteLine();
+            //    }
+            //} while (!BaseCommand.Quit);
         }
     }
 }

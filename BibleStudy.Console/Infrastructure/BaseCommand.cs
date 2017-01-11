@@ -5,8 +5,9 @@
     using System.Threading.Tasks;
     using Data.Api.Books;
     using MediatR;
+    using Miruken.Mvc;
 
-    public abstract class BaseCommand : ICommand, IHelp
+    public abstract class BaseCommand : Controller, ICommand, IHelp
     {
         protected readonly IMediator Mediator;
         public const string Seperator = "--------------------------------------------------";

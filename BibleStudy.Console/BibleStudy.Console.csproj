@@ -139,11 +139,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\Clear.cs" />
+    <Compile Include="Features\Home\HomeView.cs" />
+    <Compile Include="Features\Home\OneController.cs" />
+    <Compile Include="Features\Home\OneView.cs" />
+    <Compile Include="Features\Home\ThreeController.cs" />
+    <Compile Include="Features\Home\ThreeView.cs" />
+    <Compile Include="Features\Home\TwoController.cs" />
+    <Compile Include="Features\Home\TwoView.cs" />
+    <Compile Include="Infrastructure\BaseController.cs" />
     <Compile Include="Infrastructure\ColumnLayout.cs" />
     <Compile Include="Commands\GetBooks.cs" />
     <Compile Include="Commands\GetVerse.cs" />
     <Compile Include="Commands\CreateVerse.cs" />
-    <Compile Include="Commands\WelcomeController.cs" />
+    <Compile Include="Features\Home\HomeController.cs" />
     <Compile Include="Commands\Help.cs" />
     <Compile Include="Infrastructure\BaseCommand.cs" />
     <Compile Include="Infrastructure\ICommand.cs" />

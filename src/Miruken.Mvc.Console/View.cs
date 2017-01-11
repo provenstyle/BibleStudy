@@ -3,11 +3,12 @@
     using System;
     using System.Text;
     using System.Threading.Tasks;
-    using System.Windows.Input;
     using Views;
 
     public abstract class View : IView
     {
+        private StringBuilder Builder { get; }
+
         protected View()
         {
             Builder = new StringBuilder();
@@ -40,7 +41,10 @@
 
         #endregion
 
-        public bool Active { get; set; }
+        public override string ToString()
+        {
+            return Builder.ToString();
+        }
 
         public void ListenForLine()
         {
@@ -67,21 +71,17 @@
             });
         }
 
-
-        protected const string Seperator = "--------------------------------------------------";
-
-        private StringBuilder Builder { get; }
-
-        public override string ToString()
+        protected View Seperator(char character = '-')
         {
-            return Builder.ToString();
+            WriteLine(new string(character, Console.WindowWidth));
+            return this;
         }
 
         protected View Header(string title)
         {
-            WriteLine(Seperator);
-            WriteLine(title);
-            WriteLine(Seperator);
+            Seperator();
+            WriteLine($" {title}");
+            Seperator();
             WriteLine();
             return this;
         }
@@ -102,14 +102,33 @@
 
         protected void Unrecognized(string line)
         {
-            WriteLine($"{line} is not recognized.");
+            Console.CursorTop = Console.CursorTop - 3;
+            Console.CursorLeft = 0;
+            Console.WriteLine($"{line} is not recognized.".PadRight(Console.WindowWidth));
             ListenForLine();
         }
 
         protected void Unrecognized(ConsoleKey key)
         {
-            WriteLine($"{key} is not expected.");
+            Console.CursorTop = Console.CursorTop - 3;
+            Console.CursorLeft = 0;
+            Console.Write($"{key} is not expected.".PadRight(Console.WindowWidth));
             ListenForKey();
+        }
+
+        protected void Menu(params MenuItem[] items)
+        {
+            var builder = new StringBuilder();
+            builder.Append(" ");
+            var length = items.Length;
+            for (var i = 0; i < length; i++)
+            {
+                var item = items[i];
+                builder.Append($"{item.Text}({item.Key})");
+                if (i < length - 1)
+                    builder.Append(" | ");
+            }
+            WriteLine(builder.ToString());
         }
     }
 
@@ -117,5 +136,16 @@
         where C : class, IController
     {
         public C Controller => (C) ViewModel;
+    }
+
+    public class MenuItem
+    {
+        public MenuItem(string text, ConsoleKey key)
+        {
+            Text = text;
+            Key  = key;
+        }
+        public string     Text { get; set; }
+        public ConsoleKey Key  { get; set; }
     }
 }

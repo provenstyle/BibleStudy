@@ -4,9 +4,9 @@
     using Castle.Components.DictionaryAdapter;
     using Castle.MicroKernel.Registration;
     using Castle.Windsor.Installer;
-    using Commands;
     using Data;
     using Data.Maps;
+    using Features.Home;
     using Highway.Data;
     using Highway.Data.Repositories;
     using Improving.MediatR;
@@ -14,8 +14,8 @@
     using Miruken.Castle;
     using Miruken.Context;
     using Miruken.Mvc;
+    using Miruken.Mvc.Castle;
     using Miruken.Mvc.Console;
-    using ICommand = Infrastructure.ICommand;
     using static Miruken.Protocol;
 
     internal class Program
@@ -24,11 +24,11 @@
         {
             var connectionString = ConfigurationManager.ConnectionStrings["BibleStudy"].ConnectionString;
 
-
             var windsorHandler = new WindsorHandler(container =>
             {
                 container.Install(
                     FromAssembly.This(),
+                    new MvcInstaller(Classes.FromThisAssembly()),
                     new MediatRInstaller(Classes.FromAssemblyContaining<BibleStudyDomainContext>()),
                     new ConfigurationFactoryInstaller(Types.FromThisAssembly()),
                     new ResolvingInstaller(Classes.FromThisAssembly())
@@ -43,11 +43,6 @@
                     Component.For<BibleStudyDomain>(),
                     Component.For<IDomainRepository<BibleStudyDomain>>()
                         .ImplementedBy<DomainRepository<BibleStudyDomain>>(),
-                    Classes.FromThisAssembly()
-                        .BasedOn<ICommand>()
-                        .OrBasedOn(typeof(IHelp))
-                        .WithServiceBase()
-                        .WithServiceSelf(),
                      Types.FromThisAssembly()
                          .Where(type => type.IsInterface && type.Name.EndsWith("Config"))
                          .Configure(reg => reg.UsingFactoryMethod(
@@ -58,44 +53,15 @@
             var appContext = new Context();
             appContext.AddHandlers(windsorHandler, new NavigateHandler(new ViewRegion()));
 
-            P<INavigate>(appContext).Next<WelcomeController>(x =>
-               {
-                   x.Test();
-                   return true;
-               });
+            P<INavigate>(appContext).Next<OneController>(x =>
+            {
+                x.ShowViewOne();
+                return true;
+            });
 
             while (BaseCommand.Quit != true)
             {
             }
-
-            //container.Resolve<Welcome>()
-            //    .Handle(string.Empty).Wait();
-
-            //ICommand[] commands = new ICommand[0];// = container.ResolveAll<ICommand>();
-            //do
-            //{
-            //    var line = Console.ReadLine();
-            //    var handlers = commands.Where(x => x.CanHandle(line)).ToArray();
-            //    if (handlers.Any())
-            //    {
-            //        foreach (var handler in handlers)
-            //        {
-            //            try
-            //            {
-            //                handler.Handle(line).Wait();
-            //            }
-            //            catch (Exception e)
-            //            {
-            //                Console.WriteLine(e);
-            //            }
-            //        }
-            //    }
-            //    else
-            //    {
-            //        Console.WriteLine($"Command not recognized: {line}");
-            //        Console.WriteLine();
-            //    }
-            //} while (!BaseCommand.Quit);
         }
     }
 }

@@ -158,14 +158,12 @@
             Console.SetWindowPosition(0,0);
             element.Loaded();
             element.Activate();
-            element.Active = true;
         }
         private void RemoveElement(View element)
         {
             if (Children.Contains(element))
                 Children.Remove(element);
 
-            element.Active = false;
             Console.Clear();
             Console.SetCursorPosition(0,0);
             Console.SetWindowPosition(0,0);
@@ -173,8 +171,7 @@
             var activeElement = ActiveElement;
             if (activeElement == null) return;
 
-            activeElement.Active = true;
-            Console.WriteLine(activeElement);
+            Console.Write(activeElement);
             activeElement.Activate();
         }
 

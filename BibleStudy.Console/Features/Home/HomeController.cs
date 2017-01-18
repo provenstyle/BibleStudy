@@ -1,35 +1,31 @@
 ﻿namespace BibleStudy.Console.Features.Home
 {
-    using System.Diagnostics;
-    using System.Reflection;
-    using Miruken.Mvc;
+    using System.Threading.Tasks;
+    using About;
+    using Books;
+    using Infrastructure;
+    using Verses;
 
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
-        public string Version { get; set; } = "Unknown";
-
-        public HomeController()
-        {
-            var location = Assembly.GetExecutingAssembly().Location;
-            if (location != null )
-            {
-                Version = FileVersionInfo.GetVersionInfo(location).FileVersion;
-            }
-        }
-
-        public void ShowHomeView()
+        public void ShowHome()
         {
             Show<HomeView>();
         }
 
-        public void ShowViewOne()
+        public void GoToVerses()
         {
-            Show<OneView>();
+            Push<VersesController>().ShowVerses();
         }
 
-        public void GoToViewTwo()
+        public async Task GoToBooks()
         {
-            Push<TwoController>().ShowTwo();
+            await Push<ListBooksController>().ShowBooks();
+        }
+
+        public void GoToAbout()
+        {
+            Push<AboutController>().ShowAbout();
         }
     }
 }

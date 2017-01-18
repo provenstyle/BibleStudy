@@ -138,28 +138,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Commands\Clear.cs" />
+    <Compile Include="Features\About\AboutController.cs" />
+    <Compile Include="Features\About\AboutView.cs" />
+    <Compile Include="Features\Books\ListBooksView.cs" />
+    <Compile Include="Features\Home\HomeController.cs" />
     <Compile Include="Features\Home\HomeView.cs" />
-    <Compile Include="Features\Home\OneController.cs" />
-    <Compile Include="Features\Home\OneView.cs" />
-    <Compile Include="Features\Home\ThreeController.cs" />
-    <Compile Include="Features\Home\ThreeView.cs" />
-    <Compile Include="Features\Home\TwoController.cs" />
-    <Compile Include="Features\Home\TwoView.cs" />
+    <Compile Include="Features\Verses\VersesController.cs" />
+    <Compile Include="Features\Verses\VersesView.cs" />
     <Compile Include="Infrastructure\BaseController.cs" />
     <Compile Include="Infrastructure\ColumnLayout.cs" />
-    <Compile Include="Commands\GetBooks.cs" />
-    <Compile Include="Commands\GetVerse.cs" />
-    <Compile Include="Commands\CreateVerse.cs" />
-    <Compile Include="Features\Home\HomeController.cs" />
-    <Compile Include="Commands\Help.cs" />
+    <Compile Include="Features\Books\ListBooksController .cs" />
+    <Compile Include="Features\Verses\GetVerse.cs" />
+    <Compile Include="Features\Verses\CreateVerse.cs" />
     <Compile Include="Infrastructure\BaseCommand.cs" />
     <Compile Include="Infrastructure\ICommand.cs" />
     <Compile Include="Infrastructure\IConfig.cs" />
     <Compile Include="Infrastructure\IHelp.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Commands\Quit.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -179,6 +175,7 @@
       <Name>Miruken.Mvc.Console</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

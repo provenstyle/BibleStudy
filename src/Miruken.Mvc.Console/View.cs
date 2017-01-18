@@ -1,6 +1,7 @@
 ﻿namespace Miruken.Mvc.Console
 {
     using System;
+    using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
     using Views;
@@ -19,8 +20,6 @@
         public    abstract void Activate();
 
         protected abstract void LineIn(string line);
-
-        protected abstract void KeyIn(ConsoleKey key);
 
         #region IView
 
@@ -58,7 +57,7 @@
             });
         }
 
-        public void ListenForKey()
+        public void ListenForMenu(Menu menu)
         {
             Task.Factory.StartNew(() =>
             {
@@ -67,7 +66,17 @@
                 var key = Console.ReadKey().Key;
                 Console.WriteLine();
                 Console.WriteLine();
-                KeyIn(key);
+
+                var item = menu.Items.FirstOrDefault(x => x.Key == key);
+                if(item != null)
+                   item.Action.Invoke();
+                else
+                {
+                    Console.CursorTop = Console.CursorTop - 3;
+                    Console.CursorLeft = 0;
+                    Console.Write($"{key} is not expected.".PadRight(Pad));
+                    ListenForMenu(menu);
+                }
             });
         }
 
@@ -82,7 +91,7 @@
             return this;
         }
 
-        protected View Header(string title)
+        public View Header(string title)
         {
             Seperator();
             WriteLine($"{title}");
@@ -97,7 +106,7 @@
             return this;
         }
 
-        protected View WriteLine(string text = "")
+        public View WriteLine(string text = "")
         {
             Builder.AppendLine(text);
             Console.WriteLine(text);
@@ -114,31 +123,8 @@
 
         protected void Unrecognized(ConsoleKey key)
         {
-            Console.CursorTop = Console.CursorTop - 3;
-            Console.CursorLeft = 0;
-            Console.Write($"{key} is not expected.".PadRight(Pad));
-            ListenForKey();
         }
 
-        protected void Menu(params MenuItem[] items)
-        {
-            var builder = new StringBuilder();
-            builder.Append(" ");
-            var itemsLength = items.Length;
-            for (var i = 0; i < itemsLength; i++)
-            {
-                var item = items[i];
-                builder.Append($"{item.Text}({item.Key})");
-                if (i < itemsLength - 1)
-                    builder.Append(" | ");
-            }
-
-            var menu = builder.ToString();
-            var separatorLength = menu.Length + 1;
-            Seperator(separatorLength);
-            WriteLine(menu);
-            Seperator(separatorLength);
-        }
 
         protected View Block(string text )
         {
@@ -157,14 +143,53 @@
         public C Controller => (C) ViewModel;
     }
 
+    public class Menu
+    {
+        private readonly string    _menu;
+
+        public MenuItem[] Items { get; }
+
+        public Menu(params MenuItem[] items)
+        {
+            Items = items;
+            var _builder = new StringBuilder();
+            _builder.Append(" ");
+            var itemsLength = Items.Length;
+            for (var i = 0; i < itemsLength; i++)
+            {
+                var item = Items[i];
+                _builder.Append($"{item.Text}({item.Key})");
+                if (i < itemsLength - 1)
+                    _builder.Append(" | ");
+            }
+
+            var menu = _builder.ToString();
+            var separatorLength = menu.Length + 1;
+            var separator = new string('-', separatorLength);
+            _menu = new StringBuilder()
+                .AppendLine(separator)
+                .AppendLine(menu)
+                .Append(separator)
+                .ToString();
+        }
+
+        public override string ToString()
+        {
+            return _menu;
+        }
+    }
+
     public class MenuItem
     {
-        public MenuItem(string text, ConsoleKey key)
+        public MenuItem(string text, ConsoleKey key, Action action)
         {
-            Text = text;
-            Key  = key;
+            Text   = text;
+            Key    = key;
+            Action = action;
         }
-        public string     Text { get; set; }
-        public ConsoleKey Key  { get; set; }
+
+        public string     Text   { get; set; }
+        public ConsoleKey Key    { get; set; }
+        public Action     Action { get; set; }
     }
 }

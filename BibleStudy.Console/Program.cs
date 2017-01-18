@@ -10,7 +10,6 @@
     using Highway.Data;
     using Highway.Data.Repositories;
     using Improving.MediatR;
-    using Infrastructure;
     using Miruken.Castle;
     using Miruken.Context;
     using Miruken.Mvc;
@@ -20,6 +19,13 @@
 
     internal class Program
     {
+        private static bool Run = true;
+
+        internal static void Quit()
+        {
+            Run = false;
+        }
+
         private static void Main(string[] args)
         {
             var connectionString = ConfigurationManager.ConnectionStrings["BibleStudy"].ConnectionString;
@@ -53,15 +59,15 @@
             var appContext = new Context();
             appContext.AddHandlers(windsorHandler, new NavigateHandler(new ViewRegion()));
 
-            P<INavigate>(appContext).Next<OneController>(x =>
+            P<INavigate>(appContext).Next<HomeController>(x =>
             {
-                x.ShowViewOne();
+                x.ShowHome();
                 return true;
             });
 
-            while (BaseCommand.Quit != true)
+            do
             {
-            }
+            } while (Run);
         }
     }
 }

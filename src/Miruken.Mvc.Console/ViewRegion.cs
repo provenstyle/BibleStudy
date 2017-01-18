@@ -17,14 +17,14 @@
 
         public ViewRegion()
         {
-            Layers = new List<ElementLayer>();
+            Layers = new List<ViewLayer>();
             Children = new List<View>();
             Policy.OnRelease(UnwindLayers);
         }
 
-        private List<ElementLayer> Layers { get; }
+        private List<ViewLayer> Layers { get; }
 
-        private View ActiveElement
+        private View ActiveView
         {
             get
             {
@@ -52,7 +52,7 @@
 
             var          push    = false;
             var          overlay = false;
-            ElementLayer layer   = null;
+            ViewLayer layer   = null;
 
             var layerOptions = options?.Layer;
 
@@ -72,7 +72,7 @@
                     push = true;
                 }
                 else
-                    layer = (ElementLayer) layerOptions.Choose(
+                    layer = (ViewLayer) layerOptions.Choose(
                         Layers.Cast<IViewLayer>().ToArray());
             }
 
@@ -90,7 +90,7 @@
 
         #region Layer Methods
 
-        private ElementLayer ActiveLayer =>
+        private ViewLayer ActiveLayer =>
             Layers.Count > 0 ? Layers[Layers.Count - 1]  : null;
 
         public IDisposable PushLayer()
@@ -111,7 +111,7 @@
             _unwinding = false;
         }
 
-        private ElementLayer DropLayer(ElementLayer layer)
+        private ViewLayer DropLayer(ViewLayer layer)
         {
             var index = Layers.IndexOf(layer);
             if (index <= 0) return null;
@@ -119,20 +119,20 @@
             return Layers[index - 1];
         }
 
-        private void RemoveLayer(ElementLayer layer)
+        private void RemoveLayer(ViewLayer layer)
         {
             Layers.Remove(layer);
             layer.TransitionFrom();
         }
 
-        private ElementLayer CreateLayer(bool overlay)
+        private ViewLayer CreateLayer(bool overlay)
         {
-            var layer = new ElementLayer(this, overlay);
+            var layer = new ViewLayer(this, overlay);
             Layers.Add(layer);
             return layer;
         }
 
-        private int GetLayerIndex(ElementLayer layer)
+        private int GetLayerIndex(ViewLayer layer)
         {
             return Layers.IndexOf(layer);
         }
@@ -141,38 +141,38 @@
 
         #region Helper Methods
 
-        private void AddElement(
-            View fromElement, View element, RegionOptions options)
+        private void AddView(
+            View fromView, View view, RegionOptions options)
         {
-            if (_unwinding || Children.Contains(element)) return;
+            if (_unwinding || Children.Contains(view)) return;
 
-            var fromIndex = Children.IndexOf(fromElement);
+            var fromIndex = Children.IndexOf(fromView);
 
             if (fromIndex >= 0)
-                Children.Insert(fromIndex + 1, element);
+                Children.Insert(fromIndex + 1, view);
             else
-                Children.Add(element);
+                Children.Add(view);
 
             Console.Clear();
             Console.SetCursorPosition(0,0);
             Console.SetWindowPosition(0,0);
-            element.Loaded();
-            element.Activate();
+            view.Loaded();
+            view.Activate();
         }
-        private void RemoveElement(View element)
+        private void RemoveView(View view)
         {
-            if (Children.Contains(element))
-                Children.Remove(element);
+            if (Children.Contains(view))
+                Children.Remove(view);
 
             Console.Clear();
             Console.SetCursorPosition(0,0);
             Console.SetWindowPosition(0,0);
 
-            var activeElement = ActiveElement;
-            if (activeElement == null) return;
+            var activeView = ActiveView;
+            if (activeView == null) return;
 
-            Console.Write(activeElement);
-            activeElement.Activate();
+            Console.Write(activeView);
+            activeView.Activate();
         }
 
         private static RegionOptions GetRegionOptions(IHandler composer)
@@ -184,15 +184,15 @@
 
         #endregion
 
-        #region ElementLayer
+        #region ViewLayer
 
-        public class ElementLayer : IViewLayer
+        public class ViewLayer : IViewLayer
         {
             private readonly bool _overlay;
             private View _element;
             protected bool _disposed;
 
-            public ElementLayer(ViewRegion region, bool overlay)
+            public ViewLayer(ViewRegion region, bool overlay)
             {
                 _overlay = overlay;
                 Events   = new EventHandlerList();
@@ -259,15 +259,15 @@
                     if (layer != null)
                     {
                         var actual = layer.TransitionTo(element, options);
-                        Region.RemoveElement(oldElement);
+                        Region.RemoveView(oldElement);
                         return actual;
                     }
                 }
 
-                Region.AddElement(Element, element, options);
+                Region.AddView(Element, element, options);
                 Element = element;
                 if (oldElement != null)
-                    Region.RemoveElement(oldElement);
+                    Region.RemoveView(oldElement);
 
                 Events.Raise(this, TransitionedEvent);
                 return this;
@@ -276,8 +276,8 @@
             public void TransitionFrom()
             {
                 var oldElement = Element;
-                if ((oldElement != null) && !ReferenceEquals(oldElement, Region.ActiveElement))
-                    Region.RemoveElement(oldElement);
+                if ((oldElement != null) && !ReferenceEquals(oldElement, Region.ActiveView))
+                    Region.RemoveView(oldElement);
                 Element = null;
             }
 
@@ -343,7 +343,7 @@
                 }
             }
 
-            ~ElementLayer()
+            ~ViewLayer()
             {
                 Dispose(false);
             }

@@ -29,7 +29,7 @@
             return this;
         }
 
-        public virtual char[][] Render(int width, int height)
+        public virtual Cells Render(int width, int height)
         {
             return new RenderOutputBuffer().Handle(this, width, height);
         }

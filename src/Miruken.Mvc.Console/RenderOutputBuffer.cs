@@ -1,25 +1,20 @@
 ﻿namespace Miruken.Mvc.Console
 {
-    using Miruken.Mvc.Console;
-
-    public class RenderOutputBuffer
+    public class RenderOutputBuffer: Render
     {
         private const int    tabSpaces = 8;
         private OutputBuffer _outputBuffer;
-        private int          _width;
-        private int          _height;
-        private char[][]     _cells;
         private int          _x;
         private int          _y;
 
-        public char[][] Handle(OutputBuffer outputBuffer, int width, int height)
+        public Cells Handle(OutputBuffer outputBuffer, int width, int height)
         {
             _outputBuffer = outputBuffer;
             _width        = width;
             _height       = height;
             _x            = 0;
             _y            = 0;
-            _cells        = Cells.Create(_height, _width);
+            _cells        = new Cells(_height, _width);
 
             foreach (var item in _outputBuffer.Outputs)
             {

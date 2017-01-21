@@ -1,20 +1,15 @@
 ﻿namespace Miruken.Mvc.Console
 {
-    using Miruken.Mvc.Console;
-
-    public class RenderElement
+    public class RenderElement: Render
     {
-        private char[][] _cells;
-        private Element  _element;
-        private int      _width;
-        private int      _height;
+        private Control  _control;
 
-        public char[][] Handle(int width, int height, Element element, char[][] output)
+        public Cells Handle(int width, int height, Control control, Cells output)
         {
             _width   = width;
             _height  = height;
-            _element = element;
-            _cells   = Cells.Create(_width, _height);
+            _control = control;
+            _cells   = new Cells(_width, _height);
 
             RenderOutput(output);
 
@@ -32,16 +27,16 @@
             return _height >= 3 && _width >= 3;
         }
 
-        private void RenderOutput(char[][] output)
+        private void RenderOutput(Cells output)
         {
             int _contentXStart, _contentYStart, _contentWidth, _contentHeight;
 
             if (CanRenderBorderAndPadding())
             {
-                _contentXStart = _element.BorderLeft + _element.PadLeft;
-                _contentYStart = _element.BorderTop  + _element.PadTop;
-                _contentWidth  = _width  - _element.BorderLeft - _element.PadLeft - _element.PadRight  - _element.BorderRight;
-                _contentHeight = _height - _element.BorderTop  - _element.PadTop  - _element.PadBottom - _element.BorderBottom;
+                _contentXStart = _control.BorderLeft + _control.PadLeft;
+                _contentYStart = _control.BorderTop  + _control.PadTop;
+                _contentWidth  = _width  - _control.BorderLeft - _control.PadLeft - _control.PadRight  - _control.BorderRight;
+                _contentHeight = _height - _control.BorderTop  - _control.PadTop  - _control.PadBottom - _control.BorderBottom;
             }
             else
             {
@@ -66,40 +61,40 @@
 
         private void RenderPaddingLeft()
         {
-            var xStart = _element.BorderLeft;
-            var yStart = _element.BorderTop;
-            var height = _height - _element.BorderTop - _element.BorderBottom;
-            for (var i = 0; i < _element.PadLeft; i++)
+            var xStart = _control.BorderLeft;
+            var yStart = _control.BorderTop;
+            var height = _height - _control.BorderTop - _control.BorderBottom;
+            for (var i = 0; i < _control.PadLeft; i++)
                 for (var y = yStart; y < height; y++)
                     _cells[y][xStart + i] = Cells.SpaceChar;
         }
 
         private void RenderPaddingRight()
         {
-            var xStart = _width - 1 - _element.BorderRight;
-            var yStart = _element.BorderTop;
-            var height = _height - _element.BorderTop - _element.BorderBottom;
-            for (var i = 0; i < _element.PadRight; i++)
+            var xStart = _width - 1 - _control.BorderRight;
+            var yStart = _control.BorderTop;
+            var height = _height - _control.BorderTop - _control.BorderBottom;
+            for (var i = 0; i < _control.PadRight; i++)
                 for (var y = yStart; y < height; y++)
                     _cells[y][xStart - i] = Cells.SpaceChar;
         }
 
         private void RenderPaddingTop()
         {
-            var xStart = _element.BorderLeft;
-            var yStart = _element.BorderTop;
-            var width  = _width - _element.BorderLeft - _element.BorderRight;
-            for (var i = 0; i < _element.PadTop; i++)
+            var xStart = _control.BorderLeft;
+            var yStart = _control.BorderTop;
+            var width  = _width - _control.BorderLeft - _control.BorderRight;
+            for (var i = 0; i < _control.PadTop; i++)
                 for (var x = xStart; x < width; x++)
                     _cells[yStart + i][x] = Cells.SpaceChar;
         }
 
         private void RenderPaddingBottom()
         {
-            var xStart = _element.BorderLeft;
-            var yStart = _height - 1 - _element.BorderBottom;
-            var width  = _width - _element.BorderLeft - _element.BorderRight;
-            for (var i = 0; i < _element.PadBottom; i++)
+            var xStart = _control.BorderLeft;
+            var yStart = _height - 1 - _control.BorderBottom;
+            var width  = _width - _control.BorderLeft - _control.BorderRight;
+            for (var i = 0; i < _control.PadBottom; i++)
                 for (var x = xStart; x < width; x++)
                     _cells[yStart - i][x] = Cells.SpaceChar;
         }
@@ -114,28 +109,28 @@
 
         private void RenderBorderLeft()
         {
-            for (var i = 0; i < _element.BorderLeft; i++)
+            for (var i = 0; i < _control.BorderLeft; i++)
                 for (var y = 0; y < _height; y++)
                     _cells[y][i] =  '|';
         }
 
         private void RenderBorderRight()
         {
-            for (var i = 0; i < _element.BorderRight; i++)
+            for (var i = 0; i < _control.BorderRight; i++)
                 for (var y = 0; y < _height; y++)
                     _cells[y][_width - 1 - i] = '|';
         }
 
         private void RenderBorderTop()
         {
-            for (var i = 0; i < _element.BorderTop; i++)
+            for (var i = 0; i < _control.BorderTop; i++)
                 for (var x = 0; x < _width; x++)
                     _cells[i][x] = '-';
         }
 
         private void RenderBorderBottom()
         {
-            for (var i = 0; i < _element.BorderBottom; i++)
+            for (var i = 0; i < _control.BorderBottom; i++)
                 for (var x = 0; x < _width; x++)
                     _cells[_height - 1 -i][x] = '-';
         }

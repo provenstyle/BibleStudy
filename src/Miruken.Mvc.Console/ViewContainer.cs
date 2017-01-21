@@ -4,7 +4,7 @@
     using Callback;
     using Views;
 
-    public abstract class ViewContainer : IViewRegion, IView
+    public abstract class ViewContainer : Panel, IViewRegion, IView
     {
         private ViewPolicy _policy;
 

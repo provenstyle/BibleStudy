@@ -74,12 +74,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cells.cs" />
-    <Compile Include="Element.cs" />
+    <Compile Include="Control.cs" />
+    <Compile Include="FrameworkElement.cs" />
+    <Compile Include="HorizontalAlignment.cs" />
     <Compile Include="Output.cs" />
     <Compile Include="OutputBuffer.cs" />
     <Compile Include="OutputType.cs" />
+    <Compile Include="Panel.cs" />
+    <Compile Include="Point.cs" />
+    <Compile Include="Rectangle.cs" />
+    <Compile Include="Render.cs" />
     <Compile Include="RenderElement.cs" />
     <Compile Include="RenderOutputBuffer.cs" />
+    <Compile Include="Size.cs" />
+    <Compile Include="Thickness.cs" />
+    <Compile Include="Vector.cs" />
+    <Compile Include="VerticalAlignment.cs" />
     <Compile Include="ViewContainer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="View.cs" />

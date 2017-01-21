@@ -1,6 +1,6 @@
 ﻿namespace Miruken.Mvc.Console
 {
-    public class Element: OutputBuffer
+    public class Control: FrameworkElement
     {
         public OutputBuffer OutputBuffer { get; set; }
 
@@ -14,17 +14,17 @@
         public int BorderRight  { get; set; }
         public int BorderBottom { get; set; }
 
-        public Element Border(int border)
+        public Control Border(int border)
         {
             return Border(border, border);
         }
 
-        public Element Border(int LeftRight, int TopBottom )
+        public Control Border(int LeftRight, int TopBottom )
         {
             return Border(LeftRight, TopBottom, LeftRight, TopBottom);
         }
 
-        public Element Border(int Left, int Top, int Right, int Bottom )
+        public Control Border(int Left, int Top, int Right, int Bottom )
         {
             BorderLeft   = Left;
             BorderTop    = Top;
@@ -33,17 +33,17 @@
             return this;
         }
 
-        public Element Padding(int padding)
+        public Control Padding(int padding)
         {
             return Padding(padding, padding);
         }
 
-        public Element Padding(int LeftRight, int TopBottom )
+        public Control Padding(int LeftRight, int TopBottom )
         {
             return Padding(LeftRight, TopBottom, LeftRight, TopBottom);
         }
 
-        public Element Padding(int Left, int Top, int Right, int Bottom )
+        public Control Padding(int Left, int Top, int Right, int Bottom )
         {
             PadLeft   = Left;
             PadTop    = Top;
@@ -52,7 +52,7 @@
             return this;
         }
 
-        public override char[][] Render(int width, int height)
+        public override Cells Render(int width, int height)
         {
             var output = base.Render(width, height);
             return new RenderElement().Handle(width, height, this, output);

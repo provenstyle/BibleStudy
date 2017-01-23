@@ -10,13 +10,14 @@
         private int          _yStart;
         private int          _xEnd;
         private int          _yEnd;
-        private int          _contentWidth;
-        private int          _contentHeight;
 
         public Cells Handle(OutputBuffer outputBuffer, Cells cells)
         {
             _outputBuffer = outputBuffer;
             _cells        = cells;
+
+            int _contentWidth;
+            int _contentHeight;
 
             if (_outputBuffer.CanRenderBorderAndPadding())
             {
@@ -68,7 +69,7 @@
                         NextLine();
                         break;
                     case '\r':
-                        _x = 0;
+                        _x = _xStart;
                         break;
                     case '\t':
                         Tab();
@@ -78,7 +79,7 @@
                         _x++;
                         break;
                 }
-                if (_x >= _xEnd || _y > _yEnd )
+                if (_x >= _xEnd || _y >= _yEnd )
                     break;
             }
             NextLine();
@@ -88,7 +89,7 @@
         {
             foreach (var t in output.Text)
             {
-                if (_y >= _contentHeight)
+                if (_y >= _yEnd)
                     break;
 
                 switch (t)
@@ -97,7 +98,7 @@
                         NextLine();
                         break;
                     case '\r':
-                        _x = 0;
+                        _x = _xStart;
                         break;
                     case '\t':
                         Tab();
@@ -108,7 +109,7 @@
                         break;
                 }
 
-                if (_x >= _contentWidth)
+                if (_x >= _xEnd)
                     NextLine();
             }
         }
@@ -122,9 +123,9 @@
         private void Tab()
         {
             var nextTab = tabSpaces - (_x % tabSpaces);
-            if (_x + nextTab > _contentWidth)
+            if (_x + nextTab > _xEnd)
             {
-                _x = 0;
+                _x = _xStart;
                 _y++;
             }
             else

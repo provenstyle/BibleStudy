@@ -69,6 +69,11 @@
             Assert.AreEqual('|', cells[1][0]);
             Assert.AreEqual('|', cells[2][0]);
 
+            //MiddleColumn
+            Assert.AreEqual(alphaCharacter, cells[0][1]);
+            Assert.AreEqual(alphaCharacter, cells[1][1]);
+            Assert.AreEqual(alphaCharacter, cells[2][1]);
+
             //RightColumn
             Assert.AreEqual(alphaCharacter, cells[0][2]);
             Assert.AreEqual(alphaCharacter, cells[1][2]);
@@ -193,9 +198,14 @@
             Assert.AreEqual(spaceCharacter, cells[0][0]);
             Assert.AreEqual(spaceCharacter, cells[1][0]);
             Assert.AreEqual(spaceCharacter, cells[2][0]);
+
             Assert.AreEqual(alphaCharacter, cells[0][1]);
             Assert.AreEqual(alphaCharacter, cells[1][1]);
             Assert.AreEqual(alphaCharacter, cells[2][1]);
+
+            Assert.AreEqual(alphaCharacter, cells[0][2]);
+            Assert.AreEqual(alphaCharacter, cells[1][2]);
+            Assert.AreEqual(alphaCharacter, cells[2][2]);
         }
 
         [TestMethod]

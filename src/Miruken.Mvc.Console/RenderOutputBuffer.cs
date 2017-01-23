@@ -6,6 +6,10 @@
         private OutputBuffer _outputBuffer;
         private int          _x;
         private int          _y;
+        private int          _xStart;
+        private int          _yStart;
+        private int          _xEnd;
+        private int          _yEnd;
         private int          _contentWidth;
         private int          _contentHeight;
 
@@ -16,18 +20,23 @@
 
             if (_outputBuffer.CanRenderBorderAndPadding())
             {
-                _x = _outputBuffer.BorderLeft + _outputBuffer.PadLeft;
-                _y = _outputBuffer.BorderTop + _outputBuffer.PadTop;
+                _xStart        = _outputBuffer.BorderLeft + _outputBuffer.PadLeft;
+                _yStart        = _outputBuffer.BorderTop + _outputBuffer.PadTop;
                 _contentWidth  = _outputBuffer.Rendered.Width - _outputBuffer.BorderLeft - _outputBuffer.PadLeft - _outputBuffer.PadRight - _outputBuffer.BorderRight;
                 _contentHeight = _outputBuffer.Rendered.Height - _outputBuffer.BorderTop - _outputBuffer.PadTop - _outputBuffer.PadBottom - _outputBuffer.BorderBottom;
             }
             else
             {
-                _x = 0;
-                _y = 0;
+                _xStart        = 0;
+                _yStart        = 0;
                 _contentWidth  = _outputBuffer.Rendered.Width;
                 _contentHeight = _outputBuffer.Rendered.Height;
             }
+
+            _x    = _xStart;
+            _y    = _yStart;
+            _xEnd = _xStart + _contentWidth;
+            _yEnd = _yStart + _contentHeight;
 
             foreach (var item in _outputBuffer.Outputs)
             {
@@ -43,7 +52,7 @@
                         WriteLine(item);
                         break;
                 }
-                if (_y >= _contentWidth)
+                if (_y >= _yEnd)
                     break;
             }
             return _cells;
@@ -69,7 +78,7 @@
                         _x++;
                         break;
                 }
-                if (_x >= _contentWidth || _y >= _contentHeight)
+                if (_x >= _xEnd || _y > _yEnd )
                     break;
             }
             NextLine();
@@ -124,7 +133,7 @@
 
         private void NextLine()
         {
-            _x = 0;
+            _x = _xStart;
             _y++;
         }
     }

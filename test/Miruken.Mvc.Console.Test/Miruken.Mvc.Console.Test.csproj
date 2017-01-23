@@ -36,6 +36,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Miruken, Version=0.0.1.112, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Miruken.0.0.1.112-prerelease\lib\net461\Miruken.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Miruken.Mvc, Version=0.0.1.92, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Miruken.Mvc.0.0.1.92-prerelease\lib\net461\Miruken.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <Choose>
@@ -53,15 +61,20 @@
   <ItemGroup>
     <Compile Include="CellsTests.cs" />
     <Compile Include="ElementTests.cs" />
+    <Compile Include="Foo.cs" />
     <Compile Include="OutputBufferTests.cs" />
     <Compile Include="PanelTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\Miruken.Mvc.Console\Miruken.Mvc.Console.csproj">
       <Project>{657afca9-9eb0-48fd-9648-fd9d96d1ef14}</Project>
       <Name>Miruken.Mvc.Console</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

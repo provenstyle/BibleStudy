@@ -2,15 +2,14 @@
 {
     public class Size
     {
-        public static Size Empty = new Size(double.NaN, double.NaN);
-        public double Width  { get; set; }
-        public double Height { get; set; }
+        public int Width  { get; set; }
+        public int Height { get; set; }
 
         public Size()
         {
         }
 
-        public Size(double width, double height)
+        public Size(int width, int height)
         {
             Width  = width;
             Height = height;

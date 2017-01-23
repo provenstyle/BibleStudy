@@ -13,6 +13,11 @@ namespace Miruken.Mvc.Console
         public int   Height { get;  }
         public int   Width  { get;  }
 
+        public Cells(Size size)
+            : this((int)size.Height, (int)size.Width)
+        {
+        }
+
         public Cells(int height, int width)
             : this (height, width, new Point(0, 0), SpaceChar)
         {

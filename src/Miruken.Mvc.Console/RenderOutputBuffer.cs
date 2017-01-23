@@ -6,15 +6,28 @@
         private OutputBuffer _outputBuffer;
         private int          _x;
         private int          _y;
+        private int          _contentWidth;
+        private int          _contentHeight;
 
-        public Cells Handle(OutputBuffer outputBuffer, int width, int height)
+        public Cells Handle(OutputBuffer outputBuffer, Cells cells)
         {
             _outputBuffer = outputBuffer;
-            _width        = width;
-            _height       = height;
-            _x            = 0;
-            _y            = 0;
-            _cells        = new Cells(_height, _width);
+            _cells        = cells;
+
+            if (_outputBuffer.CanRenderBorderAndPadding())
+            {
+                _x = _outputBuffer.BorderLeft + _outputBuffer.PadLeft;
+                _y = _outputBuffer.BorderTop + _outputBuffer.PadTop;
+                _contentWidth  = _outputBuffer.Rendered.Width - _outputBuffer.BorderLeft - _outputBuffer.PadLeft - _outputBuffer.PadRight - _outputBuffer.BorderRight;
+                _contentHeight = _outputBuffer.Rendered.Height - _outputBuffer.BorderTop - _outputBuffer.PadTop - _outputBuffer.PadBottom - _outputBuffer.BorderBottom;
+            }
+            else
+            {
+                _x = 0;
+                _y = 0;
+                _contentWidth  = _outputBuffer.Rendered.Width;
+                _contentHeight = _outputBuffer.Rendered.Height;
+            }
 
             foreach (var item in _outputBuffer.Outputs)
             {
@@ -30,7 +43,7 @@
                         WriteLine(item);
                         break;
                 }
-                if (_y >= height)
+                if (_y >= _contentWidth)
                     break;
             }
             return _cells;
@@ -56,7 +69,7 @@
                         _x++;
                         break;
                 }
-                if (_x >= _width || _y >= _height)
+                if (_x >= _contentWidth || _y >= _contentHeight)
                     break;
             }
             NextLine();
@@ -66,7 +79,7 @@
         {
             foreach (var t in output.Text)
             {
-                if (_y >= _height)
+                if (_y >= _contentHeight)
                     break;
 
                 switch (t)
@@ -86,7 +99,7 @@
                         break;
                 }
 
-                if (_x >= _width)
+                if (_x >= _contentWidth)
                     NextLine();
             }
         }
@@ -100,7 +113,7 @@
         private void Tab()
         {
             var nextTab = tabSpaces - (_x % tabSpaces);
-            if (_x + nextTab > _width)
+            if (_x + nextTab > _contentWidth)
             {
                 _x = 0;
                 _y++;

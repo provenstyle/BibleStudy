@@ -18,7 +18,6 @@
                 HorizontalAlignment = HorizontalAlignment.Left,
                 VerticalAlignment   = VerticalAlignment.Stretch
             };
-            left.Children.Add(new Control());
 
             var right = new Panel
             {
@@ -29,7 +28,6 @@
             main.Children.Add(left);
             main.Children.Add(right);
 
-            var layout = main.Layout();
             Console.WriteLine(new RenderPanel().Handle(50, 20, main));
         }
 

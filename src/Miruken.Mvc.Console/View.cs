@@ -6,7 +6,7 @@
     using System.Threading.Tasks;
     using Views;
 
-    public abstract class View : IView
+    public abstract class View : ContentControl, IView
     {
         private StringBuilder Builder { get; }
 

@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
 
-    public class OutputBuffer
+    public class OutputBuffer: FrameworkElement
     {
         public List<Output> Outputs { get; set; }
 
@@ -29,9 +29,11 @@
             return this;
         }
 
-        public virtual Cells Render(int width, int height)
+        public override void Render(Cells cells)
         {
-            return new RenderOutputBuffer().Handle(this, width, height);
+            base.Render(cells);
+            new RenderOutputBuffer()
+                .Handle(this, cells);
         }
     }
 }

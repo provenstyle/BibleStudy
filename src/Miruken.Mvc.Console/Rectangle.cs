@@ -3,8 +3,18 @@
     public class Rectangle
     {
         public Point  Location { get; set; }
-        public double Height   { get; set; }
-        public double Width    { get; set; }
+        public int    Height   { get; set; }
+        public int    Width    { get; set; }
+
+        public Rectangle()
+        {
+        }
+
+        public Rectangle(Point point, Size size)
+        {
+            Location = point;
+            Size     = size;
+        }
 
         public Size Size
         {

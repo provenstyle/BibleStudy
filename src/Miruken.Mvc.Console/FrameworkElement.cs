@@ -1,27 +1,24 @@
 ﻿namespace Miruken.Mvc.Console
 {
-    using System;
-    using System.Collections.Generic;
-
-    public class Transform
-    {
-        public Cells Cells { get; set; }
-    }
-
-    public abstract class Visual: OutputBuffer
-    {
-        public Vector VisualOffset { get; set; }
-        public List<Transform> Transforms { get; set; }
-    }
-
-    public abstract class FrameworkElement: Visual
+    public abstract class FrameworkElement
     {
         public Size                Size                { get; set; }
         public Size                DesiredSize         { get; set; }
         public Size                Rendered            { get; set; }
         public Thickness           Margin              { get; set; }
+        public Point               Point               { get; set; }
         public VerticalAlignment   VerticalAlignment   { get; set; }
         public HorizontalAlignment HorizontalAlignment { get; set; }
+
+        public int PadLeft      { get; set; }
+        public int PadTop       { get; set; }
+        public int PadRight     { get; set; }
+        public int PadBottom    { get; set; }
+
+        public int BorderLeft   { get; set; }
+        public int BorderTop    { get; set; }
+        public int BorderRight  { get; set; }
+        public int BorderBottom { get; set; }
 
         public virtual void Measure(Size availableSize)
         {
@@ -35,7 +32,7 @@
 
         public virtual void Arrange(Rectangle rectangle)
         {
-            VisualOffset = new Vector(rectangle.Location.X, rectangle.Location.Y);
+            Point    = rectangle.Location;
             Rendered = ArrangeOverride(rectangle.Size);
         }
 
@@ -44,9 +41,52 @@
             return finalSize;
         }
 
-        public Cells Layout()
+        public virtual void Render(Cells cells)
         {
-            throw new NotImplementedException();
+            new RenderElement().Handle(this, cells);
+        }
+
+        public FrameworkElement Border(int border)
+        {
+            return Border(border, border);
+        }
+
+        public FrameworkElement Border(int LeftRight, int TopBottom )
+        {
+            return Border(LeftRight, TopBottom, LeftRight, TopBottom);
+        }
+
+        public FrameworkElement Border(int Left, int Top, int Right, int Bottom )
+        {
+            BorderLeft   = Left;
+            BorderTop    = Top;
+            BorderRight  = Right;
+            BorderBottom = Bottom;
+            return this;
+        }
+
+        public FrameworkElement Padding(int padding)
+        {
+            return Padding(padding, padding);
+        }
+
+        public FrameworkElement Padding(int LeftRight, int TopBottom )
+        {
+            return Padding(LeftRight, TopBottom, LeftRight, TopBottom);
+        }
+
+        public FrameworkElement Padding(int Left, int Top, int Right, int Bottom )
+        {
+            PadLeft   = Left;
+            PadTop    = Top;
+            PadRight  = Right;
+            PadBottom = Bottom;
+            return this;
+        }
+
+        public bool CanRenderBorderAndPadding()
+        {
+            return Rendered?.Height >= 3 && Rendered?.Width >= 3;
         }
     }
 }

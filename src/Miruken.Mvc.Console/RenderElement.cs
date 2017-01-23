@@ -2,53 +2,22 @@
 {
     public class RenderElement: Render
     {
-        private Control  _control;
+        private   FrameworkElement _element;
 
-        public Cells Handle(int width, int height, Control control, Cells output)
+        public void Handle(FrameworkElement element, Cells cells)
         {
-            _width   = width;
-            _height  = height;
-            _control = control;
-            _cells   = new Cells(_width, _height);
+            _element = element;
+            _cells   = cells;
 
-            RenderOutput(output);
-
-            if (!CanRenderBorderAndPadding())
-                return _cells;
+            if (!CanRenderBorderAndPadding()) return;
 
             RenderBorder();
             RenderPadding();
-
-            return _cells;
         }
 
         private bool CanRenderBorderAndPadding()
         {
-            return _height >= 3 && _width >= 3;
-        }
-
-        private void RenderOutput(Cells output)
-        {
-            int _contentXStart, _contentYStart, _contentWidth, _contentHeight;
-
-            if (CanRenderBorderAndPadding())
-            {
-                _contentXStart = _control.BorderLeft + _control.PadLeft;
-                _contentYStart = _control.BorderTop  + _control.PadTop;
-                _contentWidth  = _width  - _control.BorderLeft - _control.PadLeft - _control.PadRight  - _control.BorderRight;
-                _contentHeight = _height - _control.BorderTop  - _control.PadTop  - _control.PadBottom - _control.BorderBottom;
-            }
-            else
-            {
-                _contentXStart = 0;
-                _contentYStart = 0;
-                _contentWidth  = _width;
-                _contentHeight = _height;
-            }
-
-            for (var y = 0; y < _contentHeight; y++)
-                for (var x = 0; x < _contentWidth; x++)
-                    _cells[y + _contentYStart][x + _contentXStart] = output[y][x];
+            return _element.Rendered.Height >= 3 && _element.Rendered.Width >= 3;
         }
 
         private void RenderPadding()
@@ -61,40 +30,40 @@
 
         private void RenderPaddingLeft()
         {
-            var xStart = _control.BorderLeft;
-            var yStart = _control.BorderTop;
-            var height = _height - _control.BorderTop - _control.BorderBottom;
-            for (var i = 0; i < _control.PadLeft; i++)
+            var xStart = _element.BorderLeft;
+            var yStart = _element.BorderTop;
+            var height = _element.Rendered.Height- _element.BorderTop - _element.BorderBottom;
+            for (var i = 0; i < _element.PadLeft; i++)
                 for (var y = yStart; y < height; y++)
                     _cells[y][xStart + i] = Cells.SpaceChar;
         }
 
         private void RenderPaddingRight()
         {
-            var xStart = _width - 1 - _control.BorderRight;
-            var yStart = _control.BorderTop;
-            var height = _height - _control.BorderTop - _control.BorderBottom;
-            for (var i = 0; i < _control.PadRight; i++)
+            var xStart = _element.Rendered.Width - 1 - _element.BorderRight;
+            var yStart = _element.BorderTop;
+            var height = _element.Rendered.Height - _element.BorderTop - _element.BorderBottom;
+            for (var i = 0; i < _element.PadRight; i++)
                 for (var y = yStart; y < height; y++)
                     _cells[y][xStart - i] = Cells.SpaceChar;
         }
 
         private void RenderPaddingTop()
         {
-            var xStart = _control.BorderLeft;
-            var yStart = _control.BorderTop;
-            var width  = _width - _control.BorderLeft - _control.BorderRight;
-            for (var i = 0; i < _control.PadTop; i++)
+            var xStart = _element.BorderLeft;
+            var yStart = _element.BorderTop;
+            var width  = _element.Rendered.Width - _element.BorderLeft - _element.BorderRight;
+            for (var i = 0; i < _element.PadTop; i++)
                 for (var x = xStart; x < width; x++)
                     _cells[yStart + i][x] = Cells.SpaceChar;
         }
 
         private void RenderPaddingBottom()
         {
-            var xStart = _control.BorderLeft;
-            var yStart = _height - 1 - _control.BorderBottom;
-            var width  = _width - _control.BorderLeft - _control.BorderRight;
-            for (var i = 0; i < _control.PadBottom; i++)
+            var xStart = _element.BorderLeft;
+            var yStart = _element.Rendered.Height- 1 - _element.BorderBottom;
+            var width  = _element.Rendered.Width- _element.BorderLeft - _element.BorderRight;
+            for (var i = 0; i < _element.PadBottom; i++)
                 for (var x = xStart; x < width; x++)
                     _cells[yStart - i][x] = Cells.SpaceChar;
         }
@@ -109,30 +78,30 @@
 
         private void RenderBorderLeft()
         {
-            for (var i = 0; i < _control.BorderLeft; i++)
-                for (var y = 0; y < _height; y++)
+            for (var i = 0; i < _element.BorderLeft; i++)
+                for (var y = 0; y < _element.Rendered.Height; y++)
                     _cells[y][i] =  '|';
         }
 
         private void RenderBorderRight()
         {
-            for (var i = 0; i < _control.BorderRight; i++)
-                for (var y = 0; y < _height; y++)
-                    _cells[y][_width - 1 - i] = '|';
+            for (var i = 0; i < _element.BorderRight; i++)
+                for (var y = 0; y < _element.Rendered.Height; y++)
+                    _cells[y][_element.Rendered.Width- 1 - i] = '|';
         }
 
         private void RenderBorderTop()
         {
-            for (var i = 0; i < _control.BorderTop; i++)
-                for (var x = 0; x < _width; x++)
+            for (var i = 0; i < _element.BorderTop; i++)
+                for (var x = 0; x < _element.Rendered.Width; x++)
                     _cells[i][x] = '-';
         }
 
         private void RenderBorderBottom()
         {
-            for (var i = 0; i < _control.BorderBottom; i++)
-                for (var x = 0; x < _width; x++)
-                    _cells[_height - 1 -i][x] = '-';
+            for (var i = 0; i < _element.BorderBottom; i++)
+                for (var x = 0; x < _element.Rendered.Width; x++)
+                    _cells[_element.Rendered.Height- 1 -i][x] = '-';
         }
     }
 }

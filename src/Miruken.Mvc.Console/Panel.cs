@@ -10,8 +10,16 @@
         public Panel()
         {
             Children = new List<FrameworkElement>();
-            Size     = Size.Empty;
         }
+
+        public override void Render(Cells cells)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class StackPanel : Panel
+    {
     }
 
     public class RenderPanel: Render
@@ -25,13 +33,11 @@
         public string Handle(int width, int height, Panel panel)
         {
             _panel =  panel;
-            _width =  width;
-            _height = height;
-            _cells  = new Cells(_height, _width);
+            _cells  = new Cells((int)panel.Rendered.Height, (int)panel.Rendered.Width);
 
             foreach (var child in panel.Children)
             {
-                var size = new Size(_width, _height);
+                var size = new Size(panel.Rendered.Width, panel.Rendered.Height);
                 child.Measure(size);
             }
             foreach (var child in panel.Children)
@@ -39,7 +45,7 @@
                 var rectangle = new Rectangle();
                 child.Arrange(rectangle);
             }
-            var layout = panel.Layout();
+
             return "foo";
         }
     }

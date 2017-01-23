@@ -5,7 +5,7 @@
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
-    public class ElementTests
+    public class ElementTests : TestBase
     {
         private const char   spaceCharacter = ' ';
         private const char   alphaCharacter = 'a';
@@ -14,12 +14,14 @@
         [TestMethod]
         public void CreatesBorder()
         {
-            var cells = new Control()
-                .Border(1)
+            var buffer = new OutputBuffer();
+            buffer.Border(1);
+            buffer
                 .WriteLine(alphaString)
                 .WriteLine(alphaString)
-                .WriteLine(alphaString)
-                .Render(3, 3);
+                .WriteLine(alphaString);
+
+            var cells = Render(new Size(3, 3), buffer);
 
             Console.WriteLine(cells.ToString());
 
@@ -50,12 +52,15 @@
         [TestMethod]
         public void CreatesBorderLeft()
         {
-            var cells = new Control()
-                .Border(1, 0, 0, 0)
+            var buffer = new OutputBuffer();
+            buffer.Border(1, 0, 0, 0);
+            buffer
                 .WriteLine(alphaString)
                 .WriteLine(alphaString)
-                .WriteLine(alphaString)
-                .Render(3, 3);
+                .WriteLine(alphaString);
+
+            var cells = Render(new Size(3, 3), buffer);
+            buffer.Render(cells);
 
             Console.WriteLine(cells.ToString());
 
@@ -73,12 +78,15 @@
         [TestMethod]
         public void CreatesBorderRight()
         {
-            var cells = new Control()
-                .Border(0, 0, 1, 0)
+            var buffer = new OutputBuffer();
+            buffer.Border(0, 0, 1, 0);
+            buffer
                 .WriteLine(alphaString)
                 .WriteLine(alphaString)
-                .WriteLine(alphaString)
-                .Render(3, 3);
+                .WriteLine(alphaString);
+
+            var cells = Render(new Size(3, 3), buffer);
+            buffer.Render(cells);
 
             Console.WriteLine(cells.ToString());
 
@@ -96,12 +104,14 @@
         [TestMethod]
         public void CreatesBorderTop()
         {
-            var cells = new Control()
-                .Border(0, 1, 0, 0)
+            var buffer = new OutputBuffer();
+            buffer.Border(0, 1, 0, 0);
+            buffer.WriteLine(alphaString)
                 .WriteLine(alphaString)
-                .WriteLine(alphaString)
-                .WriteLine(alphaString)
-                .Render(3, 3);
+                .WriteLine(alphaString);
+
+            var cells = Render(new Size(3, 3), buffer);
+            buffer.Render(cells);
 
             Console.WriteLine(cells.ToString());
 
@@ -119,12 +129,15 @@
         [TestMethod]
         public void CreatesBorderBottom()
         {
-            var cells = new Control()
-                .Border(0, 0, 0, 1)
+            var buffer = new OutputBuffer();
+            buffer.Border(0, 0, 0, 1);
+            buffer
                 .WriteLine(alphaString)
                 .WriteLine(alphaString)
-                .WriteLine(alphaString)
-                .Render(3, 3);
+                .WriteLine(alphaString);
+
+            var cells = Render(new Size(3, 3), buffer);
+            buffer.Render(cells);
 
             Console.WriteLine(cells.ToString());
 
@@ -142,11 +155,14 @@
         [TestMethod]
         public void WhenWidthOrHeightIsLessThanThreeDoesNotCreateBorder()
         {
-            var cells = new Control()
-                .Border(1)
+            var buffer = new OutputBuffer();
+            buffer.Border(1);
+            buffer
                 .WriteLine(alphaString)
-                .WriteLine(alphaString)
-                .Render(2,2);
+                .WriteLine(alphaString);
+
+            var cells = Render(new Size(2, 2), buffer);
+            buffer.Render(cells);
 
             Console.WriteLine(cells);
 
@@ -162,12 +178,15 @@
         [TestMethod]
         public void CreatesLeftPadding()
         {
-            var cells = new Control()
-                .Padding(1, 0, 0, 0)
+            var buffer = new OutputBuffer();
+            buffer.Padding(1, 0, 0, 0);
+            buffer
                 .WriteLine(alphaString)
                 .WriteLine(alphaString)
-                .WriteLine(alphaString)
-                .Render(3, 3);
+                .WriteLine(alphaString);
+
+            var cells = Render(new Size(3, 3), buffer);
+            buffer.Render(cells);
 
             Console.WriteLine(cells);
 
@@ -182,12 +201,15 @@
         [TestMethod]
         public void CreatesRightPadding()
         {
-            var cells = new Control()
-                .Padding(0, 0, 1, 0)
+            var buffer = new OutputBuffer();
+            buffer.Padding(0, 0, 1, 0);
+            buffer
                 .WriteLine(alphaString)
                 .WriteLine(alphaString)
-                .WriteLine(alphaString)
-                .Render(3, 3);
+                .WriteLine(alphaString);
+
+            var cells = Render(new Size(3, 3), buffer);
+            buffer.Render(cells);
 
             Console.WriteLine(cells.ToString());
 
@@ -205,12 +227,15 @@
         [TestMethod]
         public void CreatesTopPadding()
         {
-            var cells = new Control()
-                .Padding(0, 1, 0, 0)
+            var buffer = new OutputBuffer();
+            buffer.Padding(0, 1, 0, 0);
+            buffer
                 .WriteLine(alphaString)
                 .WriteLine(alphaString)
-                .WriteLine(alphaString)
-                .Render(3, 3);
+                .WriteLine(alphaString);
+
+            var cells = Render(new Size(3, 3), buffer);
+            buffer.Render(cells);
 
             Console.WriteLine(cells);
 
@@ -228,12 +253,15 @@
         [TestMethod]
         public void CreatesBottomPadding()
         {
-            var cells = new Control()
-                .Padding(0, 0, 0, 1)
+            var buffer = new OutputBuffer();
+            buffer.Padding(0, 0, 0, 1);
+            buffer
                 .WriteLine(alphaString)
                 .WriteLine(alphaString)
-                .WriteLine(alphaString)
-                .Render(3, 3);
+                .WriteLine(alphaString);
+
+            var cells = Render(new Size(3, 3), buffer);
+            buffer.Render(cells);
 
             Console.WriteLine(cells);
 
@@ -251,11 +279,14 @@
         [TestMethod]
         public void CreatesContent()
         {
-            var cells = new Control()
-                .Border(1)
+            var buffer = new OutputBuffer();
+            buffer.Border(1);
+            buffer
                 .WriteLine("abcd")
-                .WriteLine("efgh")
-                .Render(4, 4);
+                .WriteLine("efgh");
+
+            var cells = Render(new Size(4, 4), buffer);
+            buffer.Render(cells);
 
             Console.WriteLine(cells);
 
@@ -269,12 +300,16 @@
         [TestMethod]
         public void CreatesBorderPaddingAndContent()
         {
-            var cells = new Control()
+            var buffer = new OutputBuffer();
+            buffer
                 .Border(1)
-                .Padding(1)
+                .Padding(1);
+            buffer
                 .WriteLine("abcd")
-                .WriteLine("efgh")
-                .Render(6, 6);
+                .WriteLine("efgh");
+
+            var cells = Render(new Size(6, 6), buffer);
+            buffer.Render(cells);
 
             Console.WriteLine(cells.ToString());
 

@@ -20,5 +20,7 @@
             Width  = width;
             Height = height;
         }
+
+        public static Size Default => new Size(0, 0);
     }
 }

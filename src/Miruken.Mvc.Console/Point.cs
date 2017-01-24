@@ -20,5 +20,7 @@
             X = x;
             Y = y;
         }
+
+        public static Point Default => new Point(0, 0);
     }
 }

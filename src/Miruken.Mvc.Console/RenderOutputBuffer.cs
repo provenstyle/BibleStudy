@@ -21,15 +21,15 @@
 
             if (_outputBuffer.CanRenderBorderAndPadding())
             {
-                _xStart        = _outputBuffer.Point.X + _outputBuffer.BorderLeft + _outputBuffer.PadLeft;
-                _yStart        = _outputBuffer.Point.Y + _outputBuffer.BorderTop  + _outputBuffer.PadTop;
+                _xStart        = _outputBuffer.Point.X + _outputBuffer.Border.Left + _outputBuffer.Padding.Left;
+                _yStart        = _outputBuffer.Point.Y + _outputBuffer.Border.Top  + _outputBuffer.Padding.Top;
                 _contentWidth  = _outputBuffer.ActualSize.Width
-                                 - _outputBuffer.BorderLeft - _outputBuffer.PadLeft
-                                 - _outputBuffer.PadRight   - _outputBuffer.BorderRight
+                                 - _outputBuffer.Border.Left - _outputBuffer.Padding.Left
+                                 - _outputBuffer.Padding.Right   - _outputBuffer.Border.Right
                                  - _outputBuffer.Point.X;
                 _contentHeight = _outputBuffer.ActualSize.Height
-                                 - _outputBuffer.BorderTop - _outputBuffer.PadTop
-                                 - _outputBuffer.PadBottom - _outputBuffer.BorderBottom
+                                 - _outputBuffer.Border.Top - _outputBuffer.Padding.Top
+                                 - _outputBuffer.Padding.Bottom - _outputBuffer.Border.Bottom
                                  - _outputBuffer.Point.Y;
             }
             else

@@ -15,7 +15,7 @@
         public void CreatesBorder()
         {
             var buffer = new OutputBuffer();
-            buffer.Border(1);
+            buffer.Border = new Thickness(1);
             buffer
                 .WriteLine(alphaString)
                 .WriteLine(alphaString)
@@ -53,7 +53,7 @@
         public void CreatesBorderLeft()
         {
             var buffer = new OutputBuffer();
-            buffer.Border(1, 0, 0, 0);
+            buffer.Border = new Thickness(1, 0, 0, 0);
             buffer
                 .WriteLine(alphaString)
                 .WriteLine(alphaString)
@@ -84,7 +84,7 @@
         public void CreatesBorderLeftWithPoint()
         {
             var buffer = new OutputBuffer();
-            buffer.Border(1, 0, 0, 0);
+            buffer.Border = new Thickness(1, 0, 0, 0);
             buffer
                 .WriteLine(alphaString)
                 .WriteLine(alphaString)
@@ -118,7 +118,7 @@
         public void CreatesBorderRight()
         {
             var buffer = new OutputBuffer();
-            buffer.Border(0, 0, 1, 0);
+            buffer.Border = new Thickness(0, 0, 1, 0);
             buffer
                 .WriteLine(alphaString)
                 .WriteLine(alphaString)
@@ -144,7 +144,7 @@
         public void CreatesBorderRightWithPoint()
         {
             var buffer = new OutputBuffer();
-            buffer.Border(0, 0, 1, 0);
+            buffer.Border = new Thickness(0, 0, 1, 0);
             buffer
                 .WriteLine(alphaString)
                 .WriteLine(alphaString)
@@ -184,7 +184,7 @@
         public void CreatesBorderTop()
         {
             var buffer = new OutputBuffer();
-            buffer.Border(0, 1, 0, 0);
+            buffer.Border = new Thickness(0, 1, 0, 0);
             buffer.WriteLine(alphaString)
                 .WriteLine(alphaString)
                 .WriteLine(alphaString);
@@ -209,7 +209,7 @@
         public void CreatesBorderTopWithPoint()
         {
             var buffer = new OutputBuffer();
-            buffer.Border(0, 1, 0, 0);
+            buffer.Border = new Thickness(0, 1, 0, 0);
             buffer.WriteLine(alphaString)
                 .WriteLine(alphaString)
                 .WriteLine(alphaString);
@@ -248,7 +248,7 @@
         public void CreatesBorderBottom()
         {
             var buffer = new OutputBuffer();
-            buffer.Border(0, 0, 0, 1);
+            buffer.Border = new Thickness(0, 0, 0, 1);
             buffer
                 .WriteLine(alphaString)
                 .WriteLine(alphaString)
@@ -274,7 +274,7 @@
         public void CreatesBorderBottomWithPoint()
         {
             var buffer = new OutputBuffer();
-            buffer.Border(0, 0, 0, 1);
+            buffer.Border = new Thickness(0, 0, 0, 1);
             buffer
                 .WriteLine(alphaString)
                 .WriteLine(alphaString)
@@ -308,7 +308,7 @@
         public void WhenWidthOrHeightIsLessThanThreeDoesNotCreateBorder()
         {
             var buffer = new OutputBuffer();
-            buffer.Border(1);
+            buffer.Border = new Thickness(1);
             buffer
                 .WriteLine(alphaString)
                 .WriteLine(alphaString);
@@ -331,7 +331,7 @@
         public void CreatesLeftPadding()
         {
             var buffer = new OutputBuffer();
-            buffer.Padding(1, 0, 0, 0);
+            buffer.Padding = new Thickness(1, 0, 0, 0);
             buffer
                 .WriteLine(alphaString)
                 .WriteLine(alphaString)
@@ -359,7 +359,7 @@
         public void CreatesLeftPaddingWithPoint()
         {
             var buffer = new OutputBuffer();
-            buffer.Padding(1, 0, 0, 0);
+            buffer.Padding = new Thickness(1, 0, 0, 0);
             buffer
                 .WriteLine(alphaString)
                 .WriteLine(alphaString)
@@ -395,7 +395,7 @@
         public void CreatesRightPadding()
         {
             var buffer = new OutputBuffer();
-            buffer.Padding(0, 0, 1, 0);
+            buffer.Padding = new Thickness(0, 0, 1, 0);
             buffer
                 .WriteLine(alphaString)
                 .WriteLine(alphaString)
@@ -421,7 +421,7 @@
         public void CreatesRightPaddingWithPoint()
         {
             var buffer = new OutputBuffer();
-            buffer.Padding(0, 0, 1, 0);
+            buffer.Padding = new Thickness(0, 0, 1, 0);
             buffer
                 .WriteLine(alphaString)
                 .WriteLine(alphaString)
@@ -457,7 +457,7 @@
         public void CreatesTopPadding()
         {
             var buffer = new OutputBuffer();
-            buffer.Padding(0, 1, 0, 0);
+            buffer.Padding = new Thickness(0, 1, 0, 0);
             buffer
                 .WriteLine(alphaString)
                 .WriteLine(alphaString)
@@ -483,7 +483,7 @@
         public void CreatesTopPaddingWithPoint()
         {
             var buffer = new OutputBuffer();
-            buffer.Padding(0, 1, 0, 0);
+            buffer.Padding = new Thickness(0, 1, 0, 0);
             buffer
                 .WriteLine(alphaString)
                 .WriteLine(alphaString)
@@ -519,7 +519,7 @@
         public void CreatesBottomPadding()
         {
             var buffer = new OutputBuffer();
-            buffer.Padding(0, 0, 0, 1);
+            buffer.Padding = new Thickness(0, 0, 0, 1);
             buffer
                 .WriteLine(alphaString)
                 .WriteLine(alphaString)
@@ -545,7 +545,7 @@
         public void CreatesBottomPaddingWithPoint()
         {
             var buffer = new OutputBuffer();
-            buffer.Padding(0, 0, 0, 1);
+            buffer.Padding = new Thickness(0, 0, 0, 1);
             buffer
                 .WriteLine(alphaString)
                 .WriteLine(alphaString)
@@ -581,7 +581,7 @@
         public void CreatesContent()
         {
             var buffer = new OutputBuffer();
-            buffer.Border(1);
+            buffer.Border = new Thickness(1);
             buffer
                 .WriteLine("abcd")
                 .WriteLine("efgh");
@@ -601,13 +601,13 @@
         [TestMethod]
         public void CreatesBorderPaddingAndContent()
         {
-            var buffer = new OutputBuffer();
-            buffer
-                .Border(1)
-                .Padding(1);
-            buffer
-                .WriteLine("abcd")
-                .WriteLine("efgh");
+            var buffer = new OutputBuffer
+            {
+                Border = new Thickness(1),
+                Padding = new Thickness(1)
+            }
+            .WriteLine("abcd")
+            .WriteLine("efgh");
 
             var cells = Render(new Size(6, 6), buffer);
             buffer.Render(cells);
@@ -672,14 +672,14 @@
         [TestMethod]
         public void RespectsPointLocation()
         {
-            var buffer = new OutputBuffer();
-            buffer.Point = new Point(1, 2);
-            buffer
-                .Border(1)
-                .Padding(1);
-            buffer
-                .WriteLine("abcde")
-                .WriteLine("fghi");
+            var buffer = new OutputBuffer
+            {
+                Border  = new Thickness(1),
+                Padding = new Thickness(1),
+                Point   = new Point(1, 2)
+            }
+            .WriteLine("abcde")
+            .WriteLine("fghi");
 
             var cells = Render(new Size(8, 8), buffer, new Point(1, 1));
             buffer.Render(cells);

@@ -16,16 +16,16 @@
             var first = new StackPanel
             {
                 HorizontalAlignment = HorizontalAlignment.Left,
-                VerticalAlignment   = VerticalAlignment.Stretch
+                VerticalAlignment   = VerticalAlignment.Stretch,
+                Border              = new Thickness(1)
             };
-            first.Border(1);
 
             var second = new StackPanel
             {
                 HorizontalAlignment = HorizontalAlignment.Right,
-                VerticalAlignment   = VerticalAlignment.Stretch
+                VerticalAlignment   = VerticalAlignment.Stretch,
+                Border              = new Thickness(1)
             };
-            second.Border(1);
 
             main.Children.Add(first);
             main.Children.Add(second);

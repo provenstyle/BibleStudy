@@ -6,19 +6,22 @@
         public Size                DesiredSize         { get; set; }
         public Size                ActualSize          { get; set; }
         public Thickness           Margin              { get; set; }
+        public Thickness           Border              { get; set; }
+        public Thickness           Padding             { get; set; }
         public Point               Point               { get; set; }
         public VerticalAlignment   VerticalAlignment   { get; set; }
         public HorizontalAlignment HorizontalAlignment { get; set; }
 
-        public int PadLeft      { get; set; }
-        public int PadTop       { get; set; }
-        public int PadRight     { get; set; }
-        public int PadBottom    { get; set; }
-
-        public int BorderLeft   { get; set; }
-        public int BorderTop    { get; set; }
-        public int BorderRight  { get; set; }
-        public int BorderBottom { get; set; }
+        protected FrameworkElement()
+        {
+            Point       = Point.Default;
+            Margin      = Thickness.Default;
+            Border      = Thickness.Default;
+            Padding     = Thickness.Default;
+            Size        = Size.Default;
+            DesiredSize = Size.Default;
+            ActualSize  = Size.Default;
+        }
 
         public virtual void Measure(Size availableSize)
         {
@@ -44,44 +47,6 @@
         public virtual void Render(Cells cells)
         {
             new RenderElement().Handle(this, cells);
-        }
-
-        public FrameworkElement Border(int border)
-        {
-            return Border(border, border);
-        }
-
-        public FrameworkElement Border(int LeftRight, int TopBottom )
-        {
-            return Border(LeftRight, TopBottom, LeftRight, TopBottom);
-        }
-
-        public FrameworkElement Border(int Left, int Top, int Right, int Bottom )
-        {
-            BorderLeft   = Left;
-            BorderTop    = Top;
-            BorderRight  = Right;
-            BorderBottom = Bottom;
-            return this;
-        }
-
-        public FrameworkElement Padding(int padding)
-        {
-            return Padding(padding, padding);
-        }
-
-        public FrameworkElement Padding(int LeftRight, int TopBottom )
-        {
-            return Padding(LeftRight, TopBottom, LeftRight, TopBottom);
-        }
-
-        public FrameworkElement Padding(int Left, int Top, int Right, int Bottom )
-        {
-            PadLeft   = Left;
-            PadTop    = Top;
-            PadRight  = Right;
-            PadBottom = Bottom;
-            return this;
         }
 
         public bool CanRenderBorderAndPadding()

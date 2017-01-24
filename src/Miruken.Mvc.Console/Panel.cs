@@ -11,15 +11,43 @@
         {
             Children = new List<FrameworkElement>();
         }
-
-        public override void Render(Cells cells)
-        {
-            throw new NotImplementedException();
-        }
     }
 
     public class StackPanel : Panel
     {
+        public override void Measure(Size availableSize)
+        {
+            DesiredSize =  MeasureOverride(availableSize);
+            var available = new Size(DesiredSize);
+            foreach (var child in Children)
+            {
+                child.Measure(available);
+                available.Height -= child.DesiredSize.Height;
+            }
+        }
+
+        public override void Arrange(Rectangle rectangle)
+        {
+            ActualSize = ArrangeOverride(rectangle.Size);
+            Point = rectangle.Location;
+            var height = rectangle.Height/Children.Count;
+            var point  = new Point(rectangle.Location);
+            foreach (var child in Children)
+            {
+                child.ActualSize = new Size(rectangle.Width, height);
+                child.Point      = new Point(point);
+                point.Y         += child.ActualSize.Height;
+            }
+        }
+
+        public override void Render(Cells cells)
+        {
+            base.Render(cells);
+            foreach (var child in Children)
+            {
+                child.Render(cells);
+            }
+        }
     }
 
     public class RenderPanel: Render
@@ -33,11 +61,11 @@
         public string Handle(int width, int height, Panel panel)
         {
             _panel =  panel;
-            _cells  = new Cells((int)panel.Rendered.Height, (int)panel.Rendered.Width);
+            _cells  = new Cells(panel.ActualSize.Height, panel.ActualSize.Width);
 
             foreach (var child in panel.Children)
             {
-                var size = new Size(panel.Rendered.Width, panel.Rendered.Height);
+                var size = new Size(panel.ActualSize.Width, panel.ActualSize.Height);
                 child.Measure(size);
             }
             foreach (var child in panel.Children)

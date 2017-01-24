@@ -9,6 +9,12 @@
         {
         }
 
+        public Size(Size size)
+        {
+            Width  = size.Width;
+            Height = size.Height;
+        }
+
         public Size(int width, int height)
         {
             Width  = width;

@@ -81,6 +81,40 @@
         }
 
         [TestMethod]
+        public void CreatesBorderLeftWithPoint()
+        {
+            var buffer = new OutputBuffer();
+            buffer.Border(1, 0, 0, 0);
+            buffer
+                .WriteLine(alphaString)
+                .WriteLine(alphaString)
+                .WriteLine(alphaString);
+
+            var cells = Render(new Size(4, 4), buffer, new Point(1, 1));
+            buffer.Render(cells);
+
+            Console.WriteLine(cells.ToString());
+
+            //LeftColumn
+            Assert.AreEqual(Cells.SpaceChar, cells[0][0]);
+            Assert.AreEqual(Cells.SpaceChar, cells[1][0]);
+            Assert.AreEqual(Cells.SpaceChar, cells[2][0]);
+            Assert.AreEqual(Cells.SpaceChar, cells[3][0]);
+
+            //MiddleColumn
+            Assert.AreEqual(Cells.SpaceChar, cells[0][1]);
+            Assert.AreEqual('|',             cells[1][1]);
+            Assert.AreEqual('|',             cells[2][1]);
+            Assert.AreEqual('|',             cells[3][1]);
+
+            //RightColumn
+            Assert.AreEqual(Cells.SpaceChar, cells[0][2]);
+            Assert.AreEqual(alphaCharacter,  cells[1][2]);
+            Assert.AreEqual(alphaCharacter,  cells[2][2]);
+            Assert.AreEqual(alphaCharacter,  cells[3][2]);
+        }
+
+        [TestMethod]
         public void CreatesBorderRight()
         {
             var buffer = new OutputBuffer();
@@ -104,6 +138,46 @@
             Assert.AreEqual('|', cells[0][2]);
             Assert.AreEqual('|', cells[1][2]);
             Assert.AreEqual('|', cells[2][2]);
+        }
+
+        [TestMethod]
+        public void CreatesBorderRightWithPoint()
+        {
+            var buffer = new OutputBuffer();
+            buffer.Border(0, 0, 1, 0);
+            buffer
+                .WriteLine(alphaString)
+                .WriteLine(alphaString)
+                .WriteLine(alphaString);
+
+            var cells = Render(new Size(4, 4), buffer, new Point(1, 1));
+            buffer.Render(cells);
+
+            Console.WriteLine(cells.ToString());
+
+            //Column0
+            Assert.AreEqual(spaceCharacter, cells[0][0]);
+            Assert.AreEqual(spaceCharacter, cells[1][0]);
+            Assert.AreEqual(spaceCharacter, cells[2][0]);
+            Assert.AreEqual(spaceCharacter, cells[3][0]);
+
+            //Column1
+            Assert.AreEqual(spaceCharacter, cells[0][1]);
+            Assert.AreEqual(alphaCharacter, cells[1][1]);
+            Assert.AreEqual(alphaCharacter, cells[2][1]);
+            Assert.AreEqual(alphaCharacter, cells[3][1]);
+
+            //Column2
+            Assert.AreEqual(spaceCharacter, cells[0][2]);
+            Assert.AreEqual(alphaCharacter, cells[1][2]);
+            Assert.AreEqual(alphaCharacter, cells[2][2]);
+            Assert.AreEqual(alphaCharacter, cells[3][2]);
+
+            //Column3
+            Assert.AreEqual(spaceCharacter, cells[0][3]);
+            Assert.AreEqual('|',            cells[1][3]);
+            Assert.AreEqual('|',            cells[2][3]);
+            Assert.AreEqual('|',            cells[3][3]);
         }
 
         [TestMethod]
@@ -132,6 +206,45 @@
         }
 
         [TestMethod]
+        public void CreatesBorderTopWithPoint()
+        {
+            var buffer = new OutputBuffer();
+            buffer.Border(0, 1, 0, 0);
+            buffer.WriteLine(alphaString)
+                .WriteLine(alphaString)
+                .WriteLine(alphaString);
+
+            var cells = Render(new Size(4, 4), buffer, new Point(1, 1));
+            buffer.Render(cells);
+
+            Console.WriteLine(cells.ToString());
+
+            //Row0
+            Assert.AreEqual(spaceCharacter, cells[0][0]);
+            Assert.AreEqual(spaceCharacter, cells[0][1]);
+            Assert.AreEqual(spaceCharacter, cells[0][2]);
+            Assert.AreEqual(spaceCharacter, cells[0][3]);
+
+            //Row1
+            Assert.AreEqual(spaceCharacter, cells[1][0]);
+            Assert.AreEqual('-',            cells[1][1]);
+            Assert.AreEqual('-',            cells[1][2]);
+            Assert.AreEqual('-',            cells[1][3]);
+
+            //Row2
+            Assert.AreEqual(spaceCharacter, cells[2][0]);
+            Assert.AreEqual(alphaCharacter, cells[2][1]);
+            Assert.AreEqual(alphaCharacter, cells[2][2]);
+            Assert.AreEqual(alphaCharacter, cells[2][3]);
+
+            //Row3
+            Assert.AreEqual(spaceCharacter, cells[3][0]);
+            Assert.AreEqual(alphaCharacter, cells[3][1]);
+            Assert.AreEqual(alphaCharacter, cells[3][2]);
+            Assert.AreEqual(alphaCharacter, cells[3][3]);
+        }
+
+        [TestMethod]
         public void CreatesBorderBottom()
         {
             var buffer = new OutputBuffer();
@@ -155,6 +268,40 @@
             Assert.AreEqual('-', cells[2][0]);
             Assert.AreEqual('-', cells[2][1]);
             Assert.AreEqual('-', cells[2][2]);
+        }
+
+        [TestMethod]
+        public void CreatesBorderBottomWithPoint()
+        {
+            var buffer = new OutputBuffer();
+            buffer.Border(0, 0, 0, 1);
+            buffer
+                .WriteLine(alphaString)
+                .WriteLine(alphaString)
+                .WriteLine(alphaString);
+
+            var cells = Render(new Size(4, 4), buffer, new Point(1, 1));
+            buffer.Render(cells);
+
+            Console.WriteLine(cells.ToString());
+
+            //Row0
+            Assert.AreEqual(spaceCharacter, cells[0][0]);
+            Assert.AreEqual(spaceCharacter, cells[0][1]);
+            Assert.AreEqual(spaceCharacter, cells[0][2]);
+            Assert.AreEqual(spaceCharacter, cells[0][3]);
+
+            //Row1
+            Assert.AreEqual(spaceCharacter, cells[1][0]);
+            Assert.AreEqual(alphaCharacter, cells[1][1]);
+            Assert.AreEqual(alphaCharacter, cells[1][2]);
+            Assert.AreEqual(alphaCharacter, cells[1][3]);
+
+            //BottomRow
+            Assert.AreEqual(spaceCharacter, cells[3][0]);
+            Assert.AreEqual('-',            cells[3][1]);
+            Assert.AreEqual('-',            cells[3][2]);
+            Assert.AreEqual('-',            cells[3][3]);
         }
 
         [TestMethod]
@@ -209,6 +356,42 @@
         }
 
         [TestMethod]
+        public void CreatesLeftPaddingWithPoint()
+        {
+            var buffer = new OutputBuffer();
+            buffer.Padding(1, 0, 0, 0);
+            buffer
+                .WriteLine(alphaString)
+                .WriteLine(alphaString)
+                .WriteLine(alphaString);
+
+            var cells = Render(new Size(4, 4), buffer, new Point(1, 1));
+            buffer.Render(cells);
+
+            Console.WriteLine(cells);
+
+            Assert.AreEqual(spaceCharacter, cells[0][0]);
+            Assert.AreEqual(spaceCharacter, cells[1][0]);
+            Assert.AreEqual(spaceCharacter, cells[2][0]);
+            Assert.AreEqual(spaceCharacter, cells[3][0]);
+
+            Assert.AreEqual(spaceCharacter, cells[0][1]);
+            Assert.AreEqual(spaceCharacter, cells[1][1]);
+            Assert.AreEqual(spaceCharacter, cells[2][1]);
+            Assert.AreEqual(spaceCharacter, cells[3][1]);
+
+            Assert.AreEqual(spaceCharacter, cells[0][2]);
+            Assert.AreEqual(alphaCharacter, cells[1][2]);
+            Assert.AreEqual(alphaCharacter, cells[2][2]);
+            Assert.AreEqual(alphaCharacter, cells[3][2]);
+
+            Assert.AreEqual(spaceCharacter, cells[0][3]);
+            Assert.AreEqual(alphaCharacter, cells[1][3]);
+            Assert.AreEqual(alphaCharacter, cells[2][3]);
+            Assert.AreEqual(alphaCharacter, cells[3][3]);
+        }
+
+        [TestMethod]
         public void CreatesRightPadding()
         {
             var buffer = new OutputBuffer();
@@ -232,6 +415,42 @@
             Assert.AreEqual(spaceCharacter, cells[0][2]);
             Assert.AreEqual(spaceCharacter, cells[1][2]);
             Assert.AreEqual(spaceCharacter, cells[2][2]);
+        }
+
+        [TestMethod]
+        public void CreatesRightPaddingWithPoint()
+        {
+            var buffer = new OutputBuffer();
+            buffer.Padding(0, 0, 1, 0);
+            buffer
+                .WriteLine(alphaString)
+                .WriteLine(alphaString)
+                .WriteLine(alphaString);
+
+            var cells = Render(new Size(4, 4), buffer, new Point(1, 1));
+            buffer.Render(cells);
+
+            Console.WriteLine(cells.ToString());
+
+            Assert.AreEqual(spaceCharacter, cells[0][0]);
+            Assert.AreEqual(spaceCharacter, cells[1][0]);
+            Assert.AreEqual(spaceCharacter, cells[2][0]);
+            Assert.AreEqual(spaceCharacter, cells[3][0]);
+
+            Assert.AreEqual(spaceCharacter, cells[0][1]);
+            Assert.AreEqual(alphaCharacter, cells[1][1]);
+            Assert.AreEqual(alphaCharacter, cells[2][1]);
+            Assert.AreEqual(alphaCharacter, cells[3][1]);
+
+            Assert.AreEqual(spaceCharacter, cells[0][2]);
+            Assert.AreEqual(alphaCharacter, cells[1][2]);
+            Assert.AreEqual(alphaCharacter, cells[2][2]);
+            Assert.AreEqual(alphaCharacter, cells[3][2]);
+
+            Assert.AreEqual(spaceCharacter, cells[0][3]);
+            Assert.AreEqual(spaceCharacter, cells[1][3]);
+            Assert.AreEqual(spaceCharacter, cells[2][3]);
+            Assert.AreEqual(spaceCharacter, cells[3][3]);
         }
 
         [TestMethod]
@@ -261,6 +480,42 @@
         }
 
         [TestMethod]
+        public void CreatesTopPaddingWithPoint()
+        {
+            var buffer = new OutputBuffer();
+            buffer.Padding(0, 1, 0, 0);
+            buffer
+                .WriteLine(alphaString)
+                .WriteLine(alphaString)
+                .WriteLine(alphaString);
+
+            var cells = Render(new Size(4, 4), buffer, new Point(1, 1));
+            buffer.Render(cells);
+
+            Console.WriteLine(cells);
+
+            Assert.AreEqual(spaceCharacter, cells[0][0]);
+            Assert.AreEqual(spaceCharacter, cells[1][0]);
+            Assert.AreEqual(spaceCharacter, cells[2][0]);
+            Assert.AreEqual(spaceCharacter, cells[3][0]);
+
+            Assert.AreEqual(spaceCharacter, cells[0][1]);
+            Assert.AreEqual(spaceCharacter, cells[1][1]);
+            Assert.AreEqual(alphaCharacter, cells[2][1]);
+            Assert.AreEqual(alphaCharacter, cells[3][1]);
+
+            Assert.AreEqual(spaceCharacter, cells[0][2]);
+            Assert.AreEqual(spaceCharacter, cells[1][2]);
+            Assert.AreEqual(alphaCharacter, cells[2][2]);
+            Assert.AreEqual(alphaCharacter, cells[3][2]);
+
+            Assert.AreEqual(spaceCharacter, cells[0][3]);
+            Assert.AreEqual(spaceCharacter, cells[1][3]);
+            Assert.AreEqual(alphaCharacter, cells[2][3]);
+            Assert.AreEqual(alphaCharacter, cells[3][3]);
+        }
+
+        [TestMethod]
         public void CreatesBottomPadding()
         {
             var buffer = new OutputBuffer();
@@ -284,6 +539,42 @@
             Assert.AreEqual(alphaCharacter, cells[0][2]);
             Assert.AreEqual(alphaCharacter, cells[1][2]);
             Assert.AreEqual(spaceCharacter, cells[2][2]);
+        }
+
+        [TestMethod]
+        public void CreatesBottomPaddingWithPoint()
+        {
+            var buffer = new OutputBuffer();
+            buffer.Padding(0, 0, 0, 1);
+            buffer
+                .WriteLine(alphaString)
+                .WriteLine(alphaString)
+                .WriteLine(alphaString);
+
+            var cells = Render(new Size(4, 4), buffer, new Point(1,1));
+            buffer.Render(cells);
+
+            Console.WriteLine(cells);
+
+            Assert.AreEqual(spaceCharacter, cells[0][0]);
+            Assert.AreEqual(spaceCharacter, cells[1][0]);
+            Assert.AreEqual(spaceCharacter, cells[2][0]);
+            Assert.AreEqual(spaceCharacter, cells[3][0]);
+
+            Assert.AreEqual(spaceCharacter, cells[0][1]);
+            Assert.AreEqual(alphaCharacter, cells[1][1]);
+            Assert.AreEqual(alphaCharacter, cells[2][1]);
+            Assert.AreEqual(spaceCharacter, cells[3][1]);
+
+            Assert.AreEqual(spaceCharacter, cells[0][2]);
+            Assert.AreEqual(alphaCharacter, cells[1][2]);
+            Assert.AreEqual(alphaCharacter, cells[2][2]);
+            Assert.AreEqual(spaceCharacter, cells[3][2]);
+
+            Assert.AreEqual(spaceCharacter, cells[0][3]);
+            Assert.AreEqual(alphaCharacter, cells[1][3]);
+            Assert.AreEqual(alphaCharacter, cells[2][3]);
+            Assert.AreEqual(spaceCharacter, cells[3][3]);
         }
 
         [TestMethod]
@@ -376,6 +667,78 @@
             Assert.AreEqual('b', cells[2][3]);
             Assert.AreEqual('e', cells[3][2]);
             Assert.AreEqual('f', cells[3][3]);
+        }
+
+        [TestMethod]
+        public void RespectsPointLocation()
+        {
+            var buffer = new OutputBuffer();
+            buffer.Point = new Point(1, 2);
+            buffer
+                .Border(1)
+                .Padding(1);
+            buffer
+                .WriteLine("abcd")
+                .WriteLine("efgh");
+
+            var cells = Render(new Size(7, 8), buffer);
+            buffer.Render(cells);
+
+            Console.WriteLine(cells.ToString());
+
+            //topborder
+            Assert.AreEqual('-', cells[1][1]);
+            Assert.AreEqual('-', cells[1][2]);
+            Assert.AreEqual('-', cells[1][3]);
+            Assert.AreEqual('-', cells[1][4]);
+            Assert.AreEqual('-', cells[1][5]);
+            Assert.AreEqual('-', cells[1][6]);
+            //bottomborder
+            Assert.AreEqual('-', cells[6][1]);
+            Assert.AreEqual('-', cells[6][2]);
+            Assert.AreEqual('-', cells[6][3]);
+            Assert.AreEqual('-', cells[6][4]);
+            Assert.AreEqual('-', cells[6][5]);
+            Assert.AreEqual('-', cells[6][6]);
+            //leftborder
+            Assert.AreEqual('-', cells[1][1]);
+            Assert.AreEqual('|', cells[2][1]);
+            Assert.AreEqual('|', cells[3][1]);
+            Assert.AreEqual('|', cells[4][1]);
+            Assert.AreEqual('|', cells[5][1]);
+            Assert.AreEqual('-', cells[6][1]);
+            //rightborder
+            Assert.AreEqual('-', cells[1][6]);
+            Assert.AreEqual('|', cells[2][6]);
+            Assert.AreEqual('|', cells[3][6]);
+            Assert.AreEqual('|', cells[4][6]);
+            Assert.AreEqual('|', cells[5][6]);
+            Assert.AreEqual('-', cells[6][6]);
+            //toppadding
+            Assert.AreEqual(spaceCharacter, cells[2][2]);
+            Assert.AreEqual(spaceCharacter, cells[2][3]);
+            Assert.AreEqual(spaceCharacter, cells[2][4]);
+            Assert.AreEqual(spaceCharacter, cells[2][5]);
+            //bottompadding
+            Assert.AreEqual(spaceCharacter, cells[5][2]);
+            Assert.AreEqual(spaceCharacter, cells[5][3]);
+            Assert.AreEqual(spaceCharacter, cells[5][4]);
+            Assert.AreEqual(spaceCharacter, cells[5][5]);
+            //leftpadding
+            Assert.AreEqual(spaceCharacter, cells[2][2]);
+            Assert.AreEqual(spaceCharacter, cells[3][2]);
+            Assert.AreEqual(spaceCharacter, cells[4][2]);
+            Assert.AreEqual(spaceCharacter, cells[5][2]);
+            //rightpadding
+            Assert.AreEqual(spaceCharacter, cells[2][5]);
+            Assert.AreEqual(spaceCharacter, cells[3][5]);
+            Assert.AreEqual(spaceCharacter, cells[4][5]);
+            Assert.AreEqual(spaceCharacter, cells[5][5]);
+            //Content
+            Assert.AreEqual('a', cells[3][3]);
+            Assert.AreEqual('b', cells[3][4]);
+            Assert.AreEqual('e', cells[4][3]);
+            Assert.AreEqual('f', cells[4][4]);
         }
 
     }

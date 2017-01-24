@@ -4,7 +4,7 @@
     {
         public Size                Size                { get; set; }
         public Size                DesiredSize         { get; set; }
-        public Size                Rendered            { get; set; }
+        public Size                ActualSize          { get; set; }
         public Thickness           Margin              { get; set; }
         public Point               Point               { get; set; }
         public VerticalAlignment   VerticalAlignment   { get; set; }
@@ -22,7 +22,7 @@
 
         public virtual void Measure(Size availableSize)
         {
-            DesiredSize = availableSize;
+            DesiredSize = MeasureOverride(availableSize);
         }
 
         public virtual Size MeasureOverride(Size availableSize)
@@ -32,8 +32,8 @@
 
         public virtual void Arrange(Rectangle rectangle)
         {
-            Point    = rectangle.Location;
-            Rendered = ArrangeOverride(rectangle.Size);
+            Point      = rectangle.Location;
+            ActualSize = ArrangeOverride(rectangle.Size);
         }
 
         public virtual Size ArrangeOverride(Size finalSize)
@@ -86,7 +86,7 @@
 
         public bool CanRenderBorderAndPadding()
         {
-            return Rendered?.Height >= 3 && Rendered?.Width >= 3;
+            return ActualSize?.Height >= 3 && ActualSize?.Width >= 3;
         }
     }
 }

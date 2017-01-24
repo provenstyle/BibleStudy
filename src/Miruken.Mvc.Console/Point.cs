@@ -9,6 +9,12 @@
         {
         }
 
+        public Point(Point point)
+        {
+            X = point.X;
+            Y = point.Y;
+        }
+
         public Point(int x, int y)
         {
             X = x;

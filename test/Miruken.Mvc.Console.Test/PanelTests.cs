@@ -4,31 +4,34 @@
     using System;
 
     [TestClass]
-    public class PanelTests
+    public class PanelTests: TestBase
     {
         [TestMethod]
         public void Foo()
         {
-            var main = new Panel
+            var main = new StackPanel
             {
-                Size = new Size(100, 100)
+                Size = new Size(10, 10)
             };
-            var left = new Panel
+            var first = new StackPanel
             {
                 HorizontalAlignment = HorizontalAlignment.Left,
                 VerticalAlignment   = VerticalAlignment.Stretch
             };
+            first.Border(1);
 
-            var right = new Panel
+            var second = new StackPanel
             {
                 HorizontalAlignment = HorizontalAlignment.Right,
                 VerticalAlignment   = VerticalAlignment.Stretch
             };
+            second.Border(1);
 
-            main.Children.Add(left);
-            main.Children.Add(right);
+            main.Children.Add(first);
+            main.Children.Add(second);
 
-            Console.WriteLine(new RenderPanel().Handle(50, 20, main));
+            var cells = Render(main.Size, main);
+            Console.WriteLine(cells.ToString());
         }
 
     }

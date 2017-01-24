@@ -14,7 +14,7 @@ namespace Miruken.Mvc.Console
         public int   Width  { get;  }
 
         public Cells(Size size)
-            : this((int)size.Height, (int)size.Width)
+            : this(size.Height, size.Width)
         {
         }
 

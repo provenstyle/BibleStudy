@@ -73,6 +73,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Boundry.cs" />
     <Compile Include="Cells.cs" />
     <Compile Include="Control.cs" />
     <Compile Include="FrameworkElement.cs" />

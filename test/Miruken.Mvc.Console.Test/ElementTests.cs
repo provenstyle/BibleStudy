@@ -678,67 +678,85 @@
                 .Border(1)
                 .Padding(1);
             buffer
-                .WriteLine("abcd")
-                .WriteLine("efgh");
+                .WriteLine("abcde")
+                .WriteLine("fghi");
 
-            var cells = Render(new Size(7, 8), buffer);
+            var cells = Render(new Size(8, 8), buffer, new Point(1, 1));
             buffer.Render(cells);
 
             Console.WriteLine(cells.ToString());
 
-            //topborder
-            Assert.AreEqual('-', cells[1][1]);
-            Assert.AreEqual('-', cells[1][2]);
-            Assert.AreEqual('-', cells[1][3]);
-            Assert.AreEqual('-', cells[1][4]);
-            Assert.AreEqual('-', cells[1][5]);
-            Assert.AreEqual('-', cells[1][6]);
-            //bottomborder
-            Assert.AreEqual('-', cells[6][1]);
-            Assert.AreEqual('-', cells[6][2]);
-            Assert.AreEqual('-', cells[6][3]);
-            Assert.AreEqual('-', cells[6][4]);
-            Assert.AreEqual('-', cells[6][5]);
-            Assert.AreEqual('-', cells[6][6]);
-            //leftborder
-            Assert.AreEqual('-', cells[1][1]);
-            Assert.AreEqual('|', cells[2][1]);
-            Assert.AreEqual('|', cells[3][1]);
-            Assert.AreEqual('|', cells[4][1]);
-            Assert.AreEqual('|', cells[5][1]);
-            Assert.AreEqual('-', cells[6][1]);
-            //rightborder
-            Assert.AreEqual('-', cells[1][6]);
-            Assert.AreEqual('|', cells[2][6]);
-            Assert.AreEqual('|', cells[3][6]);
-            Assert.AreEqual('|', cells[4][6]);
-            Assert.AreEqual('|', cells[5][6]);
-            Assert.AreEqual('-', cells[6][6]);
-            //toppadding
+            Assert.AreEqual(spaceCharacter, cells[0][0]);
+            Assert.AreEqual(spaceCharacter, cells[0][1]);
+            Assert.AreEqual(spaceCharacter, cells[0][2]);
+            Assert.AreEqual(spaceCharacter, cells[0][3]);
+            Assert.AreEqual(spaceCharacter, cells[0][4]);
+            Assert.AreEqual(spaceCharacter, cells[0][5]);
+            Assert.AreEqual(spaceCharacter, cells[0][6]);
+            Assert.AreEqual(spaceCharacter, cells[0][7]);
+
+            Assert.AreEqual(spaceCharacter, cells[1][0]);
+            Assert.AreEqual('-',            cells[1][1]);
+            Assert.AreEqual('-',            cells[1][2]);
+            Assert.AreEqual('-',            cells[1][3]);
+            Assert.AreEqual('-',            cells[1][4]);
+            Assert.AreEqual('-',            cells[1][5]);
+            Assert.AreEqual('-',            cells[1][6]);
+            Assert.AreEqual('-',            cells[1][7]);
+
+            Assert.AreEqual(spaceCharacter, cells[2][0]);
+            Assert.AreEqual('|',            cells[2][1]);
             Assert.AreEqual(spaceCharacter, cells[2][2]);
             Assert.AreEqual(spaceCharacter, cells[2][3]);
             Assert.AreEqual(spaceCharacter, cells[2][4]);
             Assert.AreEqual(spaceCharacter, cells[2][5]);
-            //bottompadding
+            Assert.AreEqual(spaceCharacter, cells[2][6]);
+            Assert.AreEqual('|',            cells[2][7]);
+
+            Assert.AreEqual(spaceCharacter, cells[3][0]);
+            Assert.AreEqual('|',            cells[3][1]);
+            Assert.AreEqual(spaceCharacter, cells[3][2]);
+            Assert.AreEqual('a',            cells[3][3]);
+            Assert.AreEqual('b',            cells[3][4]);
+            Assert.AreEqual('c',            cells[3][5]);
+            Assert.AreEqual(spaceCharacter, cells[3][6]);
+            Assert.AreEqual('|',            cells[3][7]);
+
+            Assert.AreEqual(spaceCharacter, cells[4][0]);
+            Assert.AreEqual('|',            cells[4][1]);
+            Assert.AreEqual(spaceCharacter, cells[4][2]);
+            Assert.AreEqual('f',            cells[4][3]);
+            Assert.AreEqual('g',            cells[4][4]);
+            Assert.AreEqual('h',            cells[4][5]);
+            Assert.AreEqual(spaceCharacter, cells[4][6]);
+            Assert.AreEqual('|',            cells[4][7]);
+
+            Assert.AreEqual(spaceCharacter, cells[5][0]);
+            Assert.AreEqual('|',            cells[5][1]);
             Assert.AreEqual(spaceCharacter, cells[5][2]);
             Assert.AreEqual(spaceCharacter, cells[5][3]);
             Assert.AreEqual(spaceCharacter, cells[5][4]);
             Assert.AreEqual(spaceCharacter, cells[5][5]);
-            //leftpadding
-            Assert.AreEqual(spaceCharacter, cells[2][2]);
-            Assert.AreEqual(spaceCharacter, cells[3][2]);
-            Assert.AreEqual(spaceCharacter, cells[4][2]);
-            Assert.AreEqual(spaceCharacter, cells[5][2]);
-            //rightpadding
-            Assert.AreEqual(spaceCharacter, cells[2][5]);
-            Assert.AreEqual(spaceCharacter, cells[3][5]);
-            Assert.AreEqual(spaceCharacter, cells[4][5]);
-            Assert.AreEqual(spaceCharacter, cells[5][5]);
-            //Content
-            Assert.AreEqual('a', cells[3][3]);
-            Assert.AreEqual('b', cells[3][4]);
-            Assert.AreEqual('e', cells[4][3]);
-            Assert.AreEqual('f', cells[4][4]);
+            Assert.AreEqual(spaceCharacter, cells[5][6]);
+            Assert.AreEqual('|',            cells[5][7]);
+
+            Assert.AreEqual(spaceCharacter, cells[6][0]);
+            Assert.AreEqual('|',            cells[6][1]);
+            Assert.AreEqual(spaceCharacter, cells[6][2]);
+            Assert.AreEqual(spaceCharacter, cells[6][3]);
+            Assert.AreEqual(spaceCharacter, cells[6][4]);
+            Assert.AreEqual(spaceCharacter, cells[6][5]);
+            Assert.AreEqual(spaceCharacter, cells[6][6]);
+            Assert.AreEqual('|',            cells[6][7]);
+
+            Assert.AreEqual(spaceCharacter, cells[7][0]);
+            Assert.AreEqual('-',            cells[7][1]);
+            Assert.AreEqual('-',            cells[7][2]);
+            Assert.AreEqual('-',            cells[7][3]);
+            Assert.AreEqual('-',            cells[7][4]);
+            Assert.AreEqual('-',            cells[7][5]);
+            Assert.AreEqual('-',            cells[7][6]);
+            Assert.AreEqual('-',            cells[7][7]);
         }
 
     }

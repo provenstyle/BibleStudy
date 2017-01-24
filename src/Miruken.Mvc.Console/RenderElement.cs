@@ -98,7 +98,7 @@
         {
             for (var i = 0; i < _element.BorderRight; i++)
                 for (var y = Border.Start.Y; y < Border.End.Y; y++)
-                    _cells[y][Border.End.Y - 1 - i] = '|';
+                    _cells[y][Border.End.X - 1 - i] = '|';
         }
 
         private void RenderBorderTop()

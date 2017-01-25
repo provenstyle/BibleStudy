@@ -1,601 +1,433 @@
 ﻿namespace Miruken.Mvc.Console.Test
 {
-    using System;
     using Console;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
     public class ElementTests : TestBase
     {
-        private const char   spaceCharacter = ' ';
-        private const char   alphaCharacter = 'a';
         private const string alphaString    = "aaaaaa";
 
         [TestMethod]
         public void CreatesBorder()
         {
-            var buffer = new OutputBuffer();
-            buffer.Border = new Thickness(1);
-            buffer
-                .WriteLine(alphaString)
-                .WriteLine(alphaString)
-                .WriteLine(alphaString);
+            var buffer = new OutputBuffer
+            {
+                Border = new Thickness(1)
+            }
+            .WriteLine(alphaString)
+            .WriteLine(alphaString)
+            .WriteLine(alphaString);
 
             var cells = Render(new Size(3, 3), buffer);
 
-            Console.WriteLine(cells.ToString());
-
-            //TopRow
-            Assert.AreEqual('-', cells[0][0]);
-            Assert.AreEqual('-', cells[0][1]);
-            Assert.AreEqual('-', cells[0][2]);
-
-            //BottomRow
-            Assert.AreEqual('-', cells[2][0]);
-            Assert.AreEqual('-', cells[2][1]);
-            Assert.AreEqual('-', cells[2][2]);
-
-            //LeftColumn
-            Assert.AreEqual('-', cells[0][0]);
-            Assert.AreEqual('|', cells[1][0]);
-            Assert.AreEqual('-', cells[2][0]);
-
-            //RightColumn
-            Assert.AreEqual('-', cells[0][2]);
-            Assert.AreEqual('|', cells[1][2]);
-            Assert.AreEqual('-', cells[2][2]);
-
-            //Content
-            Assert.AreEqual(alphaCharacter, cells[1][1]);
+            char[][] expected =
+            {
+                new [] {'-', '-', '-'},
+                new [] {'|', 'a', '|'},
+                new [] {'-', '-', '-'},
+            };
+            AssertCellsAreEquivelant(expected, cells);
         }
 
         [TestMethod]
         public void CreatesBorderLeft()
         {
-            var buffer = new OutputBuffer();
-            buffer.Border = new Thickness(1, 0, 0, 0);
-            buffer
-                .WriteLine(alphaString)
-                .WriteLine(alphaString)
-                .WriteLine(alphaString);
+            var buffer = new OutputBuffer
+            {
+                Border = new Thickness(1, 0, 0, 0)
+            }
+            .WriteLine(alphaString)
+            .WriteLine(alphaString)
+            .WriteLine(alphaString);
 
             var cells = Render(new Size(3, 3), buffer);
-            buffer.Render(cells);
 
-            Console.WriteLine(cells.ToString());
-
-            //LeftColumn
-            Assert.AreEqual('|', cells[0][0]);
-            Assert.AreEqual('|', cells[1][0]);
-            Assert.AreEqual('|', cells[2][0]);
-
-            //MiddleColumn
-            Assert.AreEqual(alphaCharacter, cells[0][1]);
-            Assert.AreEqual(alphaCharacter, cells[1][1]);
-            Assert.AreEqual(alphaCharacter, cells[2][1]);
-
-            //RightColumn
-            Assert.AreEqual(alphaCharacter, cells[0][2]);
-            Assert.AreEqual(alphaCharacter, cells[1][2]);
-            Assert.AreEqual(alphaCharacter, cells[2][2]);
+            char[][] expected =
+            {
+                new [] {'|', 'a', 'a'},
+                new [] {'|', 'a', 'a'},
+                new [] {'|', 'a', 'a'},
+            };
+            AssertCellsAreEquivelant(expected, cells);
         }
 
         [TestMethod]
         public void CreatesBorderLeftWithPoint()
         {
-            var buffer = new OutputBuffer();
-            buffer.Border = new Thickness(1, 0, 0, 0);
-            buffer
-                .WriteLine(alphaString)
-                .WriteLine(alphaString)
-                .WriteLine(alphaString);
+            var buffer = new OutputBuffer
+            {
+                Border = new Thickness(1, 0, 0, 0)
+            }
+            .WriteLine(alphaString)
+            .WriteLine(alphaString)
+            .WriteLine(alphaString);
 
             var cells = Render(new Size(4, 4), buffer, new Point(1, 1));
-            buffer.Render(cells);
 
-            Console.WriteLine(cells.ToString());
-
-            //LeftColumn
-            Assert.AreEqual(Cells.SpaceChar, cells[0][0]);
-            Assert.AreEqual(Cells.SpaceChar, cells[1][0]);
-            Assert.AreEqual(Cells.SpaceChar, cells[2][0]);
-            Assert.AreEqual(Cells.SpaceChar, cells[3][0]);
-
-            //MiddleColumn
-            Assert.AreEqual(Cells.SpaceChar, cells[0][1]);
-            Assert.AreEqual('|',             cells[1][1]);
-            Assert.AreEqual('|',             cells[2][1]);
-            Assert.AreEqual('|',             cells[3][1]);
-
-            //RightColumn
-            Assert.AreEqual(Cells.SpaceChar, cells[0][2]);
-            Assert.AreEqual(alphaCharacter,  cells[1][2]);
-            Assert.AreEqual(alphaCharacter,  cells[2][2]);
-            Assert.AreEqual(alphaCharacter,  cells[3][2]);
+            char[][] expected =
+            {
+                new[] {'*', '*', '*', '*'},
+                new[] {'*', '|', 'a', 'a'},
+                new[] {'*', '|', 'a', 'a'},
+                new[] {'*', '|', 'a', 'a'}
+            };
+            AssertCellsAreEquivelant(expected, cells);
         }
 
         [TestMethod]
         public void CreatesBorderRight()
         {
-            var buffer = new OutputBuffer();
-            buffer.Border = new Thickness(0, 0, 1, 0);
-            buffer
-                .WriteLine(alphaString)
-                .WriteLine(alphaString)
-                .WriteLine(alphaString);
+            var buffer = new OutputBuffer
+            {
+                Border = new Thickness(0, 0, 1, 0)
+            }
+            .WriteLine(alphaString)
+            .WriteLine(alphaString)
+            .WriteLine(alphaString);
 
             var cells = Render(new Size(3, 3), buffer);
-            buffer.Render(cells);
 
-            Console.WriteLine(cells.ToString());
-
-            //LeftColumn
-            Assert.AreEqual(alphaCharacter, cells[0][0]);
-            Assert.AreEqual(alphaCharacter, cells[1][0]);
-            Assert.AreEqual(alphaCharacter, cells[2][0]);
-
-            //RightColumn
-            Assert.AreEqual('|', cells[0][2]);
-            Assert.AreEqual('|', cells[1][2]);
-            Assert.AreEqual('|', cells[2][2]);
+            char[][] expected =
+            {
+                new [] {'a', 'a', '|'},
+                new [] {'a', 'a', '|'},
+                new [] {'a', 'a', '|'},
+            };
+            AssertCellsAreEquivelant(expected, cells);
         }
 
         [TestMethod]
         public void CreatesBorderRightWithPoint()
         {
-            var buffer = new OutputBuffer();
-            buffer.Border = new Thickness(0, 0, 1, 0);
-            buffer
-                .WriteLine(alphaString)
-                .WriteLine(alphaString)
-                .WriteLine(alphaString);
+            var buffer = new OutputBuffer
+            {
+                Border = new Thickness(0, 0, 1, 0)
+            }
+            .WriteLine(alphaString)
+            .WriteLine(alphaString)
+            .WriteLine(alphaString);
 
             var cells = Render(new Size(4, 4), buffer, new Point(1, 1));
-            buffer.Render(cells);
 
-            Console.WriteLine(cells.ToString());
-
-            //Column0
-            Assert.AreEqual(spaceCharacter, cells[0][0]);
-            Assert.AreEqual(spaceCharacter, cells[1][0]);
-            Assert.AreEqual(spaceCharacter, cells[2][0]);
-            Assert.AreEqual(spaceCharacter, cells[3][0]);
-
-            //Column1
-            Assert.AreEqual(spaceCharacter, cells[0][1]);
-            Assert.AreEqual(alphaCharacter, cells[1][1]);
-            Assert.AreEqual(alphaCharacter, cells[2][1]);
-            Assert.AreEqual(alphaCharacter, cells[3][1]);
-
-            //Column2
-            Assert.AreEqual(spaceCharacter, cells[0][2]);
-            Assert.AreEqual(alphaCharacter, cells[1][2]);
-            Assert.AreEqual(alphaCharacter, cells[2][2]);
-            Assert.AreEqual(alphaCharacter, cells[3][2]);
-
-            //Column3
-            Assert.AreEqual(spaceCharacter, cells[0][3]);
-            Assert.AreEqual('|',            cells[1][3]);
-            Assert.AreEqual('|',            cells[2][3]);
-            Assert.AreEqual('|',            cells[3][3]);
+            char[][] expected =
+            {
+                new [] {'*', '*', '*', '*'},
+                new [] {'*', 'a', 'a', '|'},
+                new [] {'*', 'a', 'a', '|'},
+                new [] {'*', 'a', 'a', '|'}
+            };
+            AssertCellsAreEquivelant(expected, cells);
         }
 
         [TestMethod]
         public void CreatesBorderTop()
         {
-            var buffer = new OutputBuffer();
-            buffer.Border = new Thickness(0, 1, 0, 0);
-            buffer.WriteLine(alphaString)
-                .WriteLine(alphaString)
-                .WriteLine(alphaString);
+            var buffer = new OutputBuffer
+            {
+                Border = new Thickness(0, 1, 0, 0)
+            }
+            .WriteLine(alphaString)
+            .WriteLine(alphaString)
+            .WriteLine(alphaString);
 
             var cells = Render(new Size(3, 3), buffer);
-            buffer.Render(cells);
 
-            Console.WriteLine(cells.ToString());
-
-            //TopRow
-            Assert.AreEqual('-', cells[0][0]);
-            Assert.AreEqual('-', cells[0][1]);
-            Assert.AreEqual('-', cells[0][2]);
-
-            //BottomRow
-            Assert.AreEqual(alphaCharacter, cells[2][0]);
-            Assert.AreEqual(alphaCharacter, cells[2][1]);
-            Assert.AreEqual(alphaCharacter, cells[2][2]);
+            char[][] expected =
+            {
+                new [] {'-', '-', '-'},
+                new [] {'a', 'a', 'a'},
+                new [] {'a', 'a', 'a'},
+            };
+            AssertCellsAreEquivelant(expected, cells);
         }
 
         [TestMethod]
         public void CreatesBorderTopWithPoint()
         {
-            var buffer = new OutputBuffer();
-            buffer.Border = new Thickness(0, 1, 0, 0);
-            buffer.WriteLine(alphaString)
-                .WriteLine(alphaString)
-                .WriteLine(alphaString);
+            var buffer = new OutputBuffer
+            {
+                Border = new Thickness(0, 1, 0, 0)
+            }
+            .WriteLine(alphaString)
+            .WriteLine(alphaString)
+            .WriteLine(alphaString);
 
             var cells = Render(new Size(4, 4), buffer, new Point(1, 1));
-            buffer.Render(cells);
 
-            Console.WriteLine(cells.ToString());
-
-            //Row0
-            Assert.AreEqual(spaceCharacter, cells[0][0]);
-            Assert.AreEqual(spaceCharacter, cells[0][1]);
-            Assert.AreEqual(spaceCharacter, cells[0][2]);
-            Assert.AreEqual(spaceCharacter, cells[0][3]);
-
-            //Row1
-            Assert.AreEqual(spaceCharacter, cells[1][0]);
-            Assert.AreEqual('-',            cells[1][1]);
-            Assert.AreEqual('-',            cells[1][2]);
-            Assert.AreEqual('-',            cells[1][3]);
-
-            //Row2
-            Assert.AreEqual(spaceCharacter, cells[2][0]);
-            Assert.AreEqual(alphaCharacter, cells[2][1]);
-            Assert.AreEqual(alphaCharacter, cells[2][2]);
-            Assert.AreEqual(alphaCharacter, cells[2][3]);
-
-            //Row3
-            Assert.AreEqual(spaceCharacter, cells[3][0]);
-            Assert.AreEqual(alphaCharacter, cells[3][1]);
-            Assert.AreEqual(alphaCharacter, cells[3][2]);
-            Assert.AreEqual(alphaCharacter, cells[3][3]);
+            char[][] expected =
+            {
+                new [] {'*', '*', '*', '*'},
+                new [] {'*', '-', '-', '-'},
+                new [] {'*', 'a', 'a', 'a'},
+                new [] {'*', 'a', 'a', 'a'}
+            };
+            AssertCellsAreEquivelant(expected, cells);
         }
 
         [TestMethod]
         public void CreatesBorderBottom()
         {
-            var buffer = new OutputBuffer();
-            buffer.Border = new Thickness(0, 0, 0, 1);
-            buffer
-                .WriteLine(alphaString)
-                .WriteLine(alphaString)
-                .WriteLine(alphaString);
+            var buffer = new OutputBuffer
+            {
+                Border = new Thickness(0, 0, 0, 1)
+            }
+            .WriteLine(alphaString)
+            .WriteLine(alphaString)
+            .WriteLine(alphaString);
 
             var cells = Render(new Size(3, 3), buffer);
-            buffer.Render(cells);
 
-            Console.WriteLine(cells.ToString());
-
-            //TopRow
-            Assert.AreEqual(alphaCharacter, cells[0][0]);
-            Assert.AreEqual(alphaCharacter, cells[0][1]);
-            Assert.AreEqual(alphaCharacter, cells[0][2]);
-
-            //BottomRow
-            Assert.AreEqual('-', cells[2][0]);
-            Assert.AreEqual('-', cells[2][1]);
-            Assert.AreEqual('-', cells[2][2]);
+            char[][] expected =
+            {
+                new [] {'a', 'a', 'a'},
+                new [] {'a', 'a', 'a'},
+                new [] {'-', '-', '-'}
+            };
+            AssertCellsAreEquivelant(expected, cells);
         }
 
         [TestMethod]
         public void CreatesBorderBottomWithPoint()
         {
-            var buffer = new OutputBuffer();
-            buffer.Border = new Thickness(0, 0, 0, 1);
-            buffer
-                .WriteLine(alphaString)
-                .WriteLine(alphaString)
-                .WriteLine(alphaString);
+            var buffer = new OutputBuffer
+            {
+                Border = new Thickness(0, 0, 0, 1)
+            }
+            .WriteLine(alphaString)
+            .WriteLine(alphaString)
+            .WriteLine(alphaString);
 
             var cells = Render(new Size(4, 4), buffer, new Point(1, 1));
-            buffer.Render(cells);
 
-            Console.WriteLine(cells.ToString());
-
-            //Row0
-            Assert.AreEqual(spaceCharacter, cells[0][0]);
-            Assert.AreEqual(spaceCharacter, cells[0][1]);
-            Assert.AreEqual(spaceCharacter, cells[0][2]);
-            Assert.AreEqual(spaceCharacter, cells[0][3]);
-
-            //Row1
-            Assert.AreEqual(spaceCharacter, cells[1][0]);
-            Assert.AreEqual(alphaCharacter, cells[1][1]);
-            Assert.AreEqual(alphaCharacter, cells[1][2]);
-            Assert.AreEqual(alphaCharacter, cells[1][3]);
-
-            //BottomRow
-            Assert.AreEqual(spaceCharacter, cells[3][0]);
-            Assert.AreEqual('-',            cells[3][1]);
-            Assert.AreEqual('-',            cells[3][2]);
-            Assert.AreEqual('-',            cells[3][3]);
+            char[][] expected =
+            {
+                new[] {'*', '*', '*', '*'},
+                new[] {'*', 'a', 'a', 'a'},
+                new[] {'*', 'a', 'a', 'a'},
+                new[] {'*', '-', '-', '-'}
+            };
+            AssertCellsAreEquivelant(expected, cells);
         }
 
         [TestMethod]
         public void WhenWidthOrHeightIsLessThanThreeDoesNotCreateBorder()
         {
-            var buffer = new OutputBuffer();
-            buffer.Border = new Thickness(1);
-            buffer
-                .WriteLine(alphaString)
-                .WriteLine(alphaString);
+            var buffer = new OutputBuffer
+            {
+                Border = new Thickness(1)
+            }
+            .WriteLine(alphaString)
+            .WriteLine(alphaString);
 
             var cells = Render(new Size(2, 2), buffer);
-            buffer.Render(cells);
-
-            Console.WriteLine(cells);
-
-            for (var x = 0; x < 2; x++)
+            char[][] expected =
             {
-                for (var y = 0; y < 2; y++)
-                {
-                    Assert.AreEqual(alphaCharacter, cells[y][x]);
-                }
-            }
+                new[] {'a', 'a'},
+                new[] {'a', 'a'}
+            };
+            AssertCellsAreEquivelant(expected, cells);
         }
 
         [TestMethod]
         public void CreatesLeftPadding()
         {
-            var buffer = new OutputBuffer();
-            buffer.Padding = new Thickness(1, 0, 0, 0);
-            buffer
-                .WriteLine(alphaString)
-                .WriteLine(alphaString)
-                .WriteLine(alphaString);
+            var buffer = new OutputBuffer
+            {
+                Padding = new Thickness(1, 0, 0, 0)
+            }
+            .WriteLine(alphaString)
+            .WriteLine(alphaString)
+            .WriteLine(alphaString);
 
             var cells = Render(new Size(3, 3), buffer);
-            buffer.Render(cells);
-
-            Console.WriteLine(cells);
-
-            Assert.AreEqual(spaceCharacter, cells[0][0]);
-            Assert.AreEqual(spaceCharacter, cells[1][0]);
-            Assert.AreEqual(spaceCharacter, cells[2][0]);
-
-            Assert.AreEqual(alphaCharacter, cells[0][1]);
-            Assert.AreEqual(alphaCharacter, cells[1][1]);
-            Assert.AreEqual(alphaCharacter, cells[2][1]);
-
-            Assert.AreEqual(alphaCharacter, cells[0][2]);
-            Assert.AreEqual(alphaCharacter, cells[1][2]);
-            Assert.AreEqual(alphaCharacter, cells[2][2]);
+            char[][] expected =
+            {
+                new [] {' ', 'a', 'a'},
+                new [] {' ', 'a', 'a'},
+                new [] {' ', 'a', 'a'}
+            };
+            AssertCellsAreEquivelant(expected, cells);
         }
 
         [TestMethod]
         public void CreatesLeftPaddingWithPoint()
         {
-            var buffer = new OutputBuffer();
-            buffer.Padding = new Thickness(1, 0, 0, 0);
-            buffer
-                .WriteLine(alphaString)
-                .WriteLine(alphaString)
-                .WriteLine(alphaString);
+            var buffer = new OutputBuffer
+            {
+                Padding = new Thickness(1, 0, 0, 0)
+            }
+            .WriteLine(alphaString)
+            .WriteLine(alphaString)
+            .WriteLine(alphaString);
 
             var cells = Render(new Size(4, 4), buffer, new Point(1, 1));
-            buffer.Render(cells);
 
-            Console.WriteLine(cells);
+            char[][] expected =
+            {
+                new [] {'*', '*', '*', '*'},
+                new [] {'*', ' ', 'a', 'a'},
+                new [] {'*', ' ', 'a', 'a'},
+                new [] {'*', ' ', 'a', 'a'}
+            };
 
-            Assert.AreEqual(spaceCharacter, cells[0][0]);
-            Assert.AreEqual(spaceCharacter, cells[1][0]);
-            Assert.AreEqual(spaceCharacter, cells[2][0]);
-            Assert.AreEqual(spaceCharacter, cells[3][0]);
-
-            Assert.AreEqual(spaceCharacter, cells[0][1]);
-            Assert.AreEqual(spaceCharacter, cells[1][1]);
-            Assert.AreEqual(spaceCharacter, cells[2][1]);
-            Assert.AreEqual(spaceCharacter, cells[3][1]);
-
-            Assert.AreEqual(spaceCharacter, cells[0][2]);
-            Assert.AreEqual(alphaCharacter, cells[1][2]);
-            Assert.AreEqual(alphaCharacter, cells[2][2]);
-            Assert.AreEqual(alphaCharacter, cells[3][2]);
-
-            Assert.AreEqual(spaceCharacter, cells[0][3]);
-            Assert.AreEqual(alphaCharacter, cells[1][3]);
-            Assert.AreEqual(alphaCharacter, cells[2][3]);
-            Assert.AreEqual(alphaCharacter, cells[3][3]);
+            AssertCellsAreEquivelant(expected, cells);
         }
 
         [TestMethod]
         public void CreatesRightPadding()
         {
-            var buffer = new OutputBuffer();
-            buffer.Padding = new Thickness(0, 0, 1, 0);
-            buffer
-                .WriteLine(alphaString)
-                .WriteLine(alphaString)
-                .WriteLine(alphaString);
+            var buffer = new OutputBuffer
+            {
+                Padding = new Thickness(0, 0, 1, 0)
+            }
+            .WriteLine(alphaString)
+            .WriteLine(alphaString)
+            .WriteLine(alphaString);
 
             var cells = Render(new Size(3, 3), buffer);
-            buffer.Render(cells);
 
-            Console.WriteLine(cells.ToString());
-
-            Assert.AreEqual(alphaCharacter, cells[0][0]);
-            Assert.AreEqual(alphaCharacter, cells[1][0]);
-            Assert.AreEqual(alphaCharacter, cells[2][0]);
-            Assert.AreEqual(alphaCharacter, cells[0][1]);
-            Assert.AreEqual(alphaCharacter, cells[1][1]);
-            Assert.AreEqual(alphaCharacter, cells[2][1]);
-            Assert.AreEqual(spaceCharacter, cells[0][2]);
-            Assert.AreEqual(spaceCharacter, cells[1][2]);
-            Assert.AreEqual(spaceCharacter, cells[2][2]);
+            char[][] expected =
+            {
+                new [] {'a', 'a', ' '},
+                new [] {'a', 'a', ' '},
+                new [] {'a', 'a', ' '}
+            };
+            AssertCellsAreEquivelant(expected, cells);
         }
 
         [TestMethod]
         public void CreatesRightPaddingWithPoint()
         {
-            var buffer = new OutputBuffer();
-            buffer.Padding = new Thickness(0, 0, 1, 0);
-            buffer
-                .WriteLine(alphaString)
-                .WriteLine(alphaString)
-                .WriteLine(alphaString);
+            var buffer = new OutputBuffer
+            {
+                Padding = new Thickness(0, 0, 1, 0)
+            }
+            .WriteLine(alphaString)
+            .WriteLine(alphaString)
+            .WriteLine(alphaString);
 
             var cells = Render(new Size(4, 4), buffer, new Point(1, 1));
-            buffer.Render(cells);
+            char[][] expected =
+            {
+                new [] {'*', '*', '*', '*'},
+                new [] {'*', 'a', 'a', ' '},
+                new [] {'*', 'a', 'a', ' '},
+                new [] {'*', 'a', 'a', ' '}
+            };
 
-            Console.WriteLine(cells.ToString());
-
-            Assert.AreEqual(spaceCharacter, cells[0][0]);
-            Assert.AreEqual(spaceCharacter, cells[1][0]);
-            Assert.AreEqual(spaceCharacter, cells[2][0]);
-            Assert.AreEqual(spaceCharacter, cells[3][0]);
-
-            Assert.AreEqual(spaceCharacter, cells[0][1]);
-            Assert.AreEqual(alphaCharacter, cells[1][1]);
-            Assert.AreEqual(alphaCharacter, cells[2][1]);
-            Assert.AreEqual(alphaCharacter, cells[3][1]);
-
-            Assert.AreEqual(spaceCharacter, cells[0][2]);
-            Assert.AreEqual(alphaCharacter, cells[1][2]);
-            Assert.AreEqual(alphaCharacter, cells[2][2]);
-            Assert.AreEqual(alphaCharacter, cells[3][2]);
-
-            Assert.AreEqual(spaceCharacter, cells[0][3]);
-            Assert.AreEqual(spaceCharacter, cells[1][3]);
-            Assert.AreEqual(spaceCharacter, cells[2][3]);
-            Assert.AreEqual(spaceCharacter, cells[3][3]);
+            AssertCellsAreEquivelant(expected, cells);
         }
 
         [TestMethod]
         public void CreatesTopPadding()
         {
-            var buffer = new OutputBuffer();
-            buffer.Padding = new Thickness(0, 1, 0, 0);
-            buffer
-                .WriteLine(alphaString)
-                .WriteLine(alphaString)
-                .WriteLine(alphaString);
+            var buffer = new OutputBuffer
+            {
+                Padding = new Thickness(0, 1, 0, 0)
+            }
+            .WriteLine(alphaString)
+            .WriteLine(alphaString)
+            .WriteLine(alphaString);
 
             var cells = Render(new Size(3, 3), buffer);
-            buffer.Render(cells);
 
-            Console.WriteLine(cells);
-
-            Assert.AreEqual(spaceCharacter, cells[0][0]);
-            Assert.AreEqual(alphaCharacter, cells[1][0]);
-            Assert.AreEqual(alphaCharacter, cells[2][0]);
-            Assert.AreEqual(spaceCharacter, cells[0][1]);
-            Assert.AreEqual(alphaCharacter, cells[1][1]);
-            Assert.AreEqual(alphaCharacter, cells[2][1]);
-            Assert.AreEqual(spaceCharacter, cells[0][2]);
-            Assert.AreEqual(alphaCharacter, cells[1][2]);
-            Assert.AreEqual(alphaCharacter, cells[2][2]);
+            char[][] expected =
+            {
+                new [] {' ', ' ', ' '},
+                new [] {'a', 'a', 'a'},
+                new [] {'a', 'a', 'a'}
+            };
+            AssertCellsAreEquivelant(expected, cells);
         }
 
         [TestMethod]
         public void CreatesTopPaddingWithPoint()
         {
-            var buffer = new OutputBuffer();
-            buffer.Padding = new Thickness(0, 1, 0, 0);
-            buffer
-                .WriteLine(alphaString)
-                .WriteLine(alphaString)
-                .WriteLine(alphaString);
+            var buffer = new OutputBuffer
+            {
+                Padding = new Thickness(0, 1, 0, 0)
+            }
+            .WriteLine(alphaString)
+            .WriteLine(alphaString)
+            .WriteLine(alphaString);
 
             var cells = Render(new Size(4, 4), buffer, new Point(1, 1));
-            buffer.Render(cells);
-
-            Console.WriteLine(cells);
-
-            Assert.AreEqual(spaceCharacter, cells[0][0]);
-            Assert.AreEqual(spaceCharacter, cells[1][0]);
-            Assert.AreEqual(spaceCharacter, cells[2][0]);
-            Assert.AreEqual(spaceCharacter, cells[3][0]);
-
-            Assert.AreEqual(spaceCharacter, cells[0][1]);
-            Assert.AreEqual(spaceCharacter, cells[1][1]);
-            Assert.AreEqual(alphaCharacter, cells[2][1]);
-            Assert.AreEqual(alphaCharacter, cells[3][1]);
-
-            Assert.AreEqual(spaceCharacter, cells[0][2]);
-            Assert.AreEqual(spaceCharacter, cells[1][2]);
-            Assert.AreEqual(alphaCharacter, cells[2][2]);
-            Assert.AreEqual(alphaCharacter, cells[3][2]);
-
-            Assert.AreEqual(spaceCharacter, cells[0][3]);
-            Assert.AreEqual(spaceCharacter, cells[1][3]);
-            Assert.AreEqual(alphaCharacter, cells[2][3]);
-            Assert.AreEqual(alphaCharacter, cells[3][3]);
+            char[][] expected =
+            {
+                new [] {'*', '*', '*', '*'},
+                new [] {'*', ' ', ' ', ' '},
+                new [] {'*', 'a', 'a', 'a'},
+                new [] {'*', 'a', 'a', 'a'}
+            };
+            AssertCellsAreEquivelant(expected, cells);
         }
 
         [TestMethod]
         public void CreatesBottomPadding()
         {
-            var buffer = new OutputBuffer();
-            buffer.Padding = new Thickness(0, 0, 0, 1);
-            buffer
-                .WriteLine(alphaString)
-                .WriteLine(alphaString)
-                .WriteLine(alphaString);
+            var buffer = new OutputBuffer
+            {
+                Padding = new Thickness(0, 0, 0, 1)
+            }
+            .WriteLine(alphaString)
+            .WriteLine(alphaString)
+            .WriteLine(alphaString);
 
             var cells = Render(new Size(3, 3), buffer);
-            buffer.Render(cells);
-
-            Console.WriteLine(cells);
-
-            Assert.AreEqual(alphaCharacter, cells[0][0]);
-            Assert.AreEqual(alphaCharacter, cells[1][0]);
-            Assert.AreEqual(spaceCharacter, cells[2][0]);
-            Assert.AreEqual(alphaCharacter, cells[0][1]);
-            Assert.AreEqual(alphaCharacter, cells[1][1]);
-            Assert.AreEqual(spaceCharacter, cells[2][1]);
-            Assert.AreEqual(alphaCharacter, cells[0][2]);
-            Assert.AreEqual(alphaCharacter, cells[1][2]);
-            Assert.AreEqual(spaceCharacter, cells[2][2]);
+            char[][] expected =
+            {
+                new [] {'a', 'a', 'a'},
+                new [] {'a', 'a', 'a'},
+                new [] {' ', ' ', ' '}
+            };
+            AssertCellsAreEquivelant(expected, cells);
         }
 
         [TestMethod]
         public void CreatesBottomPaddingWithPoint()
         {
-            var buffer = new OutputBuffer();
-            buffer.Padding = new Thickness(0, 0, 0, 1);
-            buffer
-                .WriteLine(alphaString)
-                .WriteLine(alphaString)
-                .WriteLine(alphaString);
+            var buffer = new OutputBuffer
+            {
+                Padding = new Thickness(0, 0, 0, 1)
+            }
+            .WriteLine(alphaString)
+            .WriteLine(alphaString)
+            .WriteLine(alphaString);
 
             var cells = Render(new Size(4, 4), buffer, new Point(1,1));
-            buffer.Render(cells);
 
-            Console.WriteLine(cells);
+            char[][] expected =
+            {
+                new [] {'*', '*', '*', '*'},
+                new [] {'*', 'a', 'a', 'a'},
+                new [] {'*', 'a', 'a', 'a'},
+                new [] {'*', ' ', ' ', ' '}
+            };
 
-            Assert.AreEqual(spaceCharacter, cells[0][0]);
-            Assert.AreEqual(spaceCharacter, cells[1][0]);
-            Assert.AreEqual(spaceCharacter, cells[2][0]);
-            Assert.AreEqual(spaceCharacter, cells[3][0]);
-
-            Assert.AreEqual(spaceCharacter, cells[0][1]);
-            Assert.AreEqual(alphaCharacter, cells[1][1]);
-            Assert.AreEqual(alphaCharacter, cells[2][1]);
-            Assert.AreEqual(spaceCharacter, cells[3][1]);
-
-            Assert.AreEqual(spaceCharacter, cells[0][2]);
-            Assert.AreEqual(alphaCharacter, cells[1][2]);
-            Assert.AreEqual(alphaCharacter, cells[2][2]);
-            Assert.AreEqual(spaceCharacter, cells[3][2]);
-
-            Assert.AreEqual(spaceCharacter, cells[0][3]);
-            Assert.AreEqual(alphaCharacter, cells[1][3]);
-            Assert.AreEqual(alphaCharacter, cells[2][3]);
-            Assert.AreEqual(spaceCharacter, cells[3][3]);
+            AssertCellsAreEquivelant(expected, cells);
         }
 
         [TestMethod]
         public void CreatesContent()
         {
-            var buffer = new OutputBuffer();
-            buffer.Border = new Thickness(1);
-            buffer
-                .WriteLine("abcd")
-                .WriteLine("efgh");
+            var buffer = new OutputBuffer
+            {
+                Border = new Thickness(1)
+            }
+            .WriteLine("abcd")
+            .WriteLine("efgh");
 
             var cells = Render(new Size(4, 4), buffer);
-            buffer.Render(cells);
 
-            Console.WriteLine(cells);
-
-            //Content
-            Assert.AreEqual('a', cells[1][1]);
-            Assert.AreEqual('b', cells[1][2]);
-            Assert.AreEqual('e', cells[2][1]);
-            Assert.AreEqual('f', cells[2][2]);
+            char[][] expected =
+            {
+                new [] {'-', '-', '-', '-'},
+                new [] {'|', 'a', 'b', '|'},
+                new [] {'|', 'e', 'f', '|'},
+                new [] {'-', '-', '-', '-'}
+            };
+            AssertCellsAreEquivelant(expected, cells);
         }
 
         [TestMethod]
@@ -610,63 +442,16 @@
             .WriteLine("efgh");
 
             var cells = Render(new Size(6, 6), buffer);
-            buffer.Render(cells);
-
-            Console.WriteLine(cells.ToString());
-
-            //topborder
-            Assert.AreEqual('-', cells[0][0]);
-            Assert.AreEqual('-', cells[0][1]);
-            Assert.AreEqual('-', cells[0][2]);
-            Assert.AreEqual('-', cells[0][3]);
-            Assert.AreEqual('-', cells[0][4]);
-            Assert.AreEqual('-', cells[0][5]);
-            //bottomborder
-            Assert.AreEqual('-', cells[5][0]);
-            Assert.AreEqual('-', cells[5][1]);
-            Assert.AreEqual('-', cells[5][2]);
-            Assert.AreEqual('-', cells[5][3]);
-            Assert.AreEqual('-', cells[5][4]);
-            Assert.AreEqual('-', cells[5][5]);
-            //leftborder
-            Assert.AreEqual('-', cells[0][0]);
-            Assert.AreEqual('|', cells[1][0]);
-            Assert.AreEqual('|', cells[2][0]);
-            Assert.AreEqual('|', cells[3][0]);
-            Assert.AreEqual('|', cells[4][0]);
-            Assert.AreEqual('-', cells[5][0]);
-            //rightborder
-            Assert.AreEqual('-', cells[0][5]);
-            Assert.AreEqual('|', cells[1][5]);
-            Assert.AreEqual('|', cells[2][5]);
-            Assert.AreEqual('|', cells[3][5]);
-            Assert.AreEqual('|', cells[4][5]);
-            Assert.AreEqual('-', cells[5][5]);
-            //toppadding
-            Assert.AreEqual(spaceCharacter, cells[1][1]);
-            Assert.AreEqual(spaceCharacter, cells[1][2]);
-            Assert.AreEqual(spaceCharacter, cells[1][3]);
-            Assert.AreEqual(spaceCharacter, cells[1][4]);
-            //bottompadding
-            Assert.AreEqual(spaceCharacter, cells[4][1]);
-            Assert.AreEqual(spaceCharacter, cells[4][2]);
-            Assert.AreEqual(spaceCharacter, cells[4][3]);
-            Assert.AreEqual(spaceCharacter, cells[4][4]);
-            //leftpadding
-            Assert.AreEqual(spaceCharacter, cells[1][1]);
-            Assert.AreEqual(spaceCharacter, cells[2][1]);
-            Assert.AreEqual(spaceCharacter, cells[3][1]);
-            Assert.AreEqual(spaceCharacter, cells[4][1]);
-            //rightpadding
-            Assert.AreEqual(spaceCharacter, cells[1][4]);
-            Assert.AreEqual(spaceCharacter, cells[2][4]);
-            Assert.AreEqual(spaceCharacter, cells[3][4]);
-            Assert.AreEqual(spaceCharacter, cells[4][4]);
-            //Content
-            Assert.AreEqual('a', cells[2][2]);
-            Assert.AreEqual('b', cells[2][3]);
-            Assert.AreEqual('e', cells[3][2]);
-            Assert.AreEqual('f', cells[3][3]);
+            char[][] expected =
+            {
+                new[] {'-', '-', '-', '-', '-', '-'},
+                new[] {'|', ' ', ' ', ' ', ' ', '|'},
+                new[] {'|', ' ', 'a', 'b', ' ', '|'},
+                new[] {'|', ' ', 'e', 'f', ' ', '|'},
+                new[] {'|', ' ', ' ', ' ', ' ', '|'},
+                new[] {'-', '-', '-', '-', '-', '-'}
+            };
+            AssertCellsAreEquivelant(expected, cells);
         }
 
         [TestMethod]
@@ -675,89 +460,105 @@
             var buffer = new OutputBuffer
             {
                 Border  = new Thickness(1),
-                Padding = new Thickness(1),
-                Point   = new Point(1, 2)
+                Padding = new Thickness(1)
             }
             .WriteLine("abcde")
             .WriteLine("fghi");
 
             var cells = Render(new Size(8, 8), buffer, new Point(1, 1));
-            buffer.Render(cells);
 
-            Console.WriteLine(cells.ToString());
-
-            Assert.AreEqual(spaceCharacter, cells[0][0]);
-            Assert.AreEqual(spaceCharacter, cells[0][1]);
-            Assert.AreEqual(spaceCharacter, cells[0][2]);
-            Assert.AreEqual(spaceCharacter, cells[0][3]);
-            Assert.AreEqual(spaceCharacter, cells[0][4]);
-            Assert.AreEqual(spaceCharacter, cells[0][5]);
-            Assert.AreEqual(spaceCharacter, cells[0][6]);
-            Assert.AreEqual(spaceCharacter, cells[0][7]);
-
-            Assert.AreEqual(spaceCharacter, cells[1][0]);
-            Assert.AreEqual('-',            cells[1][1]);
-            Assert.AreEqual('-',            cells[1][2]);
-            Assert.AreEqual('-',            cells[1][3]);
-            Assert.AreEqual('-',            cells[1][4]);
-            Assert.AreEqual('-',            cells[1][5]);
-            Assert.AreEqual('-',            cells[1][6]);
-            Assert.AreEqual('-',            cells[1][7]);
-
-            Assert.AreEqual(spaceCharacter, cells[2][0]);
-            Assert.AreEqual('|',            cells[2][1]);
-            Assert.AreEqual(spaceCharacter, cells[2][2]);
-            Assert.AreEqual(spaceCharacter, cells[2][3]);
-            Assert.AreEqual(spaceCharacter, cells[2][4]);
-            Assert.AreEqual(spaceCharacter, cells[2][5]);
-            Assert.AreEqual(spaceCharacter, cells[2][6]);
-            Assert.AreEqual('|',            cells[2][7]);
-
-            Assert.AreEqual(spaceCharacter, cells[3][0]);
-            Assert.AreEqual('|',            cells[3][1]);
-            Assert.AreEqual(spaceCharacter, cells[3][2]);
-            Assert.AreEqual('a',            cells[3][3]);
-            Assert.AreEqual('b',            cells[3][4]);
-            Assert.AreEqual('c',            cells[3][5]);
-            Assert.AreEqual(spaceCharacter, cells[3][6]);
-            Assert.AreEqual('|',            cells[3][7]);
-
-            Assert.AreEqual(spaceCharacter, cells[4][0]);
-            Assert.AreEqual('|',            cells[4][1]);
-            Assert.AreEqual(spaceCharacter, cells[4][2]);
-            Assert.AreEqual('f',            cells[4][3]);
-            Assert.AreEqual('g',            cells[4][4]);
-            Assert.AreEqual('h',            cells[4][5]);
-            Assert.AreEqual(spaceCharacter, cells[4][6]);
-            Assert.AreEqual('|',            cells[4][7]);
-
-            Assert.AreEqual(spaceCharacter, cells[5][0]);
-            Assert.AreEqual('|',            cells[5][1]);
-            Assert.AreEqual(spaceCharacter, cells[5][2]);
-            Assert.AreEqual(spaceCharacter, cells[5][3]);
-            Assert.AreEqual(spaceCharacter, cells[5][4]);
-            Assert.AreEqual(spaceCharacter, cells[5][5]);
-            Assert.AreEqual(spaceCharacter, cells[5][6]);
-            Assert.AreEqual('|',            cells[5][7]);
-
-            Assert.AreEqual(spaceCharacter, cells[6][0]);
-            Assert.AreEqual('|',            cells[6][1]);
-            Assert.AreEqual(spaceCharacter, cells[6][2]);
-            Assert.AreEqual(spaceCharacter, cells[6][3]);
-            Assert.AreEqual(spaceCharacter, cells[6][4]);
-            Assert.AreEqual(spaceCharacter, cells[6][5]);
-            Assert.AreEqual(spaceCharacter, cells[6][6]);
-            Assert.AreEqual('|',            cells[6][7]);
-
-            Assert.AreEqual(spaceCharacter, cells[7][0]);
-            Assert.AreEqual('-',            cells[7][1]);
-            Assert.AreEqual('-',            cells[7][2]);
-            Assert.AreEqual('-',            cells[7][3]);
-            Assert.AreEqual('-',            cells[7][4]);
-            Assert.AreEqual('-',            cells[7][5]);
-            Assert.AreEqual('-',            cells[7][6]);
-            Assert.AreEqual('-',            cells[7][7]);
+            char[][] expected =
+            {
+                new [] {'*', '*', '*', '*', '*', '*', '*', '*'},
+                new [] {'*', '-', '-', '-', '-', '-', '-', '-'},
+                new [] {'*', '|', ' ', ' ', ' ', ' ', ' ', '|'},
+                new [] {'*', '|', ' ', 'a', 'b', 'c', ' ', '|'},
+                new [] {'*', '|', ' ', 'f', 'g', 'h', ' ', '|'},
+                new [] {'*', '|', ' ', ' ', ' ', ' ', ' ', '|'},
+                new [] {'*', '|', ' ', ' ', ' ', ' ', ' ', '|'},
+                new [] {'*', '-', '-', '-', '-', '-', '-', '-'}
+            };
+            AssertCellsAreEquivelant(expected, cells);
         }
 
+        [TestMethod]
+        public void CreatesMarginLeft()
+        {
+            var buffer = new OutputBuffer
+            {
+                Border = new Thickness(1, 0, 0, 0),
+                Margin = new Thickness(1, 0, 0, 0)
+            };
+
+            var cells = Render(new Size(4, 4), buffer);
+            char[][] expected =
+            {
+                new[] {' ', '|', ' ', ' '},
+                new[] {' ', '|', ' ', ' '},
+                new[] {' ', '|', ' ', ' '},
+                new[] {' ', '|', ' ', ' '}
+            };
+            AssertCellsAreEquivelant(expected, cells);
+        }
+
+        [TestMethod]
+        public void CreatesMarginRight()
+        {
+            var buffer = new OutputBuffer
+            {
+                Border = new Thickness(0, 0, 1, 0),
+                Margin = new Thickness(0, 0, 1, 0)
+            };
+
+            var cells = Render(new Size(4, 4), buffer);
+            char[][] expected =
+            {
+                new[] {' ', ' ', '|', ' '},
+                new[] {' ', ' ', '|', ' '},
+                new[] {' ', ' ', '|', ' '},
+                new[] {' ', ' ', '|', ' '}
+            };
+            AssertCellsAreEquivelant(expected, cells);
+        }
+
+        [TestMethod]
+        public void CreatesMarginTop()
+        {
+            var buffer = new OutputBuffer
+            {
+                Border = new Thickness(0, 1, 0, 0),
+                Margin = new Thickness(0, 1, 0, 0)
+            };
+
+            var cells = Render(new Size(4, 4), buffer);
+            char[][] expected =
+            {
+                new[] {' ', ' ', ' ', ' '},
+                new[] {'-', '-', '-', '-'},
+                new[] {' ', ' ', ' ', ' '},
+                new[] {' ', ' ', ' ', ' '}
+            };
+            AssertCellsAreEquivelant(expected, cells);
+        }
+
+        [TestMethod]
+        public void CreatesMarginBottom()
+        {
+            var buffer = new OutputBuffer
+            {
+                Border = new Thickness(0, 0, 0, 1),
+                Margin = new Thickness(0, 0, 0, 1)
+            };
+
+            var cells = Render(new Size(4, 4), buffer);
+            char[][] expected =
+            {
+                new[] {' ', ' ', ' ', ' '},
+                new[] {' ', ' ', ' ', ' '},
+                new[] {'-', '-', '-', '-'},
+                new[] {' ', ' ', ' ', ' '}
+            };
+            AssertCellsAreEquivelant(expected, cells);
+        }
     }
 }

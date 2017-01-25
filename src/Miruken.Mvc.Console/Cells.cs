@@ -6,8 +6,7 @@ namespace Miruken.Mvc.Console
     {
         public const char SpaceChar = ' ';
         public const char NullChar  = (char)0;
-
-        private readonly char[][] _cells;
+        public readonly char[][] _cells;
 
         public Point Point  { get; set; }
         public int   Height { get;  }

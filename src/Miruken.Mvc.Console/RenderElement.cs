@@ -4,8 +4,10 @@
     {
         private FrameworkElement _element;
 
-        private Boundry Padding;
-        private Boundry Border;
+        private Boundry margin;
+        private Boundry border;
+        private Boundry padding;
+        private Boundry content;
 
         public void Handle(FrameworkElement element, Cells cells)
         {
@@ -14,28 +16,48 @@
 
             if (!CanRenderBorderAndPadding()) return;
 
-            var borderXStart = _element.Point.X;
-            var borderYStart = _element.Point.Y;
+            //margin
+            var marginXStart = _element.Point.X;
+            var marginYStart = _element.Point.Y;
 
-            var borderXEnd   = borderXStart + _element.ActualSize.Width;
-            if (borderXEnd > cells.Width)
-                borderXEnd = cells.Width;
+            var marginXEnd = marginXStart + _element.ActualSize.Width;
+            if (marginXEnd > cells.Width)
+                marginXEnd = cells.Width;
 
-            var borderYEnd   = borderYStart + _element.ActualSize.Height;
-            if (borderYEnd > cells.Height)
-                borderYEnd = cells.Height;
+            var marginYEnd   = marginYStart + _element.ActualSize.Height;
+            if (marginYEnd > cells.Height)
+                marginYEnd = cells.Height;
 
-            Border = new Boundry(new Point(borderXStart, borderYStart), new Point(borderXEnd, borderYEnd));
+            margin = new Boundry(new Point(marginXStart, marginYStart), new Point(marginXEnd, marginYEnd));
 
-            var paddingXStart = borderXStart + element.Padding.Left;
-            var paddingYStart = borderYStart + element.Padding.Top;
-            var paddingXEnd   = borderXEnd   - element.Padding.Right;
-            var paddingYEnd   = borderYEnd   - element.Padding.Bottom;
+            //border
+            var borderXStart = marginXStart + _element.Margin.Left;
+            var borderYStart = marginYStart + _element.Margin.Top;
+            var borderXEnd   = marginXEnd   - _element.Margin.Right;
+            var borderYEnd   = marginYEnd   - _element.Margin.Bottom;
 
-            Padding = new Boundry(new Point(paddingXStart, paddingYStart), new Point(paddingXEnd, paddingYEnd));
+            border = new Boundry(new Point(borderXStart, borderYStart), new Point(borderXEnd, borderYEnd));
 
+            //padding
+            var paddingXStart = borderXStart + _element.Border.Left;
+            var paddingYStart = borderYStart + _element.Border.Top;
+            var paddingXEnd   = borderXEnd   - _element.Border.Right;
+            var paddingYEnd   = borderYEnd   - _element.Border.Bottom;
+
+            padding = new Boundry(new Point(paddingXStart, paddingYStart), new Point(paddingXEnd, paddingYEnd));
+
+            //content
+            var contentXStart = paddingXStart + _element.Padding.Left;
+            var contentYStart = paddingYStart + _element.Padding.Top;
+            var contentXEnd   = paddingXEnd   - _element.Padding.Right;
+            var contentYEnd   = paddingYEnd   - _element.Padding.Bottom;
+
+            content = new Boundry(new Point(contentXStart, contentYStart), new Point(contentXEnd, contentYEnd));
+
+            RenderMargin();
             RenderBorder();
             RenderPadding();
+            RenderContent();
         }
 
         private bool CanRenderBorderAndPadding()
@@ -54,29 +76,29 @@
         private void RenderPaddingLeft()
         {
             for (var i = 0; i < _element.Padding.Left; i++)
-                for (var y = Padding.Start.Y; y < Padding.End.Y; y++)
-                    _cells[y][Padding.Start.X + i] = Cells.SpaceChar;
+                for (var y = padding.Start.Y; y < padding.End.Y; y++)
+                    _cells[y][padding.Start.X + i] = Cells.SpaceChar;
         }
 
         private void RenderPaddingRight()
         {
             for (var i = 0; i < _element.Padding.Right; i++)
-                for (var y = Padding.Start.Y; y < Padding.End.Y; y++)
-                    _cells[y][Padding.End.X - 1 - i] = Cells.SpaceChar;
+                for (var y = padding.Start.Y; y < padding.End.Y; y++)
+                    _cells[y][padding.End.X - 1 - i] = Cells.SpaceChar;
         }
 
         private void RenderPaddingTop()
         {
             for (var i = 0; i < _element.Padding.Top; i++)
-                for (var x = Padding.Start.X; x < Padding.End.X; x++)
-                    _cells[Padding.Start.Y + i][x] = Cells.SpaceChar;
+                for (var x = padding.Start.X; x < padding.End.X; x++)
+                    _cells[padding.Start.Y + i][x] = Cells.SpaceChar;
         }
 
         private void RenderPaddingBottom()
         {
             for (var i = 0; i < _element.Padding.Bottom; i++)
-                for (var x = Padding.Start.X; x < Padding.End.X; x++)
-                    _cells[Padding.Start.Y - i][x] = Cells.SpaceChar;
+                for (var x = padding.Start.X; x < padding.End.X; x++)
+                    _cells[padding.End.Y - 1 - i][x] = Cells.SpaceChar;
         }
 
         private void RenderBorder()
@@ -90,29 +112,73 @@
         private void RenderBorderLeft()
         {
             for (var i = 0; i < _element.Border.Left; i++)
-                for (var y = Border.Start.Y; y < Border.End.Y; y++)
-                    _cells[y][i + Border.Start.X] =  '|';
+                for (var y = border.Start.Y; y < border.End.Y; y++)
+                    _cells[y][i + border.Start.X] =  '|';
         }
 
         private void RenderBorderRight()
         {
             for (var i = 0; i < _element.Border.Right; i++)
-                for (var y = Border.Start.Y; y < Border.End.Y; y++)
-                    _cells[y][Border.End.X - 1 - i] = '|';
+                for (var y = border.Start.Y; y < border.End.Y; y++)
+                    _cells[y][border.End.X - 1 - i] = '|';
         }
 
         private void RenderBorderTop()
         {
             for (var i = 0; i < _element.Border.Top; i++)
-                for (var x = Border.Start.X; x < Border.End.X; x++)
-                    _cells[i + Border.Start.Y][x] = '-';
+                for (var x = border.Start.X; x < border.End.X; x++)
+                    _cells[i + border.Start.Y][x] = '-';
         }
 
         private void RenderBorderBottom()
         {
             for (var i = 0; i < _element.Border.Bottom; i++)
-                for (var x = Border.Start.X; x < Border.End.X; x++)
-                    _cells[Border.End.Y - 1 -i][x] = '-';
+                for (var x = border.Start.X; x < border.End.X; x++)
+                    _cells[border.End.Y - 1 -i][x] = '-';
+        }
+
+
+        private void RenderMargin()
+        {
+            RenderLeftMargin();
+            RenderTopMargin();
+            RenderRightMargin();
+            RenderBottomMargin();
+        }
+
+        private void RenderLeftMargin()
+        {
+            for (var i = 0; i < _element.Margin.Left; i++)
+                for (var y = margin.Start.Y; y < border.End.Y; y++)
+                    _cells[y][i + margin.Start.X] =  Cells.SpaceChar;
+        }
+
+        private void RenderTopMargin()
+        {
+            for (var i = 0; i < _element.Margin.Top; i++)
+                for (var x = margin.Start.X; x < margin.End.X; x++)
+                    _cells[i + margin.Start.Y][x] = Cells.SpaceChar;
+        }
+
+        private void RenderRightMargin()
+        {
+            for (var i = 0; i < _element.Margin.Right; i++)
+                for (var y = margin.Start.Y; y < border.End.Y; y++)
+                    _cells[y][margin.End.X - 1 - i] =  Cells.SpaceChar;
+        }
+
+        private void RenderBottomMargin()
+        {
+            for (var i = 0; i < _element.Margin.Bottom; i++)
+                for (var x = margin.Start.X; x < margin.End.X; x++)
+                    _cells[margin.End.Y - 1 -i][x] = Cells.SpaceChar;
+        }
+
+        private void RenderContent()
+        {
+            for (var y = content.Start.Y; y < content.End.Y; y++)
+                for (var x = content.Start.X; x < content.End.X; x++)
+                    _cells[y][x] = Cells.SpaceChar;
         }
     }
 }

@@ -31,7 +31,6 @@
             main.Children.Add(second);
 
             var cells = Render(main.Size, main);
-            Console.WriteLine(cells.ToString());
         }
 
     }

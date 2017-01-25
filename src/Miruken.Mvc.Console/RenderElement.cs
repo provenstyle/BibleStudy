@@ -62,7 +62,17 @@
 
         private bool CanRenderBorderAndPadding()
         {
-            return _element.ActualSize.Height >= 3 && _element.ActualSize.Width >= 3;
+            return _element.ActualSize.Width >=
+                       _element.Margin.Left  + _element.Margin.Right +
+                       _element.Border.Left  + _element.Border.Right  +
+                       _element.Padding.Left + _element.Padding.Right +
+                       _element.Point.X
+                   &&
+                   _element.ActualSize.Height >=
+                       _element.Margin.Top  + _element.Margin.Bottom  +
+                       _element.Border.Top  + _element.Border.Bottom  +
+                       _element.Padding.Top + _element.Padding.Bottom +
+                       _element.Point.Y;
         }
 
         private void RenderPadding()

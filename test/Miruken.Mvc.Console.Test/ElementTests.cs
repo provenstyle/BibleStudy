@@ -27,6 +27,7 @@
                 new [] {'|', 'a', '|'},
                 new [] {'-', '-', '-'},
             };
+
             AssertCellsAreEquivelant(expected, cells);
         }
 
@@ -49,6 +50,7 @@
                 new [] {'|', 'a', 'a'},
                 new [] {'|', 'a', 'a'},
             };
+
             AssertCellsAreEquivelant(expected, cells);
         }
 
@@ -72,6 +74,7 @@
                 new[] {'*', '|', 'a', 'a'},
                 new[] {'*', '|', 'a', 'a'}
             };
+
             AssertCellsAreEquivelant(expected, cells);
         }
 
@@ -94,6 +97,7 @@
                 new [] {'a', 'a', '|'},
                 new [] {'a', 'a', '|'},
             };
+
             AssertCellsAreEquivelant(expected, cells);
         }
 
@@ -117,6 +121,7 @@
                 new [] {'*', 'a', 'a', '|'},
                 new [] {'*', 'a', 'a', '|'}
             };
+
             AssertCellsAreEquivelant(expected, cells);
         }
 
@@ -139,6 +144,7 @@
                 new [] {'a', 'a', 'a'},
                 new [] {'a', 'a', 'a'},
             };
+
             AssertCellsAreEquivelant(expected, cells);
         }
 
@@ -162,6 +168,7 @@
                 new [] {'*', 'a', 'a', 'a'},
                 new [] {'*', 'a', 'a', 'a'}
             };
+
             AssertCellsAreEquivelant(expected, cells);
         }
 
@@ -184,6 +191,7 @@
                 new [] {'a', 'a', 'a'},
                 new [] {'-', '-', '-'}
             };
+
             AssertCellsAreEquivelant(expected, cells);
         }
 
@@ -207,6 +215,7 @@
                 new[] {'*', 'a', 'a', 'a'},
                 new[] {'*', '-', '-', '-'}
             };
+
             AssertCellsAreEquivelant(expected, cells);
         }
 
@@ -226,6 +235,7 @@
                 new[] {'a', 'a'},
                 new[] {'a', 'a'}
             };
+
             AssertCellsAreEquivelant(expected, cells);
         }
 
@@ -247,6 +257,7 @@
                 new [] {' ', 'a', 'a'},
                 new [] {' ', 'a', 'a'}
             };
+
             AssertCellsAreEquivelant(expected, cells);
         }
 
@@ -293,6 +304,7 @@
                 new [] {'a', 'a', ' '},
                 new [] {'a', 'a', ' '}
             };
+
             AssertCellsAreEquivelant(expected, cells);
         }
 
@@ -308,6 +320,7 @@
             .WriteLine(alphaString);
 
             var cells = Render(new Size(4, 4), buffer, new Point(1, 1));
+
             char[][] expected =
             {
                 new [] {'*', '*', '*', '*'},
@@ -338,6 +351,7 @@
                 new [] {'a', 'a', 'a'},
                 new [] {'a', 'a', 'a'}
             };
+
             AssertCellsAreEquivelant(expected, cells);
         }
 
@@ -353,6 +367,7 @@
             .WriteLine(alphaString);
 
             var cells = Render(new Size(4, 4), buffer, new Point(1, 1));
+
             char[][] expected =
             {
                 new [] {'*', '*', '*', '*'},
@@ -360,6 +375,7 @@
                 new [] {'*', 'a', 'a', 'a'},
                 new [] {'*', 'a', 'a', 'a'}
             };
+
             AssertCellsAreEquivelant(expected, cells);
         }
 
@@ -375,12 +391,14 @@
             .WriteLine(alphaString);
 
             var cells = Render(new Size(3, 3), buffer);
+
             char[][] expected =
             {
                 new [] {'a', 'a', 'a'},
                 new [] {'a', 'a', 'a'},
                 new [] {' ', ' ', ' '}
             };
+
             AssertCellsAreEquivelant(expected, cells);
         }
 
@@ -427,30 +445,37 @@
                 new [] {'|', 'e', 'f', '|'},
                 new [] {'-', '-', '-', '-'}
             };
+
             AssertCellsAreEquivelant(expected, cells);
         }
 
         [TestMethod]
-        public void CreatesBorderPaddingAndContent()
+        public void CreatesMarginBorderPaddingAndContentAndRespectsPoint()
         {
             var buffer = new OutputBuffer
             {
-                Border = new Thickness(1),
-                Padding = new Thickness(1)
+                Border  = new Thickness(1),
+                Padding = new Thickness(1),
+                Margin  = new Thickness(1)
             }
             .WriteLine("abcd")
             .WriteLine("efgh");
 
-            var cells = Render(new Size(6, 6), buffer);
+            var cells = Render(new Size(9, 9), buffer, new Point(1, 1));
+
             char[][] expected =
             {
-                new[] {'-', '-', '-', '-', '-', '-'},
-                new[] {'|', ' ', ' ', ' ', ' ', '|'},
-                new[] {'|', ' ', 'a', 'b', ' ', '|'},
-                new[] {'|', ' ', 'e', 'f', ' ', '|'},
-                new[] {'|', ' ', ' ', ' ', ' ', '|'},
-                new[] {'-', '-', '-', '-', '-', '-'}
+                new[] {'*', '*', '*', '*', '*', '*', '*', '*', '*'},
+                new[] {'*', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                new[] {'*', ' ', '-', '-', '-', '-', '-', '-', ' '},
+                new[] {'*', ' ', '|', ' ', ' ', ' ', ' ', '|', ' '},
+                new[] {'*', ' ', '|', ' ', 'a', 'b', ' ', '|', ' '},
+                new[] {'*', ' ', '|', ' ', 'e', 'f', ' ', '|', ' '},
+                new[] {'*', ' ', '|', ' ', ' ', ' ', ' ', '|', ' '},
+                new[] {'*', ' ', '-', '-', '-', '-', '-', '-', ' '},
+                new[] {'*', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '}
             };
+
             AssertCellsAreEquivelant(expected, cells);
         }
 
@@ -478,6 +503,7 @@
                 new [] {'*', '|', ' ', ' ', ' ', ' ', ' ', '|'},
                 new [] {'*', '-', '-', '-', '-', '-', '-', '-'}
             };
+
             AssertCellsAreEquivelant(expected, cells);
         }
 
@@ -491,6 +517,7 @@
             };
 
             var cells = Render(new Size(4, 4), buffer);
+
             char[][] expected =
             {
                 new[] {' ', '|', ' ', ' '},
@@ -498,6 +525,7 @@
                 new[] {' ', '|', ' ', ' '},
                 new[] {' ', '|', ' ', ' '}
             };
+
             AssertCellsAreEquivelant(expected, cells);
         }
 
@@ -511,6 +539,7 @@
             };
 
             var cells = Render(new Size(4, 4), buffer);
+
             char[][] expected =
             {
                 new[] {' ', ' ', '|', ' '},
@@ -518,6 +547,7 @@
                 new[] {' ', ' ', '|', ' '},
                 new[] {' ', ' ', '|', ' '}
             };
+
             AssertCellsAreEquivelant(expected, cells);
         }
 
@@ -531,6 +561,7 @@
             };
 
             var cells = Render(new Size(4, 4), buffer);
+
             char[][] expected =
             {
                 new[] {' ', ' ', ' ', ' '},
@@ -538,6 +569,7 @@
                 new[] {' ', ' ', ' ', ' '},
                 new[] {' ', ' ', ' ', ' '}
             };
+
             AssertCellsAreEquivelant(expected, cells);
         }
 
@@ -551,6 +583,7 @@
             };
 
             var cells = Render(new Size(4, 4), buffer);
+
             char[][] expected =
             {
                 new[] {' ', ' ', ' ', ' '},
@@ -558,6 +591,7 @@
                 new[] {'-', '-', '-', '-'},
                 new[] {' ', ' ', ' ', ' '}
             };
+
             AssertCellsAreEquivelant(expected, cells);
         }
     }

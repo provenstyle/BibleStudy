@@ -15,12 +15,13 @@
                 .WriteLine("efgh")
                 .WriteLine("ijkl"));
 
-            Console.WriteLine(cells);
+            char[][] expected =
+            {
+                new [] {'a', 'b'},
+                new [] {'e', 'f'}
+            };
 
-            Assert.AreEqual('a', cells[0][0]);
-            Assert.AreEqual('b', cells[0][1]);
-            Assert.AreEqual('e', cells[1][0]);
-            Assert.AreEqual('f', cells[1][1]);
+            AssertCellsAreEquivelant(expected, cells);
         }
 
         [TestMethod]
@@ -29,10 +30,13 @@
             var cells = Render(new Size(2, 2), new OutputBuffer()
                 .WriteLine("a" + Environment.NewLine + "b" + Environment.NewLine + "c"));
 
-            Console.WriteLine(cells);
+            char[][] expected =
+            {
+                new [] {'a', ' '},
+                new [] {'b', ' '}
+            };
 
-            Assert.AreEqual('a', cells[0][0]);
-            Assert.AreEqual('b', cells[1][0]);
+            AssertCellsAreEquivelant(expected, cells);
         }
 
         [TestMethod]
@@ -41,11 +45,13 @@
             var cells = Render(new Size(2, 2), new OutputBuffer()
                 .Wrap("abcdefg"));
 
-            Console.WriteLine(cells.ToString());
-            Assert.AreEqual('a', cells[0][0]);
-            Assert.AreEqual('b', cells[0][1]);
-            Assert.AreEqual('c', cells[1][0]);
-            Assert.AreEqual('d', cells[1][1]);
+            char[][] expected =
+            {
+                new [] {'a', 'b'},
+                new [] {'c', 'd'}
+            };
+
+            AssertCellsAreEquivelant(expected, cells);
         }
 
         [TestMethod]
@@ -55,9 +61,13 @@
                 .Wrap("a")
                 .Wrap("b"));
 
-            Console.WriteLine(cells.ToString());
-            Assert.AreEqual('a', cells[0][0]);
-            Assert.AreEqual('b', cells[1][0]);
+            char[][] expected =
+            {
+                new [] {'a', ' '},
+                new [] {'b', ' '}
+            };
+
+            AssertCellsAreEquivelant(expected, cells);
         }
 
         [TestMethod]
@@ -66,13 +76,14 @@
             var cells = Render(new Size(2, 3), new OutputBuffer()
                 .Wrap("abc" + Environment.NewLine + "defg"));
 
-            Console.WriteLine(cells.ToString());
-            Assert.AreEqual('a',             cells[0][0]);
-            Assert.AreEqual('b',             cells[0][1]);
-            Assert.AreEqual('c',             cells[1][0]);
-            Assert.AreEqual(Cells.SpaceChar, cells[1][1]);
-            Assert.AreEqual('d',             cells[2][0]);
-            Assert.AreEqual('e',             cells[2][1]);
+            char[][] expected =
+            {
+                new [] {'a', 'b'},
+                new [] {'c', ' '},
+                new [] {'d', 'e'}
+            };
+
+            AssertCellsAreEquivelant(expected, cells);
         }
 
         [TestMethod]
@@ -82,8 +93,14 @@
                 .Wrap("1234567890")
                 .Wrap("\ta"));
 
-            Console.WriteLine(cells.ToString());
-            Assert.AreEqual('a', cells[1][8]);
+            char[][] expected =
+            {
+                new [] {'1', '2', '3', '4', '5', '6', '7', '8', '9', '0', ' ', ' '},
+                new [] {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'a', ' ', ' ', ' '},
+                new [] {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '}
+            };
+
+            AssertCellsAreEquivelant(expected, cells);
         }
 
         [TestMethod]
@@ -92,11 +109,13 @@
             var cells = Render(new Size(2, 2), new OutputBuffer()
                 .Write("ab"));
 
-            Console.WriteLine(cells.ToString());
-            Assert.AreEqual('a',             cells[0][0]);
-            Assert.AreEqual('b',             cells[0][1]);
-            Assert.AreEqual(Cells.SpaceChar, cells[1][0]);
-            Assert.AreEqual(Cells.SpaceChar, cells[1][1]);
+            char[][] expected =
+            {
+                new [] {'a', 'b'},
+                new [] {' ', ' '}
+            };
+
+            AssertCellsAreEquivelant(expected, cells);
         }
 
         [TestMethod]
@@ -105,11 +124,14 @@
             var cells = Render(new Size(3, 3), new OutputBuffer()
                 .Write("ab" + Environment.NewLine + "cd"));
 
-            Console.WriteLine(cells.ToString());
-            Assert.AreEqual('a', cells[0][0]);
-            Assert.AreEqual('b', cells[0][1]);
-            Assert.AreEqual('c', cells[1][0]);
-            Assert.AreEqual('d', cells[1][1]);
+            char[][] expected =
+            {
+                new [] {'a', 'b', ' '},
+                new [] {'c', 'd', ' '},
+                new [] {' ', ' ', ' '}
+            };
+
+            AssertCellsAreEquivelant(expected, cells);
         }
 
         [TestMethod]
@@ -119,9 +141,14 @@
                 .WriteLine("12345678901234567890")
                 .WriteLine("\ta\ta"));
 
-            Console.WriteLine(cells.ToString());
-            Assert.AreEqual('a', cells[1][8]);
-            Assert.AreEqual('a', cells[1][16]);
+            char[][] expected =
+            {
+                new [] {'1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0'},
+                new [] {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'a', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'a', ' ', ' ', ' '},
+                new [] {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '}
+            };
+
+            AssertCellsAreEquivelant(expected, cells);
         }
 
         [TestMethod]
@@ -129,14 +156,19 @@
         {
             var cells = Render(new Size(20, 3), new OutputBuffer()
                 .WriteLine("12345678901234567890")
-                .Write("bcdfe")
+                .Write("bcdef")
                 .Write("\ta")
                 .Write("ghi")
                 .Write("\ta"));
 
-            Console.WriteLine(cells.ToString());
-            Assert.AreEqual('a', cells[1][8]);
-            Assert.AreEqual('a', cells[1][16]);
+            char[][] expected =
+            {
+                new [] {'1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0'},
+                new [] {'b', 'c', 'd', 'e', 'f', ' ', ' ', ' ', 'a', 'g', 'h', 'i', ' ', ' ', ' ', ' ', 'a', ' ', ' ', ' '},
+                new [] {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '}
+            };
+
+            AssertCellsAreEquivelant(expected, cells);
         }
 
         [TestMethod]
@@ -146,9 +178,15 @@
                 .WriteLine("12345678901234567890")
                 .Write("bcdefgh")
                 .Write("\ta"));
-            Console.WriteLine(cells.ToString());
-            Assert.AreEqual(Cells.SpaceChar, cells[1][7]);
-            Assert.AreEqual('a',             cells[1][8]);
+
+            char[][] expected =
+            {
+                new [] {'1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0'},
+                new [] {'b', 'c', 'd', 'e', 'f', 'g', 'h', ' ', 'a', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                new [] {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '}
+            };
+
+            AssertCellsAreEquivelant(expected, cells);
         }
 
         [TestMethod]
@@ -158,9 +196,15 @@
                 .WriteLine("12345678901234567890")
                 .Write("bcdefghi")
                 .Write("\ta"));
-            Console.WriteLine(cells.ToString());
-            Assert.AreEqual('i', cells[1][7]);
-            Assert.AreEqual('a', cells[1][16]);
+
+            char[][] expected =
+            {
+                new [] {'1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0'},
+                new [] {'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'a', ' ', ' ', ' '},
+                new [] {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '}
+            };
+
+            AssertCellsAreEquivelant(expected, cells);
         }
 
         [TestMethod]
@@ -169,9 +213,15 @@
             var cells = Render(new Size(20, 3), new OutputBuffer()
                 .WriteLine("12345678901234567890")
                 .WriteLine("\ta\ta"));
-            Console.WriteLine(cells.ToString());
-            Assert.AreEqual('a', cells[1][8]);
-            Assert.AreEqual('a', cells[1][16]);
+
+            char[][] expected =
+            {
+                new [] {'1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0'},
+                new [] {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'a', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'a', ' ', ' ', ' '},
+                new [] {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '}
+            };
+
+            AssertCellsAreEquivelant(expected, cells);
         }
 
         [TestMethod]
@@ -180,10 +230,15 @@
             var cells = Render(new Size(20, 3), new OutputBuffer()
                 .WriteLine("12345678901234567890")
                 .WriteLine("\ta\ta\ta"));
-            Console.WriteLine(cells.ToString());
-            Assert.AreEqual('a', cells[1][8]);
-            Assert.AreEqual('a', cells[1][16]);
-            Assert.AreEqual('a', cells[2][0]);
+
+            char[][] expected =
+            {
+                new [] {'1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0'},
+                new [] {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'a', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'a', ' ', ' ', ' '},
+                new [] {'a', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '}
+            };
+
+            AssertCellsAreEquivelant(expected, cells);
         }
     }
 }

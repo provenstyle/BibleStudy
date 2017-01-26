@@ -594,5 +594,93 @@
 
             AssertCellsAreEquivelant(expected, cells);
         }
+
+        [TestMethod]
+        public void MultipleBorders()
+        {
+            var buffer = new OutputBuffer
+                {
+                    Border = new Thickness(2)
+                }
+                .WriteLine("ab")
+                .WriteLine("cd");
+
+            var cells = Render(new Size(6, 6), buffer);
+
+            char[][] expected =
+            {
+                new[] {'-', '-', '-', '-', '-', '-'},
+                new[] {'-', '-', '-', '-', '-', '-'},
+                new[] {'|', '|', 'a', 'b', '|', '|'},
+                new[] {'|', '|', 'c', 'd', '|', '|'},
+                new[] {'-', '-', '-', '-', '-', '-'},
+                new[] {'-', '-', '-', '-', '-', '-'}
+            };
+
+            AssertCellsAreEquivelant(expected, cells);
+        }
+
+        [TestMethod]
+        public void SingleBorderMultiplePadding()
+        {
+            var buffer = new OutputBuffer
+                {
+                    Border  = new Thickness(1),
+                    Padding = new Thickness(2)
+                }
+                .WriteLine("ab")
+                .WriteLine("cd");
+
+            var cells = Render(new Size(8, 8), buffer);
+
+            char[][] expected =
+            {
+                new[] {'-', '-', '-', '-', '-', '-', '-', '-'},
+                new[] {'|', ' ', ' ', ' ', ' ', ' ', ' ', '|'},
+                new[] {'|', ' ', ' ', ' ', ' ', ' ', ' ', '|'},
+                new[] {'|', ' ', ' ', 'a', 'b', ' ', ' ', '|'},
+                new[] {'|', ' ', ' ', 'c', 'd', ' ', ' ', '|'},
+                new[] {'|', ' ', ' ', ' ', ' ', ' ', ' ', '|'},
+                new[] {'|', ' ', ' ', ' ', ' ', ' ', ' ', '|'},
+                new[] {'-', '-', '-', '-', '-', '-', '-', '-'}
+            };
+
+            AssertCellsAreEquivelant(expected, cells);
+        }
+
+        [TestMethod]
+        public void MultipleMarginBorderPadding()
+        {
+            var buffer = new OutputBuffer
+                {
+                    Margin  = new Thickness(2),
+                    Border  = new Thickness(2),
+                    Padding = new Thickness(2)
+                }
+                .WriteLine("ab")
+                .WriteLine("cd");
+
+            var cells = Render(new Size(14, 14), buffer);
+
+            char[][] expected =
+            {
+                new[] {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                new[] {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                new[] {' ', ' ', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', ' ', ' '},
+                new[] {' ', ' ', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', ' ', ' '},
+                new[] {' ', ' ', '|', '|', ' ', ' ', ' ', ' ', ' ', ' ', '|', '|', ' ', ' '},
+                new[] {' ', ' ', '|', '|', ' ', ' ', ' ', ' ', ' ', ' ', '|', '|', ' ', ' '},
+                new[] {' ', ' ', '|', '|', ' ', ' ', 'a', 'b', ' ', ' ', '|', '|', ' ', ' '},
+                new[] {' ', ' ', '|', '|', ' ', ' ', 'c', 'd', ' ', ' ', '|', '|', ' ', ' '},
+                new[] {' ', ' ', '|', '|', ' ', ' ', ' ', ' ', ' ', ' ', '|', '|', ' ', ' '},
+                new[] {' ', ' ', '|', '|', ' ', ' ', ' ', ' ', ' ', ' ', '|', '|', ' ', ' '},
+                new[] {' ', ' ', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', ' ', ' '},
+                new[] {' ', ' ', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', ' ', ' '},
+                new[] {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                new[] {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '}
+            };
+
+            AssertCellsAreEquivelant(expected, cells);
+        }
     }
 }

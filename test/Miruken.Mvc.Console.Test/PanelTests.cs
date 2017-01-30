@@ -1,7 +1,6 @@
 ﻿namespace Miruken.Mvc.Console.Test
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using System;
 
     [TestClass]
     public class PanelTests: TestBase
@@ -27,10 +26,10 @@
                 Border              = new Thickness(1)
             };
 
-            main.Children.Add(first);
-            main.Children.Add(second);
+            main.Add(first);
+            main.Add(second);
 
-            var cells = Render(main.Size, main);
+            Render(main.Size, main);
         }
 
     }

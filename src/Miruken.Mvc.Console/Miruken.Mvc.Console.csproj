@@ -76,6 +76,9 @@
     <Compile Include="Boundry.cs" />
     <Compile Include="Cells.cs" />
     <Compile Include="Control.cs" />
+    <Compile Include="Dock.cs" />
+    <Compile Include="DockChild.cs" />
+    <Compile Include="DockPanel.cs" />
     <Compile Include="FrameworkElement.cs" />
     <Compile Include="HorizontalAlignment.cs" />
     <Compile Include="Output.cs" />
@@ -87,6 +90,7 @@
     <Compile Include="Render.cs" />
     <Compile Include="RenderElement.cs" />
     <Compile Include="RenderOutputBuffer.cs" />
+    <Compile Include="RenderPanel.cs" />
     <Compile Include="Size.cs" />
     <Compile Include="Thickness.cs" />
     <Compile Include="Vector.cs" />

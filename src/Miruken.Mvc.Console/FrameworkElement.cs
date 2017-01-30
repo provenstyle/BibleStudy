@@ -1,5 +1,7 @@
 ﻿namespace Miruken.Mvc.Console
 {
+    using System;
+
     public abstract class FrameworkElement
     {
         public Size                Size                { get; set; }
@@ -25,23 +27,38 @@
 
         public virtual void Measure(Size availableSize)
         {
-            DesiredSize = MeasureOverride(availableSize);
+            var measureOverride = MeasureOverride(availableSize);
+            if (measureOverride != null)
+            {
+                DesiredSize = new Size(measureOverride);
+                return;
+            }
+
+            var height = Size.Height > availableSize.Height
+               ? availableSize.Height
+               : Size.Height;
+            var width = Size.Width > availableSize.Width
+               ? availableSize.Width
+               : Size.Width;
+
+            DesiredSize = new Size(Math.Max(width, 0),  Math.Max(height, 0));
         }
 
         public virtual Size MeasureOverride(Size availableSize)
         {
-            return availableSize;
+            return null;
         }
 
         public virtual void Arrange(Rectangle rectangle)
         {
             Point      = rectangle.Location;
-            ActualSize = ArrangeOverride(rectangle.Size);
+            var overrideSize = ArrangeOverride(rectangle.Size);
+            ActualSize = overrideSize ?? DesiredSize;
         }
 
         public virtual Size ArrangeOverride(Size finalSize)
         {
-            return finalSize;
+            return null;
         }
 
         public virtual void Render(Cells cells)

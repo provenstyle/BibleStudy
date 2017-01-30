@@ -1,19 +1,42 @@
 ﻿namespace Miruken.Mvc.Console
 {
-    using System;
     using System.Collections.Generic;
 
-    public class Panel: FrameworkElement
+    public interface IHaveFrameworkElement
     {
-        public List<FrameworkElement> Children { get; set; }
+        FrameworkElement Element { get; set; }
+    }
+
+    public class Panel<T>: FrameworkElement where T: IHaveFrameworkElement
+    {
+        public List<T> Children { get; set; }
 
         public Panel()
         {
-            Children = new List<FrameworkElement>();
+            Children = new List<T>();
+        }
+
+        public override void Render(Cells cells)
+        {
+            base.Render(cells);
+            foreach (var child in Children)
+            {
+                child.Element.Render(cells);
+            }
         }
     }
 
-    public class StackPanel : Panel
+    public class StackChild : IHaveFrameworkElement
+    {
+        public FrameworkElement Element { get; set; }
+
+        public StackChild(FrameworkElement element)
+        {
+            Element = element;
+        }
+    }
+
+    public class StackPanel : Panel<StackChild>
     {
         public override void Measure(Size availableSize)
         {
@@ -21,8 +44,8 @@
             var available = new Size(DesiredSize);
             foreach (var child in Children)
             {
-                child.Measure(available);
-                available.Height -= child.DesiredSize.Height;
+                child.Element.Measure(available);
+                available.Height -= child.Element.DesiredSize.Height;
             }
         }
 
@@ -34,47 +57,15 @@
             var point  = new Point(rectangle.Location);
             foreach (var child in Children)
             {
-                child.ActualSize = new Size(rectangle.Width, height);
-                child.Point      = new Point(point);
-                point.Y         += child.ActualSize.Height;
+                child.Element.ActualSize = new Size(rectangle.Width, height);
+                child.Element.Point      = new Point(point);
+                point.Y         += child.Element.ActualSize.Height;
             }
         }
 
-        public override void Render(Cells cells)
+        public void Add(FrameworkElement child)
         {
-            base.Render(cells);
-            foreach (var child in Children)
-            {
-                child.Render(cells);
-            }
-        }
-    }
-
-    public class RenderPanel: Render
-    {
-        private Panel _panel;
-
-        public string Handle(Panel panel)
-        {
-            return Handle(Console.WindowWidth, Console.WindowHeight, panel);
-        }
-        public string Handle(int width, int height, Panel panel)
-        {
-            _panel =  panel;
-            _cells  = new Cells(panel.ActualSize.Height, panel.ActualSize.Width);
-
-            foreach (var child in panel.Children)
-            {
-                var size = new Size(panel.ActualSize.Width, panel.ActualSize.Height);
-                child.Measure(size);
-            }
-            foreach (var child in panel.Children)
-            {
-                var rectangle = new Rectangle();
-                child.Arrange(rectangle);
-            }
-
-            return "foo";
+            Children.Add(new StackChild(child));
         }
     }
 }

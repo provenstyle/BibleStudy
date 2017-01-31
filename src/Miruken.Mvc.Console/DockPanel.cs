@@ -40,6 +40,7 @@
                     case Dock.Right:
                         break;
                     case Dock.Bottom:
+                        DockBottom(child, boundry);
                         break;
                     case Dock.Fill:
                         DockFill(child, boundry);
@@ -77,6 +78,36 @@
 
             element.Arrange(new Rectangle(new Point(boundry.Start.X + xOffset, boundry.Start.Y), new Size(boundry.Width, boundry.Height)));
             boundry.Start.Y += element.ActualSize.Height;
+        }
+
+        public void DockBottom(DockChild child, Boundry boundry)
+        {
+            var element = child.Element;
+            element.DesiredSize.Height =
+                (int)Math.Floor(boundry.Height*child.Percent*.01M);
+            var xOffset = 0;
+
+            switch (element.HorizontalAlignment)
+            {
+                case HorizontalAlignment.Left:
+                    break;
+                case HorizontalAlignment.Center:
+                    if (element.DesiredSize.Width%2 > 0 && element.DesiredSize.Width < boundry.Width)
+                        element.DesiredSize.Width++;
+
+                    xOffset = (boundry.Width - element.DesiredSize.Width)/2;
+                    break;
+                case HorizontalAlignment.Right:
+                    xOffset = boundry.Width - element.DesiredSize.Width;
+                    break;
+                case HorizontalAlignment.Stretch:
+                case HorizontalAlignment.Unknown:
+                    element.DesiredSize.Width = boundry.Width;
+                    break;
+            }
+
+            element.Arrange(new Rectangle(new Point(boundry.Start.X + xOffset, boundry.End.Y - element.DesiredSize.Height), new Size(boundry.Width, boundry.Height)));
+            boundry.End.Y -= element.ActualSize.Height;
         }
 
         public void DockFill(DockChild child, Boundry boundry)

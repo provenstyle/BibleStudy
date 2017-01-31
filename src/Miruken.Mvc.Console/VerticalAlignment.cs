@@ -2,9 +2,10 @@
 {
     public enum VerticalAlignment
     {
-        Stretch,
+        Unknown,
         Bottom,
         Center,
-        Top
+        Top,
+        Stretch
     }
 }

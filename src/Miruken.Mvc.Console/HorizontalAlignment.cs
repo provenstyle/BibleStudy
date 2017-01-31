@@ -2,9 +2,10 @@
 {
     public enum HorizontalAlignment
     {
-        Stretch,
-        Center,
+        Unknown,
         Left,
-        Right
+        Center,
+        Right,
+        Stretch
     }
 }

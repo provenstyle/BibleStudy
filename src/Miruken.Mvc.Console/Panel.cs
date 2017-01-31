@@ -40,7 +40,6 @@
     {
         public override void Measure(Size availableSize)
         {
-            DesiredSize =  MeasureOverride(availableSize);
             var available = new Size(DesiredSize);
             foreach (var child in Children)
             {
@@ -51,7 +50,6 @@
 
         public override void Arrange(Rectangle rectangle)
         {
-            ActualSize = ArrangeOverride(rectangle.Size);
             Point = rectangle.Location;
             var height = rectangle.Height/Children.Count;
             var point  = new Point(rectangle.Location);

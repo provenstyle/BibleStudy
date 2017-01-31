@@ -22,12 +22,6 @@
         {
             base.Arrange(rectangle);
 
-            var arrangeOverride = ArrangeOverride(rectangle.Size);
-            if (arrangeOverride != null) return;
-
-            ActualSize = new Size(rectangle.Size);
-            Point = rectangle.Location;
-
             var xStart = Point.X + Margin.Left + Border.Left   + Padding.Left;
             var yStart = Point.Y + Margin.Top  + Border.Top    + Padding.Top;
             var xEnd   = rectangle.Size.Width  - Margin.Right  - Border.Right  - Padding.Right;
@@ -58,36 +52,40 @@
         public void DockTop(DockChild child, Boundry boundry)
         {
             var element = child.Element;
-            element.ActualSize.Height =
+            element.DesiredSize.Height =
                 (int)Math.Floor(boundry.Height*child.Percent*.01M);
+            var xOffset = 0;
 
             switch (element.HorizontalAlignment)
             {
                 case HorizontalAlignment.Left:
-                    element.ActualSize.Width = boundry.Width;
                     break;
                 case HorizontalAlignment.Center:
-                    element.ActualSize.Width = boundry.Width;
+                    if (element.DesiredSize.Width%2 > 0 && element.DesiredSize.Width < boundry.Width)
+                        element.DesiredSize.Width++;
+
+                    xOffset = (boundry.Width - element.DesiredSize.Width)/2;
                     break;
                 case HorizontalAlignment.Right:
-                    element.ActualSize.Width = boundry.Width;
+                    xOffset = boundry.Width - element.DesiredSize.Width;
                     break;
                 case HorizontalAlignment.Stretch:
-                    element.ActualSize.Width = boundry.Width;
+                case HorizontalAlignment.Unknown:
+                    element.DesiredSize.Width = boundry.Width;
                     break;
             }
 
-            element.Point = new Point(boundry.Start.X, boundry.Start.Y);
-            element.Arrange(boundry.Rectangle);
+            element.Arrange(new Rectangle(new Point(boundry.Start.X + xOffset, boundry.Start.Y), new Size(boundry.Width, boundry.Height)));
             boundry.Start.Y += element.ActualSize.Height;
         }
 
         public void DockFill(DockChild child, Boundry boundry)
         {
             var element = child.Element;
-            element.ActualSize.Height = boundry.Height;
-            element.ActualSize.Width = boundry.Width;
+            element.DesiredSize.Height = boundry.Height;
+            element.DesiredSize.Width  = boundry.Width;
             element.Point = new Point(boundry.Start.X, boundry.Start.Y);
+            element.Arrange(boundry.Rectangle);
         }
     }
 }

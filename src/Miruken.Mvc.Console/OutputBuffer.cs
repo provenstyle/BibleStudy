@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
 
-    public class OutputBuffer: FrameworkElement
+    public class OutputBuffer : FrameworkElement
     {
         public List<Output> Outputs { get; set; }
 

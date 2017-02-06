@@ -3,7 +3,7 @@
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
-    public class StackPanelTTests: TestBase
+    public class StackPanelTests: TestBase
     {
         private readonly char[][] a = {
             new[] {'a', 'a', 'a', 'a', 'a'},

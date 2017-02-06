@@ -128,6 +128,34 @@
             AssertCellsAreEquivelant(expected, cells);
         }
 
+        [TestMethod]
+        public void Centering()
+        {
+            var main = new DockPanel()
+            {
+                Size = new Size(5, 5)
+            };
+            main.Add(new DockChild()
+            {
+                Element = new DockPanel {
+                    Border              = new Thickness(1),
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    Size                = new Size(3, 3)
+                },
+                Dock = Dock.Top,
+                Percent = 60
+            });
+
+            AssertCellsAreEquivelant(new []
+            {
+                new[] {' ','-','-','-',' '},
+                new[] {' ','|',' ','|',' '},
+                new[] {' ','-','-','-',' '},
+                new[] {' ',' ',' ',' ',' '},
+                new[] {' ',' ',' ',' ',' '}
+            }, Render(main.Size, main));
+        }
+
     }
 
     [TestClass]
@@ -520,7 +548,7 @@
     public class DockPanelMultipleDockingsTests: TestBase
     {
         [TestMethod]
-        public void DockTopStretch()
+        public void SupportsMultipleChildren()
         {
             Assert(new []
             {

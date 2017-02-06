@@ -61,7 +61,7 @@
                 case HorizontalAlignment.Left:
                     break;
                 case HorizontalAlignment.Center:
-                    if (element.DesiredSize.Width%2 > 0 && element.DesiredSize.Width < boundry.Width)
+                    if (element.DesiredSize.Width < boundry.Width && (boundry.Width -element.DesiredSize.Width)%2 > 0)
                         element.DesiredSize.Width++;
 
                     xOffset = (boundry.Width - element.DesiredSize.Width)/2;
@@ -93,7 +93,7 @@
                 case HorizontalAlignment.Left:
                     break;
                 case HorizontalAlignment.Center:
-                    if (element.DesiredSize.Width%2 > 0 && element.DesiredSize.Width < boundry.Width)
+                    if (element.DesiredSize.Width < boundry.Width && (boundry.Width -element.DesiredSize.Width)%2 > 0)
                         element.DesiredSize.Width++;
 
                     xOffset = (boundry.Width - element.DesiredSize.Width)/2;
@@ -125,7 +125,7 @@
                 case VerticalAlignment.Top:
                     break;
                 case VerticalAlignment.Center:
-                    if (element.DesiredSize.Height%2 > 0 && element.DesiredSize.Height < boundry.Height)
+                    if ( element.DesiredSize.Height < boundry.Height && (boundry.Height - element.DesiredSize.Height)%2 > 0)
                         element.DesiredSize.Height++;
 
                     yOffset = (boundry.Height - element.DesiredSize.Height)/2;
@@ -158,7 +158,7 @@
                     yOffset = boundry.Height - element.DesiredSize.Height;
                     break;
                 case VerticalAlignment.Center:
-                    if (element.DesiredSize.Height%2 > 0 && element.DesiredSize.Height < boundry.Height)
+                    if ( element.DesiredSize.Height < boundry.Height && (boundry.Height - element.DesiredSize.Height)%2 > 0)
                         element.DesiredSize.Height++;
 
                     yOffset = (boundry.Height - element.DesiredSize.Height)/2;

@@ -60,6 +60,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="CellsTests.cs" />
+    <Compile Include="StackPanelTests.cs" />
     <Compile Include="ElementTests.cs" />
     <Compile Include="OutputBufferTests.cs" />
     <Compile Include="DockPanelTests.cs" />

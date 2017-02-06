@@ -25,45 +25,4 @@
             }
         }
     }
-
-    public class StackChild : IHaveFrameworkElement
-    {
-        public FrameworkElement Element { get; set; }
-
-        public StackChild(FrameworkElement element)
-        {
-            Element = element;
-        }
-    }
-
-    public class StackPanel : Panel<StackChild>
-    {
-        public override void Measure(Size availableSize)
-        {
-            var available = new Size(DesiredSize);
-            foreach (var child in Children)
-            {
-                child.Element.Measure(available);
-                available.Height -= child.Element.DesiredSize.Height;
-            }
-        }
-
-        public override void Arrange(Rectangle rectangle)
-        {
-            Point = rectangle.Location;
-            var height = rectangle.Height/Children.Count;
-            var point  = new Point(rectangle.Location);
-            foreach (var child in Children)
-            {
-                child.Element.ActualSize = new Size(rectangle.Width, height);
-                child.Element.Point      = new Point(point);
-                point.Y         += child.Element.ActualSize.Height;
-            }
-        }
-
-        public void Add(FrameworkElement child)
-        {
-            Children.Add(new StackChild(child));
-        }
-    }
 }

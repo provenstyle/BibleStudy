@@ -21,7 +21,7 @@
             Assert.AreEqual(expected.Length, cells.Height);
             for (var i = 0; i < expected.Length; i++)
             {
-                CollectionAssert.AreEquivalent(expected[i], cells[i]);
+                CollectionAssert.AreEqual(expected[i], cells[i]);
             }
         }
     }

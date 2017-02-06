@@ -92,6 +92,8 @@
     <Compile Include="RenderOutputBuffer.cs" />
     <Compile Include="RenderPanel.cs" />
     <Compile Include="Size.cs" />
+    <Compile Include="StackChild.cs" />
+    <Compile Include="StackPanel.cs" />
     <Compile Include="Thickness.cs" />
     <Compile Include="Vector.cs" />
     <Compile Include="VerticalAlignment.cs" />

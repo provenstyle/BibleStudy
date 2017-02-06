@@ -6,7 +6,7 @@
     {
         public static Cells Cells;
 
-        public FrameworkElement Content { get; set; }
+        public ViewRegion Content { get; set; }
 
         public void Update()
         {

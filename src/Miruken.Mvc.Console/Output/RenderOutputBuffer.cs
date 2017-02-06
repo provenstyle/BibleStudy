@@ -1,6 +1,6 @@
 ﻿namespace Miruken.Mvc.Console
 {
-    public class RenderOutputBuffer: Render
+    public class RenderOutputBuffer
     {
         private const int    tabSpaces = 8;
         private OutputBuffer _outputBuffer;
@@ -10,6 +10,7 @@
         private int          _yStart;
         private int          _xEnd;
         private int          _yEnd;
+        private Cells        _cells;
 
         public Cells Handle(OutputBuffer outputBuffer, Cells cells)
         {
@@ -69,7 +70,7 @@
         {
             foreach (var t in item.Text)
             {
-                switch (t)  
+                switch (t)
                 {
                     case '\n':
                         NextLine();

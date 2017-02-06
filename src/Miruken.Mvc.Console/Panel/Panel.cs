@@ -2,11 +2,6 @@
 {
     using System.Collections.Generic;
 
-    public interface IHaveFrameworkElement
-    {
-        FrameworkElement Element { get; set; }
-    }
-
     public class Panel<T>: FrameworkElement where T: IHaveFrameworkElement
     {
         public List<T> Children { get; set; }

@@ -1,6 +1,6 @@
 ﻿namespace Miruken.Mvc.Console
 {
-    public class RenderElement: Render
+    public class RenderElement
     {
         private FrameworkElement _element;
 
@@ -8,6 +8,7 @@
         private Boundry border;
         private Boundry padding;
         private Boundry content;
+        private Cells   _cells;
 
         public void Handle(FrameworkElement element, Cells cells)
         {

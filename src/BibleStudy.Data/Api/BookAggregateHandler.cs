@@ -21,7 +21,7 @@
         public async Task<BookResult> Handle(GetBooks message)
         {
             var data = (await _repository.FindAsync(new GetBooksById(message.Ids)))
-                .Select(x => Map(new BookData(), x))
+                ?.Select(x => Map(new BookData(), x))
                 .ToArray();
 
             return new BookResult

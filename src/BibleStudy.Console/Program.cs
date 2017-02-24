@@ -59,6 +59,7 @@
 
             Console.Title = "Major League Miruken";
             Console.Clear();
+            Console.CursorVisible = false;
 
             var appContext = new Context();
             appContext.AddHandlers(windsorHandler, new NavigateHandler(Window.Region));

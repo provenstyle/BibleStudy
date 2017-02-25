@@ -1,7 +1,7 @@
 ﻿namespace BibleStudy.Console.Features.Layout
 {
-    using Books;
     using Header;
+    using Home;
     using Miruken.Mvc;
 
     public class LayoutController : Controller
@@ -13,7 +13,7 @@
                  var header = AddRegion(v.Header);
                  var body   = AddRegion(v.Body);
                  Next<HeaderController>(header).ShowHeader(body);
-                 Next<BooksController>(body).ShowBooks();
+                 Next<HomeController>(body).ShowHome();
              });
         }
     }

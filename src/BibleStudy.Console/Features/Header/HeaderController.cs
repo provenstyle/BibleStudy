@@ -1,6 +1,8 @@
 ﻿namespace BibleStudy.Console.Features.Header
 {
     using System;
+    using About;
+    using Books;
     using Infrastructure;
     using Miruken.Concurrency;
     using Miruken.Context;
@@ -8,17 +10,28 @@
 
     public class HeaderController : FeatureController
     {
+        private IContext _body;
 
         public Promise ShowHeader(IContext body)
         {
-            Body = body;
+            _body = body;
             Show<HeaderView>();
             return Promise.Empty;
         }
 
+        public Promise GoToAbout()
+        {
+            return Next<AboutController>(_body).ShowAbout();
+        }
+
+        public Promise GoToBooks()
+        {
+            return Next<BooksController>(_body).ShowBooks();
+        }
+
         public Promise GoToVerses()
         {
-            return Next<VersesController>(Body).ShowVerses();
+            return Next<VersesController>(_body).ShowVerses();
         }
 
         public Promise GoToObservations()

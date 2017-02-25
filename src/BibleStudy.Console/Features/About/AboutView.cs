@@ -1,6 +1,5 @@
 ﻿namespace BibleStudy.Console.Features.About
 {
-    using System;
     using Miruken.Mvc.Console;
     using Buffer = Miruken.Mvc.Console.Buffer;
 

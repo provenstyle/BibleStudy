@@ -110,8 +110,8 @@
       <HintPath>..\..\packages\Miruken.Mvc.Console.1.1.1.10-prerelease\lib\net461\Miruken.Mvc.Console.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="RefactorThis.GraphDiff, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
@@ -145,6 +145,7 @@
     <Compile Include="Features\About\AboutController.cs" />
     <Compile Include="Features\About\AboutView.cs" />
     <Compile Include="Features\Books\BooksView.cs" />
+    <Compile Include="Features\Error\ErrorHandler.cs" />
     <Compile Include="Features\Header\HeaderController.cs" />
     <Compile Include="Features\Header\HeaderView.cs" />
     <Compile Include="Features\Home\HomeController.cs" />
@@ -154,13 +155,18 @@
     <Compile Include="Features\ServiceBus\IServiceBus.cs" />
     <Compile Include="Features\ServiceBus\ServiceBus.cs" />
     <Compile Include="Features\ServiceBus\ServiceBusOptions.cs" />
+    <Compile Include="Features\Study\StudyController.cs" />
+    <Compile Include="Features\Study\StudyView.cs" />
+    <Compile Include="Features\Verses\CreateVerseController.cs" />
+    <Compile Include="Features\Verses\CreateVerseView.cs" />
+    <Compile Include="Features\Verses\VerseController.cs" />
     <Compile Include="Features\Verses\VersesController.cs" />
     <Compile Include="Features\Verses\VersesView.cs" />
+    <Compile Include="Features\Verses\VerseView.cs" />
     <Compile Include="Infrastructure\BaseController.cs" />
     <Compile Include="Infrastructure\ColumnLayout.cs" />
     <Compile Include="Features\Books\BooksController .cs" />
     <Compile Include="Features\Verses\GetVerse.cs" />
-    <Compile Include="Features\Verses\CreateVerse.cs" />
     <Compile Include="Infrastructure\BaseCommand.cs" />
     <Compile Include="Infrastructure\ICommand.cs" />
     <Compile Include="Infrastructure\IConfig.cs" />

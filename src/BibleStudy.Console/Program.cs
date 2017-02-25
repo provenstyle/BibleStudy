@@ -7,6 +7,7 @@
     using Castle.Windsor.Installer;
     using Data;
     using Data.Maps;
+    using Features.Error;
     using Features.Layout;
     using Highway.Data;
     using Highway.Data.Repositories;
@@ -62,7 +63,7 @@
             Console.CursorVisible = false;
 
             var appContext = new Context();
-            appContext.AddHandlers(windsorHandler, new NavigateHandler(Window.Region));
+            appContext.AddHandlers(windsorHandler, new ErrorHandler(), new NavigateHandler(Window.Region));
 
             P<INavigate>(appContext).Next<LayoutController>(x =>
             {

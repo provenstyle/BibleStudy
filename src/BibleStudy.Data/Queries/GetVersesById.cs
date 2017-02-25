@@ -16,7 +16,8 @@
 
                 if (ids?.Length == 1)
                 {
-                    query = query.Where(x => x.Id == ids[0]);
+                    var id = ids[0];
+                    query = query.Where(x => x.Id == id);
                 }
                 else if (ids?.Length > 1)
                 {

@@ -1,16 +1,15 @@
-﻿using BibleStudy.Data.Api.Verses;
-
+﻿
 namespace BibleStudy.Data.Api
 {
     using System;
     using System.Linq;
     using System.Threading.Tasks;
     using Books;
-    using Castle.Core.Internal;
     using Entities;
     using Highway.Data.Repositories;
     using MediatR;
     using Queries;
+    using Verses;
 
     public class VerseAggregateHandler :
         IAsyncRequestHandler<CreateVerse, VerseData>,
@@ -50,7 +49,8 @@ namespace BibleStudy.Data.Api
             var verses = (await _repository.FindAsync(new GetVersesById(message.Ids)))
                 .ToArray();
 
-            verses.ForEach(x => x.Book = _books.FirstOrDefault(book => book.Id == x.BookId));
+            foreach (var verse in verses)
+                verse.Book = _books.FirstOrDefault(book => book.Id == verse.BookId);
 
             return new VerseResult
             {

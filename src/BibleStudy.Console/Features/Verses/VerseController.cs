@@ -30,7 +30,7 @@
 
         public Promise GoToStudy()
         {
-            Next<StudyController>(IO).ShowStudy();
+            Push<StudyController>(IO).ShowStudy();
             return Promise.Empty;
         }
 

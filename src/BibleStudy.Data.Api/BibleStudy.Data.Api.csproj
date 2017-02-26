@@ -85,6 +85,10 @@
     <Compile Include="Books\BookResult.cs" />
     <Compile Include="Books\GetBooks.cs" />
     <Compile Include="Books\TestamentData.cs" />
+    <Compile Include="Observations\CreateObservation.cs" />
+    <Compile Include="Observations\GetObservations.cs" />
+    <Compile Include="Observations\ObservationData.cs" />
+    <Compile Include="Observations\ObservationResult.cs" />
     <Compile Include="Verses\GetVerses.cs" />
     <Compile Include="Verses\CreateVerse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

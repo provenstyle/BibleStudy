@@ -15,7 +15,11 @@
 
         public Promise ShowVerse(VerseData verse)
         {
-            return P<IServiceBus>(IO).Process(new GetVerses() {Ids = new[] {verse.Id}}).Then((result, synchronous) =>
+            return P<IServiceBus>(IO).Process(new GetVerses()
+            {
+                Ids = new[] {verse.Id},
+                IncludeObservations = true
+            }).Then((result, synchronous) =>
             {
                 Verse = result.Verses.FirstOrDefault();
                 Show<VerseView>();

@@ -22,11 +22,13 @@
         public override void Initialize()
         {
             base.Initialize();
+            var verse = Controller.Verse;
+
             _buffer.WriteLine("Verse");
             _buffer.WriteLine();
             _buffer.WriteLine(_menu.ToString());
             _buffer.WriteLine();
-            _buffer.WriteLine(Controller.Verse.ToString());
+            _buffer.WriteLine(verse.ToString());
         }
 
         public override void KeyPressed(ConsoleKeyInfo keyInfo)

@@ -152,9 +152,12 @@
     <Compile Include="Features\Home\HomeView.cs" />
     <Compile Include="Features\Layout\LayoutController.cs" />
     <Compile Include="Features\Layout\LayoutView.cs" />
+    <Compile Include="Features\Observations\CreateObservationController.cs" />
+    <Compile Include="Features\Observations\CreateObservationView.cs" />
     <Compile Include="Features\ServiceBus\IServiceBus.cs" />
     <Compile Include="Features\ServiceBus\ServiceBus.cs" />
     <Compile Include="Features\ServiceBus\ServiceBusOptions.cs" />
+    <Compile Include="Infrastructure\FeatureView.cs" />
     <Compile Include="Features\Study\StudyController.cs" />
     <Compile Include="Features\Study\StudyView.cs" />
     <Compile Include="Features\Verses\CreateVerseController.cs" />
@@ -163,7 +166,7 @@
     <Compile Include="Features\Verses\VersesController.cs" />
     <Compile Include="Features\Verses\VersesView.cs" />
     <Compile Include="Features\Verses\VerseView.cs" />
-    <Compile Include="Infrastructure\BaseController.cs" />
+    <Compile Include="Infrastructure\FeatureController.cs" />
     <Compile Include="Infrastructure\ColumnLayout.cs" />
     <Compile Include="Features\Books\BooksController .cs" />
     <Compile Include="Features\Verses\GetVerse.cs" />

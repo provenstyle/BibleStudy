@@ -24,12 +24,13 @@
         {
             var options = GetOptions();
             var cancel  = new CancellationTokenSource();
-            return (Promise<TResp>) _mediator.SendAsync<TResp>(request)
+            return (Promise<TResp>) _mediator.SendAsync(request)
                 .ToPromise(cancel, ChildCancelMode.Any)
-                //.Timeout(options?.Timeout ?? _timeout.Millis())
+                .Timeout(options?.Timeout ?? _timeout.Millis())
                 .Catch((exception, synchronous) =>
                            {
-                               var a = exception;   
+                               var a = exception.ToString();
+                               var b = exception;
                            });
         }
 

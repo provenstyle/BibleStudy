@@ -13,6 +13,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BibleStudy.Console", "src\BibleStudy.Console\BibleStudy.Console.csproj", "{275494C1-5A5E-4D6A-B58E-E3557B96F270}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{94A70734-6F3A-4D3C-B0FB-C85378466FEC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BibleStudy.Data.Test", "test\BibleStudy.Data.Test\BibleStudy.Data.Test.csproj", "{F31297CF-3C43-48F5-BB9B-5950F8FA7E53}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,8 +39,15 @@ Global
 		{275494C1-5A5E-4D6A-B58E-E3557B96F270}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{275494C1-5A5E-4D6A-B58E-E3557B96F270}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{275494C1-5A5E-4D6A-B58E-E3557B96F270}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F31297CF-3C43-48F5-BB9B-5950F8FA7E53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F31297CF-3C43-48F5-BB9B-5950F8FA7E53}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F31297CF-3C43-48F5-BB9B-5950F8FA7E53}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F31297CF-3C43-48F5-BB9B-5950F8FA7E53}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F31297CF-3C43-48F5-BB9B-5950F8FA7E53} = {94A70734-6F3A-4D3C-B0FB-C85378466FEC}
 	EndGlobalSection
 EndGlobal

@@ -4,6 +4,7 @@
     using Infrastructure;
     using Miruken.Callback;
     using Miruken.Concurrency;
+    using Observations;
 
     public class StudyController : FeatureController
     {
@@ -20,9 +21,19 @@
             return Promise.Empty;
         }
 
-        public Promise Observation()
+        public Promise GoToObservation()
         {
-            return Promise.Empty;
+            return Push<CreateObservationController>().ShowCreateObservation();
+        }
+
+        public Promise GoToApplication()
+        {
+            return Push<CreateObservationController>().ShowCreateObservation();
+        }
+
+        public Promise GoToPrayer()
+        {
+            return Push<CreateObservationController>().ShowCreateObservation();
         }
     }
 }

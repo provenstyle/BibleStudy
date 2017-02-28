@@ -120,10 +120,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Api\BookAggregateHandler.cs" />
+    <Compile Include="Api\CreateObservationIntegrity.cs" />
     <Compile Include="Api\ObservationAggregateHandle.cs" />
     <Compile Include="Api\VerseAggregateHandler.cs" />
     <Compile Include="Entities\Observation.cs" />
+    <Compile Include="Entities\VerseObservation.cs" />
     <Compile Include="Maps\ObservationMap.cs" />
+    <Compile Include="Maps\VerseObservationMap.cs" />
     <Compile Include="Queries\GetBooksById.cs" />
     <Compile Include="Queries\GetObservationsById.cs" />
     <Compile Include="Queries\GetVersesById.cs" />

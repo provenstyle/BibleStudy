@@ -1,5 +1,4 @@
-﻿
-namespace BibleStudy.Data.Api
+﻿namespace BibleStudy.Data.Api
 {
     using System;
     using System.Linq;
@@ -8,6 +7,7 @@ namespace BibleStudy.Data.Api
     using Entities;
     using Highway.Data.Repositories;
     using MediatR;
+    using Observations;
     using Queries;
     using Verses;
 
@@ -46,8 +46,11 @@ namespace BibleStudy.Data.Api
 
         public async Task<VerseResult> Handle(GetVerses message)
         {
-            var verses = (await _repository.FindAsync(new GetVersesById(message.Ids)))
-                .ToArray();
+            var verses = (await _repository.FindAsync(new GetVersesById(message.Ids)
+            {
+                IncludeObservations = message.IncludeObservations
+            }))
+            .Select(x => Map(new VerseData(), x)).ToArray();
 
             foreach (var verse in verses)
                 verse.Book = _books.FirstOrDefault(book => book.Id == verse.BookId);
@@ -83,5 +86,36 @@ namespace BibleStudy.Data.Api
             return verse;
         }
 
+        public VerseData Map(VerseData data, Verse verse)
+        {
+            data.Id          = verse.Id;
+            data.BookId      = verse.BookId;
+            data.Chapter     = verse.Chapter;
+            data.Number      = verse.Number;
+            data.Text        = verse.Text;
+            data.Created     = verse.Created;
+            data.CreatedBy   = verse.CreatedBy;
+            data.Modified    = verse.Modified;
+            data.ModifiedBy  = verse.ModifiedBy;
+            data.RowVersion  = verse.RowVersion;
+
+            data.Observations = verse.VerseObservations.ToArray()
+                .Select(x => Map(new ObservationData(), x))
+                .ToArray();
+
+            return data;
+        }
+
+        public ObservationData Map(ObservationData data, VerseObservation verseObservation)
+        {
+            if (verseObservation.Observation == null) return null;
+
+            var observation = verseObservation.Observation;
+
+            data.Text = observation.Text;
+            data.Id   = observation.Id;
+
+            return data;
+        }
     }
 }

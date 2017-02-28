@@ -2,12 +2,13 @@
 {
     using System.Data.Entity;
     using System.Linq;
-    using Api.Verses;
     using Entities;
     using Highway.Data;
 
-    public class GetVersesById : Query<VerseData>
+    public class GetVersesById : Query<Verse>
     {
+        public bool IncludeObservations { get; set; }
+
         public GetVersesById(int[] ids)
         {
             ContextQuery = c =>
@@ -24,23 +25,12 @@
                     query = query.Where(x => ids.Contains(x.Id));
                 }
 
-                query = query.OrderBy(x => x.BookId)
+                if (IncludeObservations)
+                    query = query.Include(v => v.VerseObservations.Select(vo => vo.Observation));
+
+                return query.OrderBy(x => x.BookId)
                     .ThenBy(x => x.Chapter)
                     .ThenBy(x => x.Number);
-
-                return query.Select(x => new VerseData
-                 {
-                    Id         = x.Id,
-                    BookId     = x.BookId,
-                    Chapter    = x.Chapter,
-                    Number     = x.Number,
-                    Text       = x.Text,
-                    Created    = x.Created,
-                    CreatedBy  = x.CreatedBy,
-                    Modified   = x.Modified,
-                    ModifiedBy = x.ModifiedBy,
-                    RowVersion = x.RowVersion
-                 });
             };
         }
     }

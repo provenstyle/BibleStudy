@@ -5,6 +5,7 @@
     using Books;
     using Improving.MediatR;
     using Observations;
+    using Prayers;
 
     public class VerseData : Resource<int>
     {
@@ -16,6 +17,9 @@
 
         public ObservationData[] Observations { get; set; }
             = new ObservationData[0];
+
+        public PrayerData[] Prayers { get; set; }
+            = new PrayerData[0];
 
         public override string ToString()
         {
@@ -30,6 +34,15 @@
                 builder.AppendLine();
                 foreach (var observation in Observations)
                     builder.AppendLine($"  {observation.Text}");
+            }
+
+            if (Prayers.Any())
+            {
+                builder.AppendLine();
+                builder.AppendLine("Prayers");
+                builder.AppendLine();
+                foreach (var prayer in Prayers)
+                    builder.AppendLine($"  {prayer.Text}");
             }
 
             return builder.ToString();

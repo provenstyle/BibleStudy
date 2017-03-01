@@ -8,6 +8,7 @@
     public class GetVersesById : Query<Verse>
     {
         public bool IncludeObservations { get; set; }
+        public bool IncludePrayers      { get; set; }
 
         public GetVersesById(int[] ids)
         {
@@ -27,6 +28,9 @@
 
                 if (IncludeObservations)
                     query = query.Include(v => v.VerseObservations.Select(vo => vo.Observation));
+
+                if (IncludePrayers)
+                    query = query.Include(x => x.VersePrayers.Select(vp => vp.Prayer));
 
                 return query.OrderBy(x => x.BookId)
                     .ThenBy(x => x.Chapter)

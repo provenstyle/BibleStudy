@@ -15,10 +15,12 @@
 
         public Promise ShowVerse(VerseData verse)
         {
-            return P<IServiceBus>(IO).Process(new GetVerses()
+            return P<IServiceBus>(IO).Process(new GetVerses
             {
                 Ids = new[] {verse.Id},
-                IncludeObservations = true
+                IncludeObservations = true,
+                IncludePrayers      = true
+
             }).Then((result, synchronous) =>
             {
                 Verse = result.Verses.FirstOrDefault();

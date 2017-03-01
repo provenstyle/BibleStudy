@@ -48,7 +48,8 @@
         {
             var verses = (await _repository.FindAsync(new GetVersesById(message.Ids)
             {
-                IncludeObservations = message.IncludeObservations
+                IncludeObservations = message.IncludeObservations,
+                IncludePrayers      = message.IncludePrayers
             }))
             .Select(x => Map(new VerseData(), x)).ToArray();
 

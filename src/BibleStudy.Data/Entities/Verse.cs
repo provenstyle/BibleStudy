@@ -15,6 +15,9 @@
         public virtual ICollection<VerseObservation> VerseObservations { get; set; }
             = new HashSet<VerseObservation>();
 
+        public virtual ICollection<VersePrayer> VersePrayers { get; set; }
+            = new HashSet<VersePrayer>();
+
         public Verse AddObservation(Observation observation)
         {
             VerseObservations.Add(new VerseObservation

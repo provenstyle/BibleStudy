@@ -1,7 +1,6 @@
 ﻿namespace BibleStudy.Data.Api
 {
     using System;
-    using System.Data.Entity;
     using System.Linq;
     using System.Threading.Tasks;
     using Highway.Data.Repositories;
@@ -18,7 +17,7 @@
         private readonly IDomainRepository<BibleStudyDomain> _repository;
         private readonly DateTime _now;
 
-        public ObservationAggregateHandler(IMediator mediator, IDomainRepository<BibleStudyDomain> repository)
+        public ObservationAggregateHandler(IDomainRepository<BibleStudyDomain> repository)
         {
             _repository = repository;
             _now = DateTime.Now;
@@ -29,6 +28,7 @@
             var observation = await Map(new Observation(), message.Resource);
             observation.Created = _now;
 
+            //is this really how I want to handle foreign key tables
             foreach (var item in observation.VerseObservations)
             {
                 item.Created    = _now;

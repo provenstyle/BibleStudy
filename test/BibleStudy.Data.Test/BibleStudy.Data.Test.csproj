@@ -93,8 +93,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="CreateObservationIntegrityTest - Copy.cs" />
     <Compile Include="CreateObservationIntegrityTest.cs" />
+    <Compile Include="CreatePrayerIntegrityTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -4,8 +4,6 @@
 
     public class VerseObservationMap : BaseMap<VerseObservation>
     {
-        public VerseObservationMap ObservationMap { get; set; }
-
         public VerseObservationMap()
         {
             ToTable(nameof(VerseObservation));

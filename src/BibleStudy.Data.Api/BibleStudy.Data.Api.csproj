@@ -89,6 +89,10 @@
     <Compile Include="Observations\GetObservations.cs" />
     <Compile Include="Observations\ObservationData.cs" />
     <Compile Include="Observations\ObservationResult.cs" />
+    <Compile Include="Prayers\CreatePrayer.cs" />
+    <Compile Include="Prayers\GetPrayers.cs" />
+    <Compile Include="Prayers\PrayerData.cs" />
+    <Compile Include="Prayers\PrayerResult.cs" />
     <Compile Include="Verses\GetVerses.cs" />
     <Compile Include="Verses\CreateVerse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

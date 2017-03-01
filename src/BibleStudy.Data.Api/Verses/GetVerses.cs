@@ -17,5 +17,6 @@
         public int[] Ids { get; set;}
 
         public bool IncludeObservations { get; set; }
+        public bool IncludePrayers      { get; set; }
     }
 }

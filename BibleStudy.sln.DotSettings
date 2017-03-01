@@ -1,0 +1,249 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7670B05F6256254DBDB7764E090E93A1/@KeyIndexDefined">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7670B05F6256254DBDB7764E090E93A1/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7670B05F6256254DBDB7764E090E93A1/Description/@EntryValue">Creates all the objects needed</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7670B05F6256254DBDB7764E090E93A1/Shortcut/@EntryValue">mr</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7670B05F6256254DBDB7764E090E93A1/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7670B05F6256254DBDB7764E090E93A1/Text/@EntryValue">namespace $nameSpace$ &#xD;
+{&#xD;
+    public class $Entity$ : Entity&#xD;
+    {&#xD;
+        public string Text { get; set; }&#xD;
+    }&#xD;
+}&#xD;
+&#xD;
+namespace $nameSpace$ &#xD;
+{&#xD;
+    using Improving.MediatR;&#xD;
+&#xD;
+    public class $Entity$Data : Resource&lt;int&gt;&#xD;
+    {&#xD;
+        public string Text { get; set; }&#xD;
+    }&#xD;
+}&#xD;
+	&#xD;
+namespace $nameSpace$ &#xD;
+{&#xD;
+    public class $Entity$Result&#xD;
+    {&#xD;
+        public $Entity$Data[] $EntityPlural$ { get; set; }&#xD;
+    }&#xD;
+}&#xD;
+&#xD;
+namespace $nameSpace$ &#xD;
+{&#xD;
+    using Improving.MediatR;&#xD;
+&#xD;
+    public class Create$Entity$ : ResourceAction&lt;$Entity$Data, int&gt;&#xD;
+    {&#xD;
+        public Create$Entity$()&#xD;
+        {&#xD;
+        }&#xD;
+&#xD;
+        public Create$Entity$($Entity$Data $entityLowercase$)&#xD;
+            : base ($entityLowercase$)&#xD;
+        {&#xD;
+        }&#xD;
+    }&#xD;
+}&#xD;
+&#xD;
+namespace $nameSpace$ &#xD;
+{&#xD;
+    using FluentValidation;&#xD;
+&#xD;
+    public class Create$Entity$Integrity : AbstractValidator&lt;Create$Entity$&gt;&#xD;
+    {&#xD;
+        public Create$Entity$Integrity()&#xD;
+        {&#xD;
+            RuleFor(x =&gt; x.Resource)&#xD;
+                .NotNull()&#xD;
+                .SetValidator(new $Entity$DataIntegrity());&#xD;
+        }&#xD;
+&#xD;
+        private class $Entity$DataIntegrity : AbstractValidator&lt;$Entity$Data&gt;&#xD;
+        {&#xD;
+            public $Entity$DataIntegrity()&#xD;
+            {&#xD;
+            }&#xD;
+        }&#xD;
+    }&#xD;
+}&#xD;
+&#xD;
+namespace $nameSpace$ &#xD;
+{&#xD;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;&#xD;
+&#xD;
+    [TestClass]&#xD;
+    public class Create$Entity$IntegrityTest&#xD;
+    {&#xD;
+        private CreateObservation createObservation;&#xD;
+        private CreateObservationIntegrity validator;&#xD;
+&#xD;
+        [TestInitialize]&#xD;
+        public void TestInitialize()&#xD;
+        {&#xD;
+            createObservation =  new CreateObservation&#xD;
+            {&#xD;
+                 Resource = new ObservationData&#xD;
+                 {&#xD;
+                    Text = "my text"&#xD;
+                 }&#xD;
+            };&#xD;
+&#xD;
+            validator = new CreateObservationIntegrity();&#xD;
+        }&#xD;
+&#xD;
+        [TestMethod]&#xD;
+        public void Valid()&#xD;
+        {&#xD;
+            var result = validator.Validate(createObservation);&#xD;
+            Assert.IsTrue(result.IsValid);&#xD;
+        }&#xD;
+&#xD;
+        [TestMethod]&#xD;
+        public void MustHaveText()&#xD;
+        {&#xD;
+            createObservation.Resource.Text = string.Empty;&#xD;
+            var result = validator.Validate(createObservation);&#xD;
+            Assert.IsFalse(result.IsValid);&#xD;
+        }&#xD;
+    }&#xD;
+}&#xD;
+&#xD;
+namespace $nameSpace$ &#xD;
+{&#xD;
+    public class Get$EntityPlural$ : Request.WithResponse&lt;$Entity$Result&gt;&#xD;
+    {&#xD;
+        public Get$EntityPlural$()&#xD;
+        {&#xD;
+            Ids = new int[0];&#xD;
+        }&#xD;
+&#xD;
+        public Get$EntityPlural$(params int[] ids)&#xD;
+        {&#xD;
+            Ids = ids;&#xD;
+        }&#xD;
+&#xD;
+        public int[] Ids { get; set;}&#xD;
+    }&#xD;
+}&#xD;
+&#xD;
+namespace $nameSpace$ &#xD;
+{&#xD;
+    using System;&#xD;
+    using System.Linq;&#xD;
+    using System.Threading.Tasks;&#xD;
+    using Highway.Data.Repositories;&#xD;
+    using MediatR;&#xD;
+&#xD;
+    public class $Entity$AggregateHandler :&#xD;
+        IAsyncRequestHandler&lt;Create$Entity$, $Entity$Data&gt;,&#xD;
+        IAsyncRequestHandler&lt;Get$EntityPlural$, $Entity$Result&gt;&#xD;
+    {&#xD;
+        private readonly IDomainRepository&lt;$DataDomain$&gt; _repository;&#xD;
+        private readonly DateTime                            _now;&#xD;
+&#xD;
+        public $Entity$AggregateHandler(IMediator mediator, IDomainRepository&lt;$DataDomain$&gt; repository)&#xD;
+        {&#xD;
+            _repository = repository;&#xD;
+            _now        = DateTime.Now;&#xD;
+        }&#xD;
+&#xD;
+        public async Task&lt;$Entity$Data&gt; Handle(Create$Entity$ message)&#xD;
+        {&#xD;
+            var $entityLowercase$ = Map(new $Entity$(), message.Resource);&#xD;
+            $entityLowercase$.Created = _now;&#xD;
+&#xD;
+            _repository.Context.Add($entityLowercase$);&#xD;
+            await _repository.Context.CommitAsync();&#xD;
+&#xD;
+            return new $Entity$Data&#xD;
+            {&#xD;
+                Id = $entityLowercase$.Id,&#xD;
+                RowVersion = $entityLowercase$.RowVersion&#xD;
+            };&#xD;
+        }&#xD;
+&#xD;
+        public async Task&lt;$Entity$Result&gt; Handle(Get$EntityPlural$ message)&#xD;
+        {&#xD;
+            var $entityPluralLowercase$ = (await _repository.FindAsync(new Get$EntityPlural$ById(message.Ids)))&#xD;
+                .ToArray();&#xD;
+&#xD;
+            return new $Entity$Result&#xD;
+            {&#xD;
+                $EntityPlural$ = $entityPluralLowercase$&#xD;
+            };&#xD;
+        }&#xD;
+&#xD;
+        public $Entity$ Map($Entity$ $entityLowercase$, $Entity$Data data)&#xD;
+        {&#xD;
+            if (data.Text != null)&#xD;
+                $entityLowercase$.Text = data.Text;&#xD;
+&#xD;
+            if (data.CreatedBy != null)&#xD;
+                $entityLowercase$.CreatedBy = data.CreatedBy;&#xD;
+&#xD;
+            if (data.ModifiedBy != null)&#xD;
+                $entityLowercase$.ModifiedBy = data.ModifiedBy;&#xD;
+&#xD;
+            $entityLowercase$.Modified = _now;&#xD;
+&#xD;
+            return $entityLowercase$;&#xD;
+        }&#xD;
+    }&#xD;
+}&#xD;
+&#xD;
+&#xD;
+namespace $nameSpace$ &#xD;
+{&#xD;
+    using System.Linq;&#xD;
+    using System.Data.Entity;&#xD;
+    using Highway.Data;&#xD;
+	&#xD;
+    public class Get$EntityPlural$ById : Query&lt;$Entity$Data&gt;&#xD;
+    {&#xD;
+        public Get$EntityPlural$ById(int[] ids)&#xD;
+        {&#xD;
+            ContextQuery = c =&gt;&#xD;
+            {&#xD;
+                var query = Context.AsQueryable&lt;$Entity$&gt;().AsNoTracking();&#xD;
+&#xD;
+                if (ids?.Length == 1)&#xD;
+                {&#xD;
+                    var id = ids[0];&#xD;
+                    query = query.Where(x =&gt; x.Id == id);&#xD;
+                }&#xD;
+                else if (ids?.Length &gt; 1)&#xD;
+                {&#xD;
+                    query = query.Where(x =&gt; ids.Contains(x.Id));&#xD;
+                }&#xD;
+&#xD;
+                return query.Select(x =&gt; new $Entity$Data&#xD;
+                 {&#xD;
+                    Text = x.Text,&#xD;
+                 });&#xD;
+            };&#xD;
+        }&#xD;
+    }&#xD;
+}</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7670B05F6256254DBDB7764E090E93A1/Field/=DataDomain/@KeyIndexDefined">True</s:Boolean>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7670B05F6256254DBDB7764E090E93A1/Field/=DataDomain/Order/@EntryValue">2</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7670B05F6256254DBDB7764E090E93A1/Field/=Entity/@KeyIndexDefined">True</s:Boolean>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7670B05F6256254DBDB7764E090E93A1/Field/=Entity/Order/@EntryValue">0</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7670B05F6256254DBDB7764E090E93A1/Field/=entityLowercase/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7670B05F6256254DBDB7764E090E93A1/Field/=entityLowercase/Expression/@EntryValue">decapitalize(Entity)</s:String>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7670B05F6256254DBDB7764E090E93A1/Field/=entityLowercase/InitialRange/@EntryValue">-1</s:Int64>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7670B05F6256254DBDB7764E090E93A1/Field/=entityLowercase/Order/@EntryValue">3</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7670B05F6256254DBDB7764E090E93A1/Field/=EntityPlural/@KeyIndexDefined">True</s:Boolean>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7670B05F6256254DBDB7764E090E93A1/Field/=EntityPlural/Order/@EntryValue">1</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7670B05F6256254DBDB7764E090E93A1/Field/=entityPluralLowercase/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7670B05F6256254DBDB7764E090E93A1/Field/=entityPluralLowercase/Expression/@EntryValue">decapitalize(EntityPlural)</s:String>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7670B05F6256254DBDB7764E090E93A1/Field/=entityPluralLowercase/InitialRange/@EntryValue">-1</s:Int64>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7670B05F6256254DBDB7764E090E93A1/Field/=entityPluralLowercase/Order/@EntryValue">4</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7670B05F6256254DBDB7764E090E93A1/Field/=nameSpace/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7670B05F6256254DBDB7764E090E93A1/Field/=nameSpace/Expression/@EntryValue">fileDefaultNamespace()</s:String>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7670B05F6256254DBDB7764E090E93A1/Field/=nameSpace/InitialRange/@EntryValue">-1</s:Int64>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7670B05F6256254DBDB7764E090E93A1/Field/=nameSpace/Order/@EntryValue">5</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7670B05F6256254DBDB7764E090E93A1/Scope/=C3001E7C0DA78E4487072B7E050D86C5/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7670B05F6256254DBDB7764E090E93A1/Scope/=C3001E7C0DA78E4487072B7E050D86C5/CustomProperties/=minimumLanguageVersion/@EntryIndexedValue">2.0</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=7670B05F6256254DBDB7764E090E93A1/Scope/=C3001E7C0DA78E4487072B7E050D86C5/Type/@EntryValue">InCSharpFile</s:String></wpf:ResourceDictionary>

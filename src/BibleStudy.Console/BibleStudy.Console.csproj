@@ -152,6 +152,8 @@
     <Compile Include="Features\Home\HomeView.cs" />
     <Compile Include="Features\Layout\LayoutController.cs" />
     <Compile Include="Features\Layout\LayoutView.cs" />
+    <Compile Include="Features\Prayers\CreatePrayerController.cs" />
+    <Compile Include="Features\Prayers\CreatePrayerView.cs" />
     <Compile Include="Features\Observations\CreateObservationController.cs" />
     <Compile Include="Features\Observations\CreateObservationView.cs" />
     <Compile Include="Features\ServiceBus\IServiceBus.cs" />

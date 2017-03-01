@@ -121,14 +121,21 @@
   <ItemGroup>
     <Compile Include="Api\BookAggregateHandler.cs" />
     <Compile Include="Api\CreateObservationIntegrity.cs" />
+    <Compile Include="Api\CreatePrayerIntegrity.cs" />
     <Compile Include="Api\ObservationAggregateHandle.cs" />
+    <Compile Include="Api\PrayerAggregateHandler.cs" />
     <Compile Include="Api\VerseAggregateHandler.cs" />
     <Compile Include="Entities\Observation.cs" />
+    <Compile Include="Entities\Prayer.cs" />
     <Compile Include="Entities\VerseObservation.cs" />
+    <Compile Include="Entities\VersePrayer.cs" />
+    <Compile Include="Maps\PrayerMap.cs" />
     <Compile Include="Maps\ObservationMap.cs" />
+    <Compile Include="Maps\VersePrayerMap.cs" />
     <Compile Include="Maps\VerseObservationMap.cs" />
     <Compile Include="Queries\GetBooksById.cs" />
     <Compile Include="Queries\GetObservationsById.cs" />
+    <Compile Include="Queries\GetPrayersById.cs" />
     <Compile Include="Queries\GetVersesById.cs" />
     <Compile Include="Domain.cs" />
     <Compile Include="Entities\Book.cs" />

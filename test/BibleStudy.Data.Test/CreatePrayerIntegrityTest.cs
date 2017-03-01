@@ -1,11 +1,11 @@
-﻿namespace BibleStudy.Data.Test
+namespace BibleStudy.Data.Test
 {
     using Api.Observations;
     using Console.Features.Observations;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
-    public class CreateEntityIntegrityTest
+    public class CreatePrayerIntegrityTest
     {
         private CreateObservation createObservation;
         private CreateObservationIntegrity validator;
@@ -15,10 +15,10 @@
         {
             createObservation =  new CreateObservation
             {
-                 Resource = new ObservationData
-                 {
+                Resource = new ObservationData
+                {
                     Text = "my text"
-                 }
+                }
             };
 
             validator = new CreateObservationIntegrity();

@@ -1,6 +1,5 @@
 ﻿namespace BibleStudy.Data.Test
 {
-    using System;
     using System.Collections.Generic;
     using Api.Observations;
     using Api.Verses;

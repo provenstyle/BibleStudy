@@ -5,6 +5,7 @@
     using Miruken.Callback;
     using Miruken.Concurrency;
     using Observations;
+    using Prayers;
 
     public class StudyController : FeatureController
     {
@@ -33,7 +34,7 @@
 
         public Promise GoToPrayer()
         {
-            return Push<CreateObservationController>().ShowCreateObservation();
+            return Push<CreatePrayerController>().ShowCreatePrayer();
         }
     }
 }

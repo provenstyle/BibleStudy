@@ -1,9 +1,12 @@
 ﻿namespace BibleStudy.Data.Api
 {
     using System;
+    using System.Data.Entity;
     using System.Linq;
     using System.Threading.Tasks;
     using Data;
+    using Entities;
+    using Highway.Data;
     using Highway.Data.Repositories;
     using MediatR;
     using Prayers;
@@ -17,7 +20,7 @@
         private readonly IDomainRepository<BibleStudyDomain> _repository;
         private readonly DateTime                            _now;
 
-        public PrayerAggregateHandler(IMediator mediator, IDomainRepository<BibleStudyDomain> repository)
+        public PrayerAggregateHandler(IDomainRepository<BibleStudyDomain> repository)
         {
             _repository = repository;
             _now        = DateTime.Now;
@@ -25,8 +28,17 @@
 
         public async Task<PrayerData> Handle(CreatePrayer message)
         {
-            var prayer = Map(new Prayer(), message.Resource);
+            var prayerData = message.Resource;
+            var prayer = Map(new Prayer(), prayerData);
             prayer.Created = _now;
+
+            foreach (var item in prayer.VersePrayers)
+            {
+                item.Created    = _now;
+                item.CreatedBy  = prayerData.CreatedBy;
+                item.Modified   = _now;
+                item.ModifiedBy = prayerData.ModifiedBy;
+            }
 
             _repository.Context.Add(prayer);
             await _repository.Context.CommitAsync();
@@ -51,6 +63,13 @@
 
         public Prayer Map(Prayer prayer, PrayerData data)
         {
+            var verses = data.Verses.Select(x => new Verse {Id = x.Id});
+            foreach (var verse in verses)
+            {
+                prayer.AddVerse(verse);
+                verse.AttachEntity((DbContext)_repository.DomainContext);
+            }
+
             if (data.Text != null)
                 prayer.Text = data.Text;
 

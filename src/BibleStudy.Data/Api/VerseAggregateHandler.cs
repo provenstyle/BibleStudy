@@ -8,6 +8,7 @@
     using Highway.Data.Repositories;
     using MediatR;
     using Observations;
+    using Prayers;
     using Queries;
     using Verses;
 
@@ -100,8 +101,12 @@
             data.ModifiedBy  = verse.ModifiedBy;
             data.RowVersion  = verse.RowVersion;
 
-            data.Observations = verse.VerseObservations.ToArray()
+            data.Observations = verse.VerseObservations
                 .Select(x => Map(new ObservationData(), x))
+                .ToArray();
+
+            data.Prayers = verse.VersePrayers
+                .Select(x => Map(new PrayerData(), x))
                 .ToArray();
 
             return data;
@@ -115,6 +120,18 @@
 
             data.Text = observation.Text;
             data.Id   = observation.Id;
+
+            return data;
+        }
+
+        public PrayerData Map(PrayerData data, VersePrayer versePrayer)
+        {
+            if (versePrayer.Prayer == null) return null;
+
+            var prayer = versePrayer.Prayer;
+
+            data.Text = prayer.Text;
+            data.Id   = prayer.Id;
 
             return data;
         }

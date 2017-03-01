@@ -1,6 +1,7 @@
 ﻿namespace BibleStudy.Data.Api
 {
     using System;
+    using System.Data.Entity;
     using System.Linq;
     using System.Threading.Tasks;
     using Highway.Data.Repositories;
@@ -25,16 +26,17 @@
 
         public async Task<ObservationData> Handle(CreateObservation message)
         {
-            var observation = await Map(new Observation(), message.Resource);
+            var observationData = message.Resource;
+            var observation = await Map(new Observation(), observationData);
             observation.Created = _now;
 
             //is this really how I want to handle foreign key tables
             foreach (var item in observation.VerseObservations)
             {
                 item.Created    = _now;
-                item.CreatedBy  = message.Resource.CreatedBy;
+                item.CreatedBy  = observationData.CreatedBy;
                 item.Modified   = _now;
-                item.ModifiedBy = message.Resource.ModifiedBy;
+                item.ModifiedBy = observationData.ModifiedBy;
             }
 
             _repository.Context.Add(observation);
@@ -46,18 +48,6 @@
                 Id = observation.Id,
                 RowVersion = observation.RowVersion
             };
-        }
-
-        private class GetVerses : Query<Verse>
-        {
-            public GetVerses(int[] ids)
-            {
-                ContextQuery = c =>
-                   {
-                       return c.AsQueryable<Verse>()
-                           .Where(x => ids.Contains(x.Id));
-                   };
-            }
         }
 
         public async Task<ObservationResult> Handle(GetObservations message)
@@ -73,10 +63,12 @@
 
         public async Task<Observation> Map(Observation observation, ObservationData data)
         {
-            var ids = data.Verses.Select(x => x.Id).ToArray();
-            var verses = (await _repository.FindAsync(new GetVerses(ids))).ToArray();
+            var verses = data.Verses.Select(x => new Verse {Id = x.Id});
             foreach (var verse in verses)
+            {
                 observation.AddVerse(verse);
+                verse.AttachEntity((DbContext)_repository.DomainContext);
+            }
 
             if (data.Text != null)
                 observation.Text = data.Text;
